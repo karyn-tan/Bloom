@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from '@/hooks/useForm';
+import { validateEmail, validatePassword } from '@/lib/auth';
 
 /**
  * Login form field types
@@ -20,31 +21,22 @@ interface LoginFormProps {
 }
 
 /**
- * Validates email format
+ * Form field validators using shared validation functions
  */
-function validateEmail(email: string): string | undefined {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email) {
-    return 'Email is required';
-  }
-  if (!emailRegex.test(email)) {
-    return 'Invalid email format';
-  }
-  return undefined;
-}
-
-/**
- * Validates password length
- */
-function validatePassword(password: string): string | undefined {
-  if (!password) {
-    return 'Password is required';
-  }
-  if (password.length < 8) {
-    return 'Password must be at least 8 characters';
-  }
-  return undefined;
-}
+const formValidators = {
+  email: (email: string): string | undefined => {
+    const isValid = validateEmail(email);
+    if (!email) return 'Email is required';
+    if (!isValid) return 'Invalid email format';
+    return undefined;
+  },
+  password: (password: string): string | undefined => {
+    const result = validatePassword(password);
+    if (!password) return 'Password is required';
+    if (!result.valid) return result.error;
+    return undefined;
+  },
+};
 
 /**
  * LoginForm component
@@ -57,10 +49,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } =
     useForm<LoginFormData>({
       initialValues: { email: '', password: '' },
-      validators: {
-        email: validateEmail,
-        password: validatePassword,
-      },
+      validators: formValidators,
       onSubmit: async (formData) => {
         setServerError(null);
 
