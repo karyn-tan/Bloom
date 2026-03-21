@@ -1,46 +1,122 @@
 import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+
+/**
+ * Environment variable schema
+ */
+const envSchema = z.object({
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+});
+
+/**
+ * Typed environment configuration
+ */
+const getEnv = () => {
+  const parsed = envSchema.safeParse({
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  });
+
+  if (!parsed.success) {
+    throw new Error('Missing or invalid Supabase environment variables');
+  }
+
+  return parsed.data;
+};
+
+/**
+ * Cookie handler interface
+ */
+interface CookieHandler {
+  getAll: () => { name: string; value: string }[];
+  setAll: (
+    cookies: { name: string; value: string; options?: Record<string, unknown> }[],
+  ) => void;
+}
+
+/**
+ * Creates a cookie handler from a NextRequest
+ * @param request - The NextRequest object
+ * @returns CookieHandler implementation
+ */
+function createCookieHandler(request: NextRequest): CookieHandler {
+  return {
+    getAll: () => {
+      const cookieHeader = request.headers.get('cookie') || '';
+      if (!cookieHeader) return [];
+      return cookieHeader.split(';').map((cookie) => {
+        const [name, ...rest] = cookie.trim().split('=');
+        return { name: name || '', value: rest.join('=') };
+      });
+    },
+    setAll: () => {
+      // Cookies are handled via response in route handlers
+    },
+  };
+}
+
+/**
+ * Creates a cookie handler from a NextResponse
+ * @param response - The NextResponse object
+ * @returns CookieHandler implementation that sets cookies
+ */
+function createResponseCookieHandler(response: NextResponse): CookieHandler {
+  return {
+    getAll: () => [],
+    setAll: (cookiesToSet) => {
+      cookiesToSet.forEach(({ name, value, options }) => {
+        const cookieValue = `${name}=${value}`;
+        const cookieOptions = Object.entries(options || {})
+          .map(([key, val]) => `${key}=${val}`)
+          .join('; ');
+        response.headers.append(
+          'Set-Cookie',
+          `${cookieValue}; ${cookieOptions}`,
+        );
+      });
+    },
+  };
+}
 
 /**
  * Creates a Supabase server client for use in API routes
- * Reads credentials from environment variables
+ * @param request - The NextRequest object
  * @returns Supabase client instance
  */
-export function createClient(request?: NextRequest) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export function createClient(request: NextRequest): ReturnType<
+  typeof createServerClient
+>;
+/**
+ * Creates a Supabase server client with response cookie handling
+ * @param request - The NextRequest object
+ * @param response - The NextResponse object
+ * @returns Supabase client instance
+ */
+export function createClient(
+  request: NextRequest,
+  response: NextResponse,
+): ReturnType<typeof createServerClient>;
+export function createClient(
+  request: NextRequest,
+  response?: NextResponse,
+): ReturnType<typeof createServerClient> {
+  const env = getEnv();
 
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Missing Supabase environment variables');
-  }
+  const cookieHandler = response
+    ? {
+        getAll: () => createCookieHandler(request).getAll(),
+        setAll: (cookies: { name: string; value: string; options?: Record<string, unknown> }[]) =>
+          createResponseCookieHandler(response).setAll(cookies),
+      }
+    : createCookieHandler(request);
 
-  // For server-side usage without cookie handling in API routes
-  if (!request) {
-    return createServerClient(supabaseUrl, supabaseKey, {
-      cookies: {
-        getAll: () => [],
-        setAll: () => {},
-      },
-    });
-  }
-
-  // With cookie handling for full server-side usage
-  return createServerClient(supabaseUrl, supabaseKey, {
-    cookies: {
-      getAll: () => {
-        // Parse cookies from request headers
-        const cookieHeader = request.headers.get('cookie') || '';
-        return cookieHeader.split(';').map((cookie) => {
-          const [name, value] = cookie.trim().split('=');
-          return { name: name || '', value: value || '' };
-        });
-      },
-      setAll: (cookiesToSet) => {
-        // Cookies are handled via response in route handlers
-      },
-    },
-  });
+  return createServerClient(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    { cookies: cookieHandler },
+  );
 }
 
 /**
