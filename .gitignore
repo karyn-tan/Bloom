@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Vercel
+.vercel/
+
+# Testing
+/coverage/
+/playwright-report/
+/test-results/
+
+# Misc
+.DS_Store
+*.pem
+npm-debug.log*
+
+# Conversation history (may contain sensitive terminal output)
+conversation_history/
