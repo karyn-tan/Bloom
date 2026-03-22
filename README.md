@@ -1,9 +1,8 @@
 # Bloom - Assignment Submission
 
-**Student**: Hemang Murugan  
+**Student**: Hemang Murugan | Feng Hua Tan
 **Course**: P3 (Claude Code Workflow & TDD)  
 **Date**: March 21, 2026  
-**Branch**: `drip`
 
 ---
 
