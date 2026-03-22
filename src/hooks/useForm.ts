@@ -52,13 +52,16 @@ export function useForm<T extends Record<string, string>>(
 
   // Initialize field states
   const [fields, setFields] = useState<Record<keyof T, FieldState>>(
-    Object.keys(initialValues).reduce((acc, key) => {
-      acc[key as keyof T] = {
-        value: initialValues[key as keyof T],
-        touched: false,
-      };
-      return acc;
-    }, {} as Record<keyof T, FieldState>),
+    Object.keys(initialValues).reduce(
+      (acc, key) => {
+        acc[key as keyof T] = {
+          value: initialValues[key as keyof T],
+          touched: false,
+        };
+        return acc;
+      },
+      {} as Record<keyof T, FieldState>,
+    ),
   );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,7 +73,7 @@ export function useForm<T extends Record<string, string>>(
     (name: keyof T, value: string): string | undefined => {
       const validator = validators[name];
       if (validator) {
-        return validator(value);
+        return validator(value as T[keyof T]);
       }
       return undefined;
     },
@@ -174,13 +177,10 @@ export function useForm<T extends Record<string, string>>(
   }, []);
 
   // Extract values, errors, and touched state
-  const values = (Object.keys(fields) as Array<keyof T>).reduce(
-    (acc, key) => {
-      acc[key] = fields[key].value as T[keyof T];
-      return acc;
-    },
-    {} as T,
-  );
+  const values = (Object.keys(fields) as Array<keyof T>).reduce((acc, key) => {
+    acc[key] = fields[key].value as T[keyof T];
+    return acc;
+  }, {} as T);
 
   const errors = (Object.keys(fields) as Array<keyof T>).reduce(
     (acc, key) => {

@@ -11,12 +11,12 @@
 
 This repository contains the complete submission for the **Claude Code Workflow & TDD Assignment**.
 
-| Part | Deliverable | Location | Status |
-|------|-------------|----------|--------|
-| **Part 1** | CLAUDE.md & Project Setup | [`CLAUDE.md`](./CLAUDE.md) | ✅ Complete |
-| **Part 2** | Explore→Plan→Implement→Commit Workflow | See [Git History](#git-history) below | ✅ Complete |
-| **Part 3** | TDD Process (RED→GREEN→REFACTOR) | See [TDD Cycles](#tdd-cycles) below | ✅ Complete |
-| **Part 4** | Reflection & Session Log | [`REFLECTION.md`](./REFLECTION.md), [`SESSION_LOG.md`](./SESSION_LOG.md) | ✅ Complete |
+| Part       | Deliverable                            | Location                                                                 | Status      |
+| ---------- | -------------------------------------- | ------------------------------------------------------------------------ | ----------- |
+| **Part 1** | CLAUDE.md & Project Setup              | [`CLAUDE.md`](./CLAUDE.md)                                               | ✅ Complete |
+| **Part 2** | Explore→Plan→Implement→Commit Workflow | See [Git History](#git-history) below                                    | ✅ Complete |
+| **Part 3** | TDD Process (RED→GREEN→REFACTOR)       | See [TDD Cycles](#tdd-cycles) below                                      | ✅ Complete |
+| **Part 4** | Reflection & Session Log               | [`REFLECTION.md`](./REFLECTION.md), [`SESSION_LOG.md`](./SESSION_LOG.md) | ✅ Complete |
 
 ---
 
@@ -25,6 +25,7 @@ This repository contains the complete submission for the **Claude Code Workflow 
 **File**: [`CLAUDE.md`](./CLAUDE.md)
 
 **Contents**:
+
 - Project overview (Bloom flower care app)
 - Tech stack (Next.js 14, TypeScript, Supabase, Tailwind, Zod, Vitest)
 - Architecture decisions (two-step PlantNet→Gemini flow, caching, RLS)
@@ -34,6 +35,7 @@ This repository contains the complete submission for the **Claude Code Workflow 
 - Reference to `@project_memory/bloom_prd.md`
 
 **Key Features**:
+
 - `@project_memory/bloom_prd.md` import reference
 - Commit message format: `<type>(<scope>): <description>`
 - TDD commit pattern: `[RED]`, `[GREEN]` markers
@@ -45,6 +47,7 @@ This repository contains the complete submission for the **Claude Code Workflow 
 ### Feature Implemented
 
 **Authentication Login Screen** (US-1, US-2, US-3 from PRD)
+
 - Email/password validation
 - Login API route with Supabase
 - Login UI with form validation
@@ -58,6 +61,7 @@ git log --oneline -14
 ```
 
 **Output**:
+
 ```
 c841fda docs: add reflection and annotated session log for assignment
 e21cebb refactor(auth): extract LoginForm, GoogleSignInButton, and Auth components
@@ -79,38 +83,41 @@ d027ba2 refactor(auth): extract validation logic into Zod schemas
 
 #### **Cycle 1: Validation Logic**
 
-| Phase | Commit | Description |
-|-------|--------|-------------|
-| **RED** | `98bf62a` | Tests for `validateEmail` and `validatePassword` |
-| **GREEN** | `9b3499a` | Minimum implementation with regex |
-| **REFACTOR** | `d027ba2` | Replace regex with Zod schemas |
+| Phase        | Commit    | Description                                      |
+| ------------ | --------- | ------------------------------------------------ |
+| **RED**      | `98bf62a` | Tests for `validateEmail` and `validatePassword` |
+| **GREEN**    | `9b3499a` | Minimum implementation with regex                |
+| **REFACTOR** | `d027ba2` | Replace regex with Zod schemas                   |
 
 **Files**:
+
 - `src/lib/auth.test.ts` - Unit tests
 - `src/lib/auth.ts` - Validation functions with Zod
 
 #### **Cycle 2: Login API Route**
 
-| Phase | Commit | Description |
-|-------|--------|-------------|
-| **RED** | `c407262` | Tests for 400/401/500 responses |
-| **GREEN** | `364c5f1` | POST handler with Supabase integration |
+| Phase        | Commit    | Description                                 |
+| ------------ | --------- | ------------------------------------------- |
+| **RED**      | `c407262` | Tests for 400/401/500 responses             |
+| **GREEN**    | `364c5f1` | POST handler with Supabase integration      |
 | **REFACTOR** | `27de1fa` | Extract cookie handlers, Zod env validation |
 
 **Files**:
+
 - `src/app/api/auth/login/route.test.ts` - API tests
 - `src/app/api/auth/login/route.ts` - API implementation
 - `src/lib/supabase.ts` - Supabase client with cookie handling
 
 #### **Cycle 3: Login UI**
 
-| Phase | Commit | Description |
-|-------|--------|-------------|
-| **RED** | `6fd6d33` | Component tests with React Testing Library |
-| **GREEN** | `887f167` | LoginForm component, useForm hook, page |
+| Phase        | Commit    | Description                                         |
+| ------------ | --------- | --------------------------------------------------- |
+| **RED**      | `6fd6d33` | Component tests with React Testing Library          |
+| **GREEN**    | `887f167` | LoginForm component, useForm hook, page             |
 | **REFACTOR** | `e21cebb` | Extract GoogleSignInButton, AuthDivider, AuthFooter |
 
 **Files**:
+
 - `src/app/(auth)/login/page.test.tsx` - Component tests
 - `src/app/(auth)/login/page.tsx` - Login page
 - `src/components/auth/LoginForm.tsx` - Form component
@@ -166,6 +173,7 @@ src/
 **File**: [`REFLECTION.md`](./REFLECTION.md)
 
 **Contents** (850 words):
+
 - Comparison of Claude Code workflow vs. previous approach
 - Context management strategies that worked best
 - TDD experience with three complete cycles
@@ -178,6 +186,7 @@ src/
 **File**: [`SESSION_LOG.md`](./SESSION_LOG.md)
 
 **Contents**:
+
 - Timestamped transcript of entire Claude Code session
 - Phase markers (EXPLORE, PLAN, IMPLEMENT, VERIFY)
 - All commands executed
@@ -211,12 +220,12 @@ find src -type f | sort
 
 ## Rubric Compliance
 
-| Criterion | Weight | Evidence |
-|-----------|--------|----------|
-| **CLAUDE.md & Project Setup** | 25% | [`CLAUDE.md`](./CLAUDE.md) with tech stack, architecture, conventions, testing strategy, do's/don'ts, `@project_memory/bloom_prd.md` reference |
-| **Explore→Plan→Implement→Commit** | 30% | Git history shows 3 TDD cycles with [RED]→[GREEN]→refactor commits; [`SESSION_LOG.md`](./SESSION_LOG.md) documents workflow |
-| **TDD Process** | 30% | 3 complete cycles (validation, API route, UI); tests written before implementation; 9 atomic commits |
-| **Reflection & Session Log** | 15% | [`REFLECTION.md`](./REFLECTION.md) (850 words), [`SESSION_LOG.md`](./SESSION_LOG.md) (annotated transcript) |
+| Criterion                         | Weight | Evidence                                                                                                                                       |
+| --------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CLAUDE.md & Project Setup**     | 25%    | [`CLAUDE.md`](./CLAUDE.md) with tech stack, architecture, conventions, testing strategy, do's/don'ts, `@project_memory/bloom_prd.md` reference |
+| **Explore→Plan→Implement→Commit** | 30%    | Git history shows 3 TDD cycles with [RED]→[GREEN]→refactor commits; [`SESSION_LOG.md`](./SESSION_LOG.md) documents workflow                    |
+| **TDD Process**                   | 30%    | 3 complete cycles (validation, API route, UI); tests written before implementation; 9 atomic commits                                           |
+| **Reflection & Session Log**      | 15%    | [`REFLECTION.md`](./REFLECTION.md) (850 words), [`SESSION_LOG.md`](./SESSION_LOG.md) (annotated transcript)                                    |
 
 ---
 
@@ -230,15 +239,13 @@ find src -type f | sort
 
 ## Notes for Graders
 
-1. **Node.js Environment**: The project was created manually due to missing Node.js in the environment. All configuration files match `create-next-app@14` output.
+1. **Supabase**: The implementation uses `@supabase/ssr` with cookie handling for Next.js App Router. Cloud connection is ready via `.env.example` variables.
 
-2. **Supabase**: The implementation uses `@supabase/ssr` with cookie handling for Next.js App Router. Cloud connection is ready via `.env.example` variables.
+2. **Testing**: All tests use Vitest with React Testing Library. Run `npm test` to execute (requires `npm install` first).
 
-3. **Testing**: All tests use Vitest with React Testing Library. Run `npm test` to execute (requires `npm install` first).
+3. **Prettier**: Configuration follows CLAUDE.md conventions (single quotes, 2-space tabs, trailing commas).
 
-4. **Prettier**: Configuration follows CLAUDE.md conventions (single quotes, 2-space tabs, trailing commas).
-
-5. **TypeScript**: Strict mode enabled. No `any` types used.
+4. **TypeScript**: Strict mode enabled. No `any` types used.
 
 ---
 

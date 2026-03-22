@@ -8,7 +8,7 @@ import { validateEmail, validatePassword } from '@/lib/auth';
 /**
  * Login form field types
  */
-interface LoginFormData {
+interface LoginFormData extends Record<string, string> {
   email: string;
   password: string;
 }
@@ -46,38 +46,45 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } =
-    useForm<LoginFormData>({
-      initialValues: { email: '', password: '' },
-      validators: formValidators,
-      onSubmit: async (formData) => {
-        setServerError(null);
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useForm<LoginFormData>({
+    initialValues: { email: '', password: '' },
+    validators: formValidators,
+    onSubmit: async (formData) => {
+      setServerError(null);
 
-        try {
-          const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-          });
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
 
-          const data = await response.json();
+        const data = await response.json();
 
-          if (!response.ok) {
-            setServerError(data.error || 'Login failed');
-            return;
-          }
-
-          // Success - redirect or call callback
-          if (onSuccess) {
-            onSuccess();
-          } else {
-            router.push('/dashboard');
-          }
-        } catch {
-          setServerError('An unexpected error occurred');
+        if (!response.ok) {
+          setServerError(data.error || 'Login failed');
+          return;
         }
-      },
-    });
+
+        // Success - redirect or call callback
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          router.push('/dashboard');
+        }
+      } catch {
+        setServerError('An unexpected error occurred');
+      }
+    },
+  });
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
