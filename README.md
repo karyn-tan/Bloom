@@ -1,7 +1,7 @@
 # Bloom - Assignment Submission
 
-**Student**: Hemang Murugan | Feng Hua Tan
-**Course**: P3 (Claude Code Workflow & TDD)  
+**Students**: Hemang Murugan | Feng Hua Tan
+**Assignment**: HW4 Claude Code Workflow & TDD  
 **Date**: March 21, 2026  
 
 ---
@@ -12,7 +12,7 @@ This repository contains the complete submission for the **Claude Code Workflow 
 
 | Part       | Deliverable                            | Location                                                                 | Status      |
 | ---------- | -------------------------------------- | ------------------------------------------------------------------------ | ----------- |
-| **Part 1** | CLAUDE.md & Project Setup              | [`CLAUDE.md`](./CLAUDE.md)                                               | ✅ Complete |
+| **Part 1** | CLAUDE.md & Project Setup              | [`CLAUDE.md`](./CLAUDE.md) and see [more on setting up project](#more-on-setting-up-project) below  | ✅ Complete |
 | **Part 2** | Explore→Plan→Implement→Commit Workflow | See [Git History](#git-history) below                                    | ✅ Complete |
 | **Part 3** | TDD Process (RED→GREEN→REFACTOR)       | See [TDD Cycles](#tdd-cycles) below                                      | ✅ Complete |
 | **Part 4** | Reflection & Session Log               | [`REFLECTION.md`](./REFLECTION.md), [`SESSION_LOG.md`](./SESSION_LOG.md) | ✅ Complete |
@@ -31,13 +31,19 @@ This repository contains the complete submission for the **Claude Code Workflow 
 - Coding conventions (no `any`, Zod validation, Prettier, commit format)
 - Testing strategy (TDD with Vitest, Playwright E2E)
 - Project-specific Do's and Don'ts
-- Reference to `@project_memory/bloom_prd.md`
+- Reference to `@project_memory/bloom_prd.md` and `@project_memory/bloom_mom_tests.md`
 
 **Key Features**:
 
-- `@project_memory/bloom_prd.md` import reference
+- `@project_memory/bloom_prd.md` and `@project_memory/bloom_mom_tests.md` import reference
 - Commit message format: `<type>(<scope>): <description>`
 - TDD commit pattern: `[RED]`, `[GREEN]` markers
+
+### More on setting up project
+- [`Configure permissions`](.claude/settings.json) 
+- [`Use /init on CLAUDE.md`](screenshots/use_init_and_iterate_claude_markdown.png) 
+- [`Use --continue for context management`](screenshots/use_continue_for_context_management.png) 
+- [`Use --clear for context management`](screenshots/use_clear_after_project_setup_for_context_management.png)                   
 
 ---
 
@@ -221,7 +227,7 @@ find src -type f | sort
 
 | Criterion                         | Weight | Evidence                                                                                                                                       |
 | --------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CLAUDE.md & Project Setup**     | 25%    | [`CLAUDE.md`](./CLAUDE.md) with tech stack, architecture, conventions, testing strategy, do's/don'ts, `@project_memory/bloom_prd.md` reference |
+| **CLAUDE.md & Project Setup**     | 25%    | [`CLAUDE.md`](./CLAUDE.md) with tech stack, architecture, conventions, testing strategy, do's/don'ts, `@project_memory/bloom_prd.md` and `@project_memory/bloom_mom_tests.md` reference |
 | **Explore→Plan→Implement→Commit** | 30%    | Git history shows 3 TDD cycles with [RED]→[GREEN]→refactor commits; [`SESSION_LOG.md`](./SESSION_LOG.md) documents workflow                    |
 | **TDD Process**                   | 30%    | 3 complete cycles (validation, API route, UI); tests written before implementation; 9 atomic commits                                           |
 | **Reflection & Session Log**      | 15%    | [`REFLECTION.md`](./REFLECTION.md) (850 words), [`SESSION_LOG.md`](./SESSION_LOG.md) (annotated transcript)                                    |
@@ -232,7 +238,7 @@ find src -type f | sort
 
 - **PRD**: [`project_memory/bloom_prd.md`](./project_memory/bloom_prd.md) - Full product requirements
 - **User Research**: [`project_memory/bloom_mom_tests.md`](./project_memory/bloom_mom_tests.md) - Mom Test interviews
-- **Screenshots**: [`screenshots/`](./screenshots/) - UI mockups
+- **Screenshots**: [`screenshots/`](./screenshots/) - Visual proof of using built-in claude commands
 
 ---
 

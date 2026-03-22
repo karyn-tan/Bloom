@@ -69,7 +69,6 @@ This reflection documents my experience using Claude Code's **Explore→Plan→I
 
 - **Use `/compact` more aggressively**: For longer sessions, compacting context earlier would have helped maintain performance
 - **Explicit todo tracking**: Using `/todowrite` would have made the remaining work clearer
-- **Screenshot annotations**: The screenshots in `/screenshots/` were useful references but could have been better organized
 
 ---
 

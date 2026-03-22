@@ -12,7 +12,7 @@ Always start your response with a 🌸 emoji.
 
 - **Bloom** is a web app for people who buy or receive cut flowers
 - Core loop: upload a bouquet photo → PlantNet identifies each flower → Gemini generates tailored care tips and lifespan estimates → user tracks bouquets on a dashboard
-- Target users: casual buyers (Maya) and motivated hobbyists (Priya) — see `project_memory/bloom_mom_tests.md` for context
+- Target users: casual buyers (Maya) and motivated hobbyists (Priya) — see @project_memory/bloom_mom_tests.md for context
 
 ---
 

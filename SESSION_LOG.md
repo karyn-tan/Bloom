@@ -24,7 +24,6 @@
 - `CLAUDE.md` - Project guidelines
 - `project_memory/bloom_prd.md` - Full PRD
 - `project_memory/bloom_mom_tests.md` - User interviews
-- Screenshots (UI mockups)
 - **No code existed** - project needed initialization
 
 **Key Finding**: README showed only "An app that helps you help your flowers last longer" - minimal implementation state.
@@ -66,6 +65,8 @@ $ ls ~/.nvm/versions/node/
 ## Phase 2: PLAN
 
 ### 10:43:15 - Plan Mode Activation
+
+> Note: Pressed `Shift+Tab` twice to enter plan mode before prompting
 
 ```
 [User] currently part 1 is done we need to weok on par2 and part3. 
