@@ -1,9 +1,9 @@
 # Bloom — Product Requirements Document
 
-**Version:** 1.1
+**Version:** 1.2
 **Status:** Draft
 **Last updated:** March 2026
-**Author:** Feng Hua Tan, Hemang Murugan
+**Author:** Feng Hua
 
 ---
 
@@ -17,9 +17,10 @@
 6. [Out of Scope](#6-out-of-scope)
 7. [Goals and Success Metrics](#7-goals-and-success-metrics)
 8. [Tech Stack and Architecture Decisions](#8-tech-stack-and-architecture-decisions)
-9. [Coding Conventions](#9-coding-conventions)
-10. [Testing Strategy and TDD Workflow](#10-testing-strategy-and-tdd-workflow)
-11. [Project Do's and Don'ts](#11-project-dos-and-donts)
+9. [Design System](#9-design-system)
+10. [Coding Conventions](#10-coding-conventions)
+11. [Testing Strategy and TDD Workflow](#11-testing-strategy-and-tdd-workflow)
+12. [Project Do's and Don'ts](#12-project-dos-and-donts)
 
 ---
 
@@ -374,6 +375,73 @@ _Signal: Marcus avoided trying new flowers entirely because of past failures. Pr
 
 ---
 
+### Plant Health Visualization
+
+---
+
+**US-14:** As a user, I want to see my bouquet's health displayed as hearts and water droplets so that I can tell at a glance whether my flowers need attention.
+
+_Product decision: Hearts and water droplets give the health system a tactile, game-like quality consistent with the Cuphead-inspired visual language. The goal is to make the abstract concept of "flower health" immediately readable without requiring the user to read any numbers._
+
+**Hearts (lives):** Each bouquet starts with 3 hearts. Hearts are lost purely based on the lifespan countdown: 3 hearts when the bouquet is fresh, 2 hearts when the lifespan drops below 66% remaining, 1 heart when it drops below 33% remaining, and 0 hearts (marked "Likely past peak") when the countdown expires. Hearts are not affected by watering behavior — they are a lifespan health indicator, not a care behavior indicator.
+
+**Water droplets (thirst):** A display of 5 droplets indicating current hydration level. All 5 droplets are full when the bouquet was watered on schedule. Droplets drain at a rate of one per overdue day. Droplets are independent of hearts — a bouquet can be well-watered (5 droplets) but still losing hearts as it ages naturally.
+
+**Acceptance Criteria:**
+- Given a bouquet is saved, then it displays 3 hearts and 5 full droplets
+- Given the lifespan countdown drops below 66% of the total lifespan, then the bouquet shows 2 hearts
+- Given the lifespan countdown drops below 33% of the total lifespan, then the bouquet shows 1 heart
+- Given the lifespan countdown reaches 0, then the bouquet shows 0 hearts and is marked "Likely past peak"
+- Given 1 day has passed since the last watering and the flower's care instruction specifies daily watering, then 1 droplet is drained
+- Given a user logs a watering action, then the droplet display refills to 5 immediately
+- Hearts and droplet counts are independent — a bouquet can show 2 hearts (aging) while still showing 5 droplets (well-watered)
+- Given a bouquet reaches 0 hearts, then it is visually distinguished on the dashboard as "Likely past peak"
+- Hearts and droplets are rendered as pixel-art style icons consistent with the neo-brutalist design system
+
+**Definition of Done:**
+- [ ] Unit test: `computeHearts` returns 3, 2, 1, 0 at the correct lifespan percentage thresholds (100%, below 66%, below 33%, 0%)
+- [ ] Unit test: droplet drain rate given days since last watering and the flower's watering frequency
+- [ ] Unit test: bouquet correctly transitions to `past_peak` status at 0 hearts
+- [ ] Integration test: logging a care action via `POST /api/care-log` updates droplet state correctly
+- [ ] Integration test: care log is scoped to the authenticated user (RLS verified)
+- [ ] E2E test: fresh bouquet shows 3 hearts and 5 droplets; advancing the lifespan past 66% shows 2 hearts; logging a watering refills droplets
+- [ ] Design: heart and droplet icons follow the pixel-art / neo-brutalist design token spec
+- [ ] Code reviewed and formatted
+
+---
+
+**US-15:** As a user, I want to see personalized care tips based on how I have actually been treating my bouquet so that I know exactly what to fix — or get positive feedback when I am doing well.
+
+_Product decision: Static care cards tell users what to do in general. Adaptive tips tell users what to do based on what they specifically did or did not do. This is the difference between a manual and a coach. Combined with the health system, it closes the loop between user behavior and outcome — which is the core unmet need from the interviews (Maya knew there was something she did wrong but could not identify what)._
+
+**Behavior logic:**
+- If the user has missed one or more waterings: tip surfaces the specific missed action and the consequence ("You missed watering yesterday — your roses may be starting to stress. Top up the water now and add a drop of flower food.")
+- If the user has watered consistently but has not trimmed stems: tip flags the untrimmed stems specifically
+- If the user has followed all care steps for the past 3+ days: tip is positive ("Your peonies are loving it — keep doing what you're doing.")
+- Tips are generated by Gemini, taking the species name, care log history (past 7 days), and the flower's care card as input
+- Tips refresh once per day per bouquet
+
+**Acceptance Criteria:**
+- Given I open a bouquet detail page, then each flower card shows a "How's it going?" section below the Trim care row
+- Given I have missed at least one logged care action in the past 7 days, then the tip names the specific action missed and a concrete next step
+- Given I have completed all care actions for the past 3+ consecutive days, then the tip is a positive affirmation with no action item
+- Given no care actions have been logged at all (brand new bouquet), then the tip shows an onboarding prompt ("Start logging your care actions so Bloom can give you personalized tips") without calling Gemini
+- Given the tip was generated today, then re-opening the bouquet does not regenerate it (reads from cache)
+- The tip is rendered inside the flower card, below the Trim row, using a visually distinct background color per the design system (teal for positive, gold for corrective)
+
+**Definition of Done:**
+- [ ] Unit test: care log analyzer correctly classifies the last 7 days as "missed watering," "missed trim," "all good," or "no data"
+- [ ] Unit test: adaptive tip cache freshness check (same logic as recommendation cache — 24 hours)
+- [ ] Integration test: `POST /api/adaptive-tip` sends the correct care log context to Gemini and returns a parsed tip
+- [ ] Integration test: cached tip is returned without calling Gemini if generated today
+- [ ] Integration test: unauthenticated request returns 401
+- [ ] Integration test: tip request is scoped to the requesting user's care log only (no cross-user data)
+- [ ] E2E test: bouquet with a missed watering shows a corrective tip; bouquet with 3 days of logged care shows a positive tip
+- [ ] RLS verified: care log and tip cache rows are scoped to `user_id = auth.uid()`
+- [ ] Code reviewed and formatted
+
+---
+
 ## 4. Features and Requirements
 
 ### F1 — Authentication: Email/Password and Google OAuth (MVP)
@@ -539,6 +607,71 @@ Gemini prompt must request this JSON structure:
 
 ---
 
+### F10 — Plant Health Visualization: Hearts and Water Droplets (MVP)
+
+**Description:** Each active bouquet displays a health state driven by two independent indicators: hearts (lives, max 3) driven purely by lifespan, and water droplets (thirst level, max 5) driven by the care log. They are intentionally decoupled — hearts show how much life the bouquet has left as a function of time, droplets show how thirsty it is right now as a function of care behavior.
+
+**Requirements:**
+- Each bouquet initializes with 3 hearts and 5 full droplets on creation
+- Heart thresholds (lifespan-only): 3 hearts when lifespan is above 66% remaining, 2 hearts when below 66%, 1 heart when below 33%, 0 hearts when expired
+- Hearts are not affected by watering behavior — they are a time-based aging indicator only
+- Droplet drain rate: 1 droplet per day past the scheduled watering interval (derived from the flower's `water` care instruction, parsed from the Gemini care card)
+- Logging a watering via the care log immediately refills droplets to 5
+- All icons are rendered as pixel-art style SVGs matching the neo-brutalist design system
+- Health state is computed server-side in a pure function (`lib/health.ts`); the result is passed to the client as a `HealthState` type
+- Health state is not stored in the database — it is always derived from the care log and `added_at` date at render time
+
+**`HealthState` type:**
+```typescript
+type HealthState = {
+  hearts: 0 | 1 | 2 | 3;
+  droplets: 0 | 1 | 2 | 3 | 4 | 5;
+  status: 'healthy' | 'thirsty' | 'struggling' | 'past_peak';
+};
+```
+
+**Acceptance Criteria:** See US-14
+**MVP:** Yes
+
+---
+
+### F11 — Adaptive Care Tips (MVP)
+
+**Description:** Each flower card shows a "How's it going?" section below the Trim care row. The tip is personalized to the user's actual care behavior over the past 7 days for that bouquet, generated by Gemini and cached per bouquet per day. The tip is positive when care is on track and corrective when specific actions have been missed. It lives inside the flower card — not as a standalone section — so the feedback is tied directly to the species it applies to.
+
+**Requirements:**
+- Care log is a `care_log` table recording each logged action (water, trim) with a timestamp and bouquet ID
+- A new `POST /api/adaptive-tip` route accepts `bouquet_id` and returns a cached or freshly generated tip
+- Gemini prompt includes: species names in the bouquet, the care card for each species, and a structured summary of the care log for the past 7 days
+- Tip is a single short paragraph (2–4 sentences maximum); Gemini must be prompted to enforce this
+- Tip is cached in an `adaptive_tip_cache` table per bouquet per calendar day; re-opening the page on the same day returns the cached tip without calling Gemini
+- The "no data" state (no care actions logged yet) renders a static onboarding prompt without calling Gemini
+
+**New table:**
+```
+care_log
+  id              uuid        primary key default gen_random_uuid()
+  user_id         uuid        not null references auth.users on delete cascade
+  bouquet_id      uuid        not null references bouquets(id) on delete cascade
+  action          text        not null  -- 'water' | 'trim'
+  logged_at       timestamptz not null default now()
+
+adaptive_tip_cache
+  id              uuid        primary key default gen_random_uuid()
+  user_id         uuid        not null references auth.users on delete cascade
+  bouquet_id      uuid        not null references bouquets(id) on delete cascade
+  generated_date  date        not null default current_date
+  tip             text        not null
+  unique(bouquet_id, generated_date)
+```
+
+**RLS:** Both tables follow the same per-user scoping pattern as all other tables (see Section 5.2).
+
+**Acceptance Criteria:** See US-15
+**MVP:** Yes
+
+---
+
 ## 5. Security Requirements
 
 This section is non-negotiable. Every item here must be verified before any feature is considered shipped.
@@ -587,6 +720,8 @@ A 429 response must always include the `Retry-After` header set to 60 seconds.
 - `POST /api/bouquets`
 - `DELETE /api/bouquets/[id]`
 - `PATCH /api/scans/[id]` (correction flow)
+- `POST /api/care-log`
+- `POST /api/adaptive-tip`
 
 ---
 
@@ -679,6 +814,41 @@ create policy "Users can upsert their own recommendation cache"
 
 create policy "Users can update their own recommendation cache"
   on recommendation_cache for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- ============================================================
+-- care_log
+-- ============================================================
+alter table care_log enable row level security;
+
+create policy "Users can select their own care log"
+  on care_log for select
+  using (auth.uid() = user_id);
+
+create policy "Users can insert their own care log entries"
+  on care_log for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can delete their own care log entries"
+  on care_log for delete
+  using (auth.uid() = user_id);
+
+-- ============================================================
+-- adaptive_tip_cache
+-- ============================================================
+alter table adaptive_tip_cache enable row level security;
+
+create policy "Users can select their own adaptive tip cache"
+  on adaptive_tip_cache for select
+  using (auth.uid() = user_id);
+
+create policy "Users can insert their own adaptive tip cache"
+  on adaptive_tip_cache for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can update their own adaptive tip cache"
+  on adaptive_tip_cache for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 ```
@@ -790,6 +960,21 @@ recommendation_cache
   season          text        not null
   generated_at    timestamptz not null default now()
   recommendations jsonb       not null
+
+care_log
+  id              uuid        primary key default gen_random_uuid()
+  user_id         uuid        not null references auth.users on delete cascade
+  bouquet_id      uuid        not null references bouquets(id) on delete cascade
+  action          text        not null  -- 'water' | 'trim'
+  logged_at       timestamptz not null default now()
+
+adaptive_tip_cache
+  id              uuid        primary key default gen_random_uuid()
+  user_id         uuid        not null references auth.users on delete cascade
+  bouquet_id      uuid        not null references bouquets(id) on delete cascade
+  generated_date  date        not null default current_date
+  tip             text        not null
+  unique(bouquet_id, generated_date)
 ```
 
 All foreign keys include `on delete cascade` to prevent orphaned records when a parent is deleted.
@@ -875,7 +1060,123 @@ Upstash Redis is used rather than in-memory limiting because Vercel deploys mult
 
 ---
 
-## 9. Coding Conventions
+## 9. Design System
+
+### Visual Language
+
+Bloom's visual style is **neo-brutalist with a hand-drawn retro aesthetic inspired by Cuphead (2017).** The goal is a UI that feels alive, tactile, and slightly playful — the opposite of a sterile health-tracker dashboard. Every visual decision should reinforce the feeling that you are tending to something living, not filling out a spreadsheet.
+
+**Reference points:**
+- Cuphead: bold ink outlines, saturated muted colors, imperfect hand-drawn textures, rubber-hose character shapes
+- Neo-brutalism: thick borders, high-contrast color blocks, deliberate visual weight, no drop shadows (use solid offsets instead), flat stacking
+- Retro palette: avoid pure white and pure black; use off-whites, warm creams, deep navy, brick red, moss green, and golden yellow as the primary palette
+
+---
+
+### Color Tokens
+
+```css
+:root {
+  --color-bg:          #F5EDD6;   /* warm cream — page background */
+  --color-surface:     #FDF6E3;   /* near-white — card backgrounds */
+  --color-border:      #1A1A2E;   /* near-black — all borders and outlines */
+  --color-ink:         #1A1A2E;   /* near-black — all body text */
+  --color-accent-red:  #C0392B;   /* brick red — primary CTA, hearts */
+  --color-accent-gold: #E2A12B;   /* golden yellow — secondary accent, droplets */
+  --color-accent-teal: #2A7F6F;   /* moss teal — success states, "all good" tips */
+  --color-accent-navy: #1A1A2E;   /* deep navy — headers, nav */
+  --color-muted:       #8B7355;   /* warm brown — secondary text, labels */
+}
+```
+
+All colors must be applied via these CSS variables. Hard-coded hex values in component files are not permitted. Tailwind custom colors must be defined in `tailwind.config.ts` using these same token names.
+
+---
+
+### Typography
+
+- **Headings:** A display font with hand-drawn or slab-serif character. Recommended: `Playfair Display` (Google Fonts) or a similar serif with personality. Bold weight.
+- **Body and UI labels:** `Space Grotesk` or `DM Mono` — geometric, slightly retro, highly legible at small sizes.
+- **Font sizes:** Follow Tailwind's default scale. No custom sizes unless strictly necessary.
+
+---
+
+### Component Style Rules
+
+**Borders and outlines:**
+All interactive elements (cards, buttons, inputs) use a `2px solid var(--color-border)` outline. No `border-radius` larger than `4px`. Rounded corners are not part of this design language.
+
+**Offset shadows:**
+Instead of `box-shadow` with blur, use a solid offset: `4px 4px 0px var(--color-border)`. This is the neo-brutalist alternative to a drop shadow. Applied to cards, buttons, and modals.
+
+**Buttons:**
+- Background: `var(--color-accent-red)` for primary, `var(--color-surface)` for secondary
+- Text: `var(--color-surface)` on primary (white-ish on red), `var(--color-ink)` on secondary
+- Border: `2px solid var(--color-border)`
+- Offset shadow: `3px 3px 0px var(--color-border)`
+- On hover/active: shift the element 3px down and right, remove the offset shadow (simulates pressing)
+
+**Cards:**
+- Background: `var(--color-surface)`
+- Border: `2px solid var(--color-border)`
+- Offset shadow: `4px 4px 0px var(--color-border)`
+- Padding: `1.5rem`
+
+---
+
+### Health Indicator Icons
+
+**Hearts:**
+- 3 pixel-art style heart SVGs per bouquet
+- Full heart: filled `var(--color-accent-red)` with `var(--color-border)` outline
+- Empty heart: `var(--color-surface)` fill with `var(--color-border)` outline
+- Size: 24×24px, rendered inline
+
+**Water droplets:**
+- 5 pixel-art style droplet SVGs per bouquet
+- Full droplet: filled `var(--color-accent-gold)` with `var(--color-border)` outline
+- Empty droplet: `var(--color-surface)` fill with `var(--color-border)` outline
+- Size: 20×20px, rendered inline
+
+Both icon sets are static SVG components, not image files. They live in `src/components/icons/` and accept a `filled: boolean` prop.
+
+```typescript
+// src/components/icons/HeartIcon.tsx
+type HeartIconProps = { filled: boolean };
+export function HeartIcon({ filled }: HeartIconProps) { ... }
+
+// src/components/icons/DropletIcon.tsx
+type DropletIconProps = { filled: boolean };
+export function DropletIcon({ filled }: DropletIconProps) { ... }
+```
+
+---
+
+### Adaptive Tip Section Style
+
+The "How's it going?" adaptive tip is rendered inside each flower card, below the Trim row. It uses a distinct background to visually separate it from the standard care rows without breaking out of the card:
+
+- Background: `var(--color-accent-teal)` (when positive / "all good")
+- Background: `var(--color-accent-gold)` (when corrective / action needed)
+- Background: `var(--color-muted)` at 20% opacity (when no data / onboarding prompt)
+- Text: `var(--color-ink)`
+- No additional border — it inherits the parent card's border
+- Label: "HOW'S IT GOING?" in all-caps, `var(--color-muted)`, small tracking, above the tip text
+- Padding: `0.75rem` top, matching the care row padding
+
+---
+
+### Do Not
+
+- Do not use `box-shadow` with blur radius — use solid offset shadows only
+- Do not use `border-radius` larger than `4px`
+- Do not use pure `#ffffff` or `#000000` — use the color token equivalents
+- Do not use gradients
+- Do not use any animation library heavier than CSS transitions for hover states
+
+---
+
+## 10. Coding Conventions
 
 ### Test-Driven Development Workflow
 
@@ -941,22 +1242,35 @@ src/
       scans/
         [id]/
           route.ts       # PATCH: update scan (correction flow), DELETE
+      care-log/
+        route.ts         # POST: log a care action (water or trim)
+      adaptive-tip/
+        route.ts         # POST: get or generate adaptive care tip for a bouquet
   components/
     FlowerCard.tsx
     BouquetTile.tsx
     ScanHistoryItem.tsx
     SeasonalRecommendation.tsx
+    HealthDisplay.tsx    # Renders hearts + droplets for a given HealthState
+    AdaptiveTipCard.tsx  # Renders the "How's it going?" tip section
+    icons/
+      HeartIcon.tsx      # filled: boolean prop
+      DropletIcon.tsx    # filled: boolean prop
   lib/
     plantnet.ts
     gemini.ts
     supabase.ts
     auth.ts              # getAuthenticatedUserId utility
     ratelimit.ts         # Upstash ratelimit instance
+    health.ts            # computeHealthState pure function
+    careLog.ts           # care log analyzer (classifies past 7 days)
   types/
     scan.ts
     flower.ts
     bouquet.ts
     recommendation.ts
+    health.ts            # HealthState type
+    careLog.ts
 ```
 
 - Pages and layouts: lowercase with hyphens (Next.js convention)
@@ -1142,6 +1456,10 @@ This creates a readable git history that shows the reasoning behind each impleme
 - Season detection: given a month number, returns the correct season string
 - Recommendation cache freshness: returns true if `generated_at` is within 24 hours
 - Rate limit key construction: returns the correct user-scoped key
+- `computeHealthState`: given `added_at`, `lifespan_days`, and a care log, returns the correct `hearts`, `droplets`, and `status`
+- `computeHearts`: given lifespan percentage remaining, returns 3 above 66%, 2 at or below 66%, 1 at or below 33%, 0 at 0%
+- Care log analyzer: correctly classifies the past 7 days as `missed_watering`, `missed_trim`, `all_good`, or `no_data`
+- Adaptive tip cache freshness: returns true if a tip exists for today's date for a given bouquet
 
 **What not to test:**
 
@@ -1162,6 +1480,8 @@ This creates a readable git history that shows the reasoning behind each impleme
 - `DELETE /api/bouquets/[id]`: verify that a user cannot delete another user's bouquet (expect 404)
 - `PATCH /api/scans/[id]`: verify correction updates the correct scan; verify another user's scan ID returns 404
 - Supabase Storage: verify upload path includes `user_id` prefix; verify that fetching another user's image URL returns an access denied error
+- `POST /api/care-log`: verify that logging a watering action inserts a row scoped to the correct user; verify 401 on unauthenticated request; verify rate limit returns 429 after 100 requests
+- `POST /api/adaptive-tip`: mock Gemini; verify the prompt includes species names, care cards, and the past 7 days of care log; verify cached tip is returned without calling Gemini when one exists for today; verify unauthenticated request returns 401; verify another user's bouquet ID returns 404
 
 ---
 
@@ -1202,6 +1522,13 @@ This creates a readable git history that shows the reasoning behind each impleme
 1. Authenticated user sends 101 consecutive requests to `/api/identify`
 2. The 101st request returns 429 with a `Retry-After` header
 
+**Flow 7 — Plant health and adaptive tips**
+1. User saves a bouquet; it displays 3 hearts and 5 full droplets
+2. User logs a watering action; droplets remain at 5
+3. User does not log a watering for 2 days (simulated via a test fixture); 2 droplets are shown as empty
+4. User opens the bouquet detail page; the adaptive tip names the missed watering and suggests a corrective action
+5. User logs a watering; droplets refill to 5; adaptive tip on next day shows a positive message
+
 ---
 
 ## 11. Project Do's and Don'ts
@@ -1226,6 +1553,12 @@ This creates a readable git history that shows the reasoning behind each impleme
 
 **Do document every environment variable in `.env.example`.** No developer should have to ask what keys are needed to run the project.
 
+**Do use the design token CSS variables for every color.** Hard-coded hex values in component files will be rejected in review. All colors live in the token system defined in Section 9.
+
+**Do use solid offset shadows, not blurred box-shadows.** `4px 4px 0px var(--color-border)` is the correct shadow pattern. `box-shadow` with a blur radius is not part of this design language.
+
+**Do render `HeartIcon` and `DropletIcon` as SVG components, not image files.** They accept a `filled` prop and are fully controlled by the health state computed in `lib/health.ts`.
+
 ---
 
 ### Don'ts
@@ -1245,3 +1578,7 @@ This creates a readable git history that shows the reasoning behind each impleme
 **Don't store secrets in `.env.local` without a corresponding `.env.example` entry.** If you add a new environment variable, you update `.env.example` in the same commit.
 
 **Don't merge a story without all items on the Definition of Done checklist checked off.** Partial completion is not done.
+
+**Don't compute `HealthState` in the component.** Health state logic lives in `lib/health.ts` as a pure function so it can be unit tested in isolation. Components receive a `HealthState` and render it; they do not derive it.
+
+**Don't use gradients, blurred shadows, large border radii, or pure black/white colors.** These are explicitly outside the neo-brutalist design language. Any PR introducing these will be rejected.
