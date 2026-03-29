@@ -53,8 +53,9 @@ supabase gen types typescript --local > src/types/supabase.ts
 - **Cache Gemini results:** Store all care tips in the DB on first generation. Never re-call Gemini when a user re-opens a scan result.
 - **Feature-based layout:** Code lives under `src/app/` (routes), `src/components/` (UI), `src/lib/` (API clients, utilities), `src/types/` (shared types + Supabase generated types).
 - **Progressive rendering:** Render flower identification cards as each completes — do not wait for the full bouquet to process before showing results.
-- **Email reminders:** Sent every 2 days per active bouquet. Scheduled outside the request cycle (Vercel Cron or similar).
 - **Seasonal recommendations:** Cached per user with a 24-hour TTL in the DB; do not regenerate on every page load.
+- **Health state is derived, never stored:** `HealthState` (hearts + droplets) is always computed server-side in `lib/health.ts` from the care log and `added_at` date at render time. Never persist it to the DB.
+- **Adaptive care tips:** Cached per bouquet per calendar day in `adaptive_tip_cache`. Do not call Gemini if a tip for today already exists. If no care actions have been logged yet, render a static onboarding prompt without calling Gemini.
 
 ---
 
@@ -73,7 +74,7 @@ supabase gen types typescript --local > src/types/supabase.ts
 <type>(<scope>): <short description>
 ```
 
-Types: `feat`, `fix`, `test`, `refactor`, `chore`. Scopes: `auth`, `scan`, `care`, `bouquet`, `history`, `recommendations`, `reminders`, `rls`, `ratelimit`.
+Types: `feat`, `fix`, `test`, `refactor`, `chore`. Scopes: `auth`, `scan`, `care`, `bouquet`, `history`, `recommendations`, `reminders`, `rls`, `ratelimit`, `health`, `careLog`.
 
 TDD commits must follow this three-commit pattern per cycle:
 ```
@@ -90,7 +91,7 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 
 - **TDD workflow:** Write a failing test (red) → make it pass (green) → refactor. Commit at each stage.
 - **Vitest** for unit tests (parsers, validators, calculators) and integration tests (API routes, Supabase RLS policies, rate limiting).
-- **Playwright** for 6 E2E flows: sign-up, scan + identify, care tips display, dashboard bouquet tracking, scan history pagination, and IDOR verification (user A cannot access user B's data).
+- **Playwright** for 7 E2E flows: sign-up, scan + identify, care tips display, dashboard bouquet tracking, scan history pagination, IDOR verification (user A cannot access user B's data), and plant health + adaptive tips (hearts/droplets update correctly, corrective/positive tips render based on care log).
 - RLS policies must be tested directly — do not mock Supabase in integration tests.
 
 ---
@@ -103,6 +104,10 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 - Rate-limit all API routes via Upstash before any external call
 - Validate all external API responses with Zod schemas
 - Store uploaded images in Supabase Storage under a path scoped to the authenticated user's UID
+- Use CSS variable color tokens (`--color-bg`, `--color-accent-red`, etc.) for every color — no hard-coded hex values in component files
+- Use solid offset shadows (`4px 4px 0px var(--color-border)`) — not blurred `box-shadow`
+- Render `HeartIcon` and `DropletIcon` as SVG components (in `src/components/icons/`) with a `filled: boolean` prop
+- Compute `HealthState` in `lib/health.ts` as a pure function; pass the result to components — never derive it inside a component
 
 **DON'T:**
 - Don't call Gemini Vision directly on the photo — use PlantNet first, then pass the species name to Gemini
@@ -112,3 +117,6 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 - Don't use `any` types
 - Don't skip the Prettier pre-commit hook
 - Don't query DB resources without scoping to the authenticated user (IDOR risk)
+- Don't store `HealthState` in the database — always derive it from the care log and `added_at` at render time
+- Don't call Gemini for an adaptive tip if a cached tip for today already exists
+- Don't use gradients, blurred shadows, `border-radius` > 4px, or pure `#ffffff`/`#000000`
