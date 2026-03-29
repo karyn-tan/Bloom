@@ -1,6 +1,7 @@
-import Link from 'next/link';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
+import { AuthDivider } from '@/components/auth/AuthDivider';
+import { AuthFooter } from '@/components/auth/AuthFooter';
 
 /**
  * Metadata for the login page
@@ -9,41 +10,6 @@ export const metadata = {
   title: 'Sign In - Bloom',
   description: 'Sign in to your Bloom account',
 };
-
-/**
- * Divider component for auth forms
- * Shows "Or continue with" text between sections
- */
-function AuthDivider() {
-  return (
-    <div className="relative">
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-gray-300" />
-      </div>
-      <div className="relative flex justify-center text-sm">
-        <span className="px-2 bg-white text-gray-500">Or continue with</span>
-      </div>
-    </div>
-  );
-}
-
-/**
- * AuthFooter component for auth pages
- * Shows signup/signin link
- */
-function AuthFooter() {
-  return (
-    <p className="mt-6 text-center text-sm text-gray-600">
-      Don&apos;t have an account?{' '}
-      <Link
-        href="/signup"
-        className="font-medium text-green-600 hover:text-green-500"
-      >
-        Sign up
-      </Link>
-    </p>
-  );
-}
 
 /**
  * LoginPage component
@@ -73,7 +39,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <AuthFooter />
+          <AuthFooter variant="login" />
         </div>
       </div>
     </main>
