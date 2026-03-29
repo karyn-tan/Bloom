@@ -1,30 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-
-/**
- * Environment variable schema
- */
-const envSchema = z.object({
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
-});
-
-/**
- * Typed environment configuration
- */
-const getEnv = () => {
-  const parsed = envSchema.safeParse({
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  });
-
-  if (!parsed.success) {
-    throw new Error('Missing or invalid Supabase environment variables');
-  }
-
-  return parsed.data;
-};
+import { getSupabaseEnv } from '@/lib/config';
 
 /**
  * Cookie handler interface
@@ -102,7 +78,7 @@ export function createClient(
   request: NextRequest,
   response?: NextResponse,
 ): ReturnType<typeof createServerClient> {
-  const env = getEnv();
+  const env = getSupabaseEnv();
 
   const cookieHandler = response
     ? {
