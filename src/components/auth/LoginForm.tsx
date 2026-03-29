@@ -74,7 +74,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           return;
         }
 
-        // Success - redirect or call callback
         if (onSuccess) {
           onSuccess();
         } else {
@@ -90,7 +89,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {serverError && (
         <div
-          className="p-3 bg-red-100 text-red-700 rounded-md text-sm"
+          className="p-3 bg-accent-red text-surface text-sm border-2 border-border"
           role="alert"
         >
           {serverError}
@@ -98,10 +97,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       )}
 
       <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
+        <label htmlFor="email" className="block text-sm font-medium text-ink">
           Email
         </label>
         <input
@@ -112,12 +108,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           onChange={handleChange}
           onBlur={handleBlur}
           disabled={isSubmitting}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-1 block w-full px-3 py-2 border-2 border-border bg-surface text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-teal"
           aria-invalid={touched.email && !!errors.email}
           aria-describedby={errors.email ? 'email-error' : undefined}
         />
         {touched.email && errors.email && (
-          <p id="email-error" className="mt-1 text-sm text-red-600">
+          <p id="email-error" className="mt-1 text-sm text-accent-red font-medium">
             {errors.email}
           </p>
         )}
@@ -126,7 +122,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-ink"
         >
           Password
         </label>
@@ -138,12 +134,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           onChange={handleChange}
           onBlur={handleBlur}
           disabled={isSubmitting}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-1 block w-full px-3 py-2 border-2 border-border bg-surface text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-teal"
           aria-invalid={touched.password && !!errors.password}
           aria-describedby={errors.password ? 'password-error' : undefined}
         />
         {touched.password && errors.password && (
-          <p id="password-error" className="mt-1 text-sm text-red-600">
+          <p id="password-error" className="mt-1 text-sm text-accent-red font-medium">
             {errors.password}
           </p>
         )}
@@ -152,7 +148,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex justify-center py-2 px-4 border-2 border-border text-sm font-medium text-surface bg-accent-red shadow-[3px_3px_0px_var(--color-border)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
       >
         {isSubmitting ? 'Signing in...' : 'Sign in'}
       </button>
