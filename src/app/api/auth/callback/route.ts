@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const response = NextResponse.redirect(new URL('/dashboard', request.url), {
+  // Support ?next= for password reset flow (redirects to /reset-password after exchange)
+  const next = searchParams.get('next') ?? '/dashboard';
+  const response = NextResponse.redirect(new URL(next, request.url), {
     status: 307,
   });
 
