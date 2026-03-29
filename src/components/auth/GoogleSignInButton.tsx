@@ -1,27 +1,33 @@
 'use client';
 
-/**
- * Props for GoogleSignInButton component
- */
-interface GoogleSignInButtonProps {
-  onClick?: () => void;
-  disabled?: boolean;
-}
+import { useState } from 'react';
+import { createBrowserSupabaseClient } from '@/lib/supabase-browser';
 
 /**
  * GoogleSignInButton component
- * Renders a styled button for Google OAuth sign in
+ * Initiates Google OAuth sign in via Supabase
  */
-export function GoogleSignInButton({
-  onClick,
-  disabled,
-}: GoogleSignInButtonProps) {
+export function GoogleSignInButton() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    const supabase = createBrowserSupabaseClient();
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`,
+      },
+    });
+    // Loading state persists until the OAuth redirect occurs
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+      onClick={handleGoogleSignIn}
+      disabled={isLoading}
+      className="w-full flex justify-center py-2 px-4 border-2 border-border text-sm font-medium text-ink bg-surface shadow-[3px_3px_0px_var(--color-border)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
     >
       <svg
         className="h-5 w-5 mr-2"
