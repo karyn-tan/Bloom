@@ -1,13 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
-import { middleware } from './middleware';
 
-// Mock getAuthenticatedUserId
-const mockGetAuthenticatedUserId = vi.fn();
+// Hoist mock before imports to avoid initialization order issues
+const mockGetAuthenticatedUserId = vi.hoisted(() => vi.fn());
 
 vi.mock('@/lib/supabase', () => ({
   getAuthenticatedUserId: mockGetAuthenticatedUserId,
 }));
+
+import { middleware } from './middleware';
 
 function makeRequest(pathname: string, search = '') {
   return new NextRequest(`http://localhost${pathname}${search}`);
