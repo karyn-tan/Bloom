@@ -1,3 +1,15 @@
+:root {
+  --color-bg:          #F5EDD6;
+  --color-surface:     #FDF6E3;
+  --color-border:      #1A1A2E;
+  --color-ink:         #1A1A2E;
+  --color-accent-red:  #C0392B;
+  --color-accent-gold: #E2A12B;
+  --color-accent-teal: #2A7F6F;
+  --color-accent-navy: #1A1A2E;
+  --color-muted:       #8B7355;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

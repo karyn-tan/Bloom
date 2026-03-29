@@ -7,7 +7,19 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        bg:             'var(--color-bg)',
+        surface:        'var(--color-surface)',
+        border:         'var(--color-border)',
+        ink:            'var(--color-ink)',
+        'accent-red':   'var(--color-accent-red)',
+        'accent-gold':  'var(--color-accent-gold)',
+        'accent-teal':  'var(--color-accent-teal)',
+        'accent-navy':  'var(--color-accent-navy)',
+        muted:          'var(--color-muted)',
+      },
+    },
   },
   plugins: [],
 };
