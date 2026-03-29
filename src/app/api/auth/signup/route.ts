@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import { createClient } from '@/lib/supabase';
+import { credentialsSchema } from '@/lib/auth';
 
 /**
  * Signup request body schema
  */
-const signupSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
+const signupSchema = credentialsSchema;
 
 /**
  * POST handler for signup endpoint

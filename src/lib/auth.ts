@@ -7,6 +7,15 @@ export const MIN_PASSWORD_LENGTH = 8;
 export const PASSWORD_ERROR_MESSAGE = 'Password must be at least 8 characters';
 
 /**
+ * Shared Zod schema for email + password credentials
+ * Used by both login and signup routes
+ */
+export const credentialsSchema = z.object({
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(MIN_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE),
+});
+
+/**
  * Zod schema for email validation
  */
 export const emailSchema = z.string().email();
