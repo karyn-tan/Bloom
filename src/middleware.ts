@@ -9,9 +9,13 @@ const PUBLIC_PATHS = [
   '/', // root landing page
   '/login', // email/password login
   '/signup', // new account registration
+  '/forgot-password', // request password reset email
+  '/reset-password', // set new password after clicking reset link
   '/api/auth/login', // login API
   '/api/auth/signup', // signup API
   '/api/auth/callback', // OAuth callback
+  '/api/auth/forgot-password', // forgot password API
+  '/api/auth/reset-password', // reset password API
 ];
 
 /**

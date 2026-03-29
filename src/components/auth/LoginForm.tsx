@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useForm } from '@/hooks/useForm';
 import { validateEmail, validatePassword } from '@/lib/auth';
 
@@ -143,6 +144,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             {errors.password}
           </p>
         )}
+      </div>
+
+      <div className="flex justify-end">
+        <Link
+          href="/forgot-password"
+          className="text-sm font-medium text-accent-teal"
+        >
+          Forgot your password?
+        </Link>
       </div>
 
       <button
