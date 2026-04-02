@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseEnv } from '@/lib/config';
+import type { Database } from '@/types/supabase';
 
 /**
  * Cookie handler interface
@@ -62,7 +63,7 @@ function createResponseCookieHandler(response: NextResponse): CookieHandler {
  * @returns Supabase client instance
  */
 export function createClient(request: NextRequest): ReturnType<
-  typeof createServerClient
+  typeof createServerClient<Database>
 >;
 /**
  * Creates a Supabase server client with response cookie handling
@@ -73,11 +74,11 @@ export function createClient(request: NextRequest): ReturnType<
 export function createClient(
   request: NextRequest,
   response: NextResponse,
-): ReturnType<typeof createServerClient>;
+): ReturnType<typeof createServerClient<Database>>;
 export function createClient(
   request: NextRequest,
   response?: NextResponse,
-): ReturnType<typeof createServerClient> {
+): ReturnType<typeof createServerClient<Database>> {
   const env = getSupabaseEnv();
 
   const cookieHandler = response
@@ -88,7 +89,7 @@ export function createClient(
       }
     : createCookieHandler(request);
 
-  return createServerClient(
+  return createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     { cookies: cookieHandler },

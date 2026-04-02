@@ -1,5 +1,6 @@
 import { createBrowserClient } from '@supabase/ssr';
 import { getSupabaseEnv } from '@/lib/config';
+import type { Database } from '@/types/supabase';
 
 /**
  * Creates a Supabase browser client for use in client components
@@ -7,7 +8,7 @@ import { getSupabaseEnv } from '@/lib/config';
  */
 export function createBrowserSupabaseClient() {
   const env = getSupabaseEnv();
-  return createBrowserClient(
+  return createBrowserClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
