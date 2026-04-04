@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh project:*)",
+      "Bash(gh label:*)",
+      "Bash(ls /Users/chocolate/Downloads/Bloom-1/src/app/\\\\\\(auth\\\\\\))",
+      "Bash(ls /Users/chocolate/Downloads/Bloom-1/src/app/\\\\\\(auth\\\\\\)/login)",
+      "Bash(npx next:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs kill:*)",
+      "Bash(ls:*)",
+      "Bash(npx vitest:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}
