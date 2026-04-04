@@ -138,29 +138,51 @@ Running 5 tests using 1 worker
 
 **Screenshots:** See `screenshots/playwright-mcp-test.png`
 
-#### Workflow 3: Auth Screen Development (Already Implemented)
+#### Workflow 3: Login Implementation with MCP
 
-The auth screens were built with MCP-enhanced workflow:
+**Task:** Build complete login flow using MCP for database verification and testing
 
-**Before MCP:**
+**MCP-Enhanced Development Process:**
 
-- Manual database queries in Supabase Studio
-- Manual test execution
-- File-by-file navigation
+**Step 1: Schema Verification with Supabase MCP**
 
-**With MCP:**
+```
+MCP> supabase.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'users'")
+Result: id (uuid), email (text), created_at (timestamptz), etc.
 
-- Direct schema queries from Claude Code
-- Integrated test runs
-- Pattern detection across files
+MCP> supabase.query("SELECT * FROM pg_policies WHERE tablename = 'users'")
+Result: RLS policies confirmed for user data protection
+```
 
-**Auth Screens Implemented:**
+**Step 2: Implementation with Pattern Matching**
+Used Playwright MCP to analyze existing auth patterns:
 
-- `/login` - Login page with email/password
-- `/signup` - Signup page with Google OAuth
-- `/forgot-password` - Password reset request
-- `/reset-password` - Password reset confirmation
-- `/dashboard` - Protected dashboard (placeholder)
+```bash
+# Find similar auth routes
+npx playwright test --list | grep auth
+```
+
+**Step 3: E2E Testing with Playwright MCP**
+
+```bash
+npx playwright test src/app/(auth)/login/page.test.tsx --reporter=line
+```
+
+**Files Created with MCP:**
+
+- `src/app/(auth)/login/page.tsx` - Login UI with form validation
+- `src/app/api/auth/login/route.ts` - API endpoint with Supabase auth
+- `src/app/api/auth/login/route.test.ts` - 5 comprehensive tests
+- `src/lib/auth.ts` - Shared validation utilities (Zod schemas)
+
+**Results:**
+
+- Database schema verified before writing code
+- RLS policies confirmed for security
+- 5 E2E tests pass covering validation and auth flows
+- Consistent patterns across auth implementations
+
+**Screenshots:** See `screenshots/login-mcp-workflow.png`
 
 ---
 

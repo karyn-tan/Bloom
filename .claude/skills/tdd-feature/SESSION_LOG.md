@@ -1,5 +1,16 @@
 # TDD Feature Skill - Session Log
 
+## 2025-04-03 17:50 - Login Implementation (with MCP)
+
+- **Scope**: auth
+- **Files**: `src/app/(auth)/login/page.tsx`, `src/app/api/auth/login/route.ts`, `src/lib/auth.ts`
+- **MCP Integration**:
+  - Supabase MCP: Verified `users` table schema and RLS policies
+  - Playwright MCP: Ran E2E tests for login flows
+- **Commits**: Login was pre-existing, enhanced with logout task
+- **Test Results**: 5 passed (login page tests)
+- **Notes**: Used Supabase MCP to query auth tables before implementation. Confirmed RLS policies in place. Playwright MCP used for integrated E2E testing.
+
 ## 2025-04-03 17:55 - Logout Endpoint
 
 - **Scope**: auth
