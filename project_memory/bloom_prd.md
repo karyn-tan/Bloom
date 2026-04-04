@@ -49,16 +49,19 @@ Priya, a more experienced buyer, still encounters the same friction every time s
 **One-line quote:** "I paid $7 and they lasted four days. I feel like I did something wrong but I don't know what."
 
 **Goals:**
+
 - Get value out of a cheap bouquet by keeping it alive longer
 - Understand what she bought without having to research each flower herself
 - Find care advice that is specific to what she actually has, not generic
 
 **Frustrations:**
+
 - Generic care advice assumes species knowledge she does not have
 - She takes partial action (cut stems, forgot about sunlight) but information does not stick
 - Feels financial guilt when flowers die fast, but lacks motivation to invest heavily in research
 
 **Behaviors:**
+
 - Buys by vibe and color, not by species name
 - Will Google a problem reactively but does not research proactively
 - Takes partial action on advice she finds; does not follow through completely
@@ -73,16 +76,19 @@ Priya, a more experienced buyer, still encounters the same friction every time s
 **One-line quote:** "There are things I've been curious about for a while that I keep putting off because I don't want to waste them."
 
 **Goals:**
+
 - Confidently experiment with new flower varieties she has never worked with before
 - Know what a flower needs before she buys it, not after it dies
 - Spend her farmers market budget more effectively
 
 **Frustrations:**
+
 - Still kills new varieties despite months of experience (ranunculus example)
 - Information is scattered across YouTube, blogs, and vendor conversations — nothing consolidates it
 - Self-limits her experimentation because of fear of failure and wasted money
 
 **Behaviors:**
+
 - Shops weekly at farmers market; has built vendor relationships over a year
 - Researches after failures, not before purchases
 - Willing to seek out and absorb detailed information when motivated
@@ -96,6 +102,7 @@ Priya, a more experienced buyer, still encounters the same friction every time s
 Each user story follows the format: **As a [user], I want [action] so that [outcome].**
 
 Each story includes:
+
 - Acceptance Criteria (the specific conditions that must be true for the story to be complete)
 - Definition of Done (the engineering checklist that must be satisfied before the story is closed)
 
@@ -110,12 +117,14 @@ Each story includes:
 _Signal: Saving history requires an identity. Account-required-before-scanning is a deliberate product decision to enable this._
 
 **Acceptance Criteria:**
+
 - Given I am on the signup page, when I submit a valid email and password (min 8 characters), then my account is created and I am redirected to the dashboard
 - Given I submit an email that is already registered, then I see an inline error: "An account with this email already exists"
 - Given I submit a password shorter than 8 characters, then I see an inline error before the form is submitted
 - Given signup succeeds, then a Supabase session is persisted and I remain logged in on refresh
 
 **Definition of Done:**
+
 - [ ] Unit test: form validation logic (password length, email format)
 - [ ] Integration test: Supabase Auth signup call succeeds with valid input, returns session
 - [ ] Integration test: duplicate email returns expected error shape
@@ -130,11 +139,13 @@ _Signal: Saving history requires an identity. Account-required-before-scanning i
 _Product decision: Google OAuth via Supabase reduces signup friction for casual users like Maya._
 
 **Acceptance Criteria:**
+
 - Given I click "Continue with Google," then I am redirected to Google's OAuth consent screen
 - Given I complete Google OAuth successfully, then I am redirected back to the dashboard as an authenticated user
 - Given I sign in with a Google account that matches an existing email/password account, then the accounts are merged under one identity via Supabase Auth
 
 **Definition of Done:**
+
 - [ ] Integration test: OAuth redirect URL is correctly constructed
 - [ ] E2E test: Google OAuth flow completes and lands on dashboard (use a test Google account)
 - [ ] RLS verified: OAuth-created user is subject to the same row-level policies as email/password users
@@ -147,11 +158,13 @@ _Product decision: Google OAuth via Supabase reduces signup friction for casual 
 _Signal: Maya's partial follow-through ("I forgot about the sunlight thing until right now") suggests she would benefit from revisiting tips after the initial scan._
 
 **Acceptance Criteria:**
+
 - Given I am logged out and visit any protected route, then I am redirected to the login page with the intended route preserved
 - Given I log in successfully, then I am redirected to my dashboard showing my active bouquets and recent scan history
 - Given my session has expired, then I am prompted to log in again without losing my place
 
 **Definition of Done:**
+
 - [ ] Unit test: redirect logic preserves the originally requested route
 - [ ] E2E test: login redirects to dashboard; protected routes redirect to login when unauthenticated
 - [ ] Code reviewed and formatted
@@ -167,6 +180,7 @@ _Signal: Maya's partial follow-through ("I forgot about the sunlight thing until
 _Signal: Maya and Marcus both described not knowing what was in their bouquets. The scan flow needs to match casual behavior — one photo, not a cropping session._
 
 **Acceptance Criteria:**
+
 - Given I am on the scan page, I can select a JPEG or PNG file from my device (max 10 MB)
 - Given I select a valid file, then a preview of the image is shown before I submit
 - Given I select a file over 10 MB, then I see an error: "Photo must be under 10 MB"
@@ -174,6 +188,7 @@ _Signal: Maya and Marcus both described not knowing what was in their bouquets. 
 - Given I submit the photo, then a loading state is shown while the API runs
 
 **Definition of Done:**
+
 - [ ] Unit test: file type and size validation functions
 - [ ] Integration test: valid image is uploaded to Supabase Storage and the URL is returned correctly
 - [ ] Integration test: oversized file returns the expected error without calling PlantNet
@@ -188,12 +203,14 @@ _Signal: Maya and Marcus both described not knowing what was in their bouquets. 
 _Signal: Maya: "Sometimes I'll see something at the store and I'm like, what even is that, is it good, will it last? And I just... guess."_
 
 **Acceptance Criteria:**
+
 - Given PlantNet returns results, then each identified flower displays its common name and scientific name
 - Given PlantNet returns a confidence score below 50% for a result, then a warning badge ("We're not sure about this one") is shown on that card
 - Given PlantNet returns no results or errors, then I see: "We couldn't identify your flowers. Try a photo in natural light with the flowers clearly visible"
 - Given identification succeeds, then the scan is saved to my history
 
 **Definition of Done:**
+
 - [ ] Unit test: confidence threshold logic (below 50% triggers warning, at or above does not)
 - [ ] Unit test: PlantNet response parser extracts common name, scientific name, and score correctly
 - [ ] Integration test: `/api/identify` returns correct shape for a valid PlantNet mock response
@@ -208,12 +225,14 @@ _Signal: Maya: "Sometimes I'll see something at the store and I'm like, what eve
 _Signal: PlantNet's top result is not always correct. Wrong identification produces wrong care advice, which is a trust-destroying failure mode based on Maya's experience._
 
 **Acceptance Criteria:**
+
 - Given a flower card is showing a low-confidence result, then an "Edit" or "This isn't right" button is visible
 - Given I tap the edit button, then I can type a flower name and see autocomplete suggestions
 - Given I select a corrected species, then the care card and fun facts regenerate using the corrected species name via a new Gemini call
 - Given I save the correction, then the scan record in Supabase is updated with the corrected species and regenerated care data
 
 **Definition of Done:**
+
 - [ ] Unit test: autocomplete suggestion filtering logic
 - [ ] Integration test: `/api/care` is called with the corrected species name and returns the updated card
 - [ ] Integration test: Supabase scan record is updated correctly after a correction
@@ -231,12 +250,14 @@ _Signal: PlantNet's top result is not always correct. Wrong identification produ
 _Signal: Maya found a long article with species-specific sections and could not use it because she did not know her species. A structured card per identified flower solves both the format and the identification problem._
 
 **Acceptance Criteria:**
+
 - Given identification succeeds, then each flower card shows four labeled rows: Water, Light, Temperature, and Trim
 - Given the Gemini call for a flower resolves, then that card is displayed immediately without waiting for other flowers to load
 - Given the Gemini call fails or returns unparseable JSON, then the card shows: "Care tips unavailable for this flower" rather than a broken or blank UI
 - All four care rows must be non-empty for a card to be considered complete
 
 **Definition of Done:**
+
 - [ ] Unit test: Gemini JSON response parser produces the expected care card shape
 - [ ] Unit test: Zod schema rejects a Gemini response missing any required care field
 - [ ] Integration test: `/api/care` returns a complete care card for a valid species name mock
@@ -251,10 +272,12 @@ _Signal: Maya found a long article with species-specific sections and could not 
 _Signal: Maya: "I paid $7 and they lasted four days. I feel like I did something wrong." A lifespan estimate sets honest expectations._
 
 **Acceptance Criteria:**
+
 - Given identification succeeds, then each flower card shows a lifespan range formatted as "Lasts X–Y days in a vase"
 - Given the bouquet is saved as an active bouquet, then a countdown ("X days remaining") is shown based on the date the bouquet was added and the shortest lifespan in the bouquet
 
 **Definition of Done:**
+
 - [ ] Unit test: lifespan countdown calculation from `added_at` date and `lifespan_days.min`
 - [ ] Unit test: lifespan display formatter ("Lasts 7–10 days in a vase")
 - [ ] E2E test: lifespan is visible on the care card and the countdown appears on the bouquet detail page
@@ -267,10 +290,12 @@ _Signal: Maya: "I paid $7 and they lasted four days. I feel like I did something
 _Product decision: Adds delight without adding cognitive load. Delivered via Gemini alongside care tips in the same API call._
 
 **Acceptance Criteria:**
+
 - Given a care card is rendered, then 1–2 fun facts are displayed below the care rows in a visually distinct section
 - Given Gemini returns fewer than one fun fact, then the fun facts section is hidden entirely rather than showing an empty block
 
 **Definition of Done:**
+
 - [ ] Unit test: fun facts section is hidden when the array is empty
 - [ ] E2E test: fun facts section is visible on a successfully rendered care card
 - [ ] Code reviewed and formatted
@@ -286,12 +311,14 @@ _Product decision: Adds delight without adding cognitive load. Delivered via Gem
 _Signal: Priya maintains multiple arrangements simultaneously ("The one by the window is from Monday... The one on the table I redid yesterday"). Multiple bouquets is a real behavior for regular buyers._
 
 **Acceptance Criteria:**
+
 - Given I complete a scan, then I can save it as a named active bouquet (e.g., "Kitchen table," "Bedroom")
 - Given I have multiple active bouquets, then my dashboard lists all of them with their name, age in days, and a lifespan countdown
 - Given a bouquet's lifespan countdown reaches zero, then it is visually marked as "Likely past peak" and moved to the bottom of the list
 - Given I delete a bouquet, then its record and associated image are removed from Supabase
 
 **Definition of Done:**
+
 - [ ] Unit test: bouquet age calculation from `added_at` to today
 - [ ] Integration test: bouquet is written to the `bouquets` table scoped to the authenticated user
 - [ ] Integration test: fetching bouquets returns only the current user's records (RLS verified)
@@ -310,11 +337,13 @@ _Signal: Priya maintains multiple arrangements simultaneously ("The one by the w
 _Signal: Maya forgot half the advice she found. Persistent history makes the advice available at the moment she needs it, not just at scan time._
 
 **Acceptance Criteria:**
+
 - Given I navigate to my history page, then I see all past scans ordered by most recent, each showing a thumbnail, date, and list of identified flower names
 - Given I tap a past scan, then the full care cards are displayed from the stored database record without re-calling PlantNet or Gemini
 - Given I have more than 20 scans, then history is paginated at 20 per page
 
 **Definition of Done:**
+
 - [ ] Integration test: fetching scan history returns only the authenticated user's records
 - [ ] Integration test: scan detail view reads from the `flowers` JSONB column and does not trigger any external API calls
 - [ ] E2E test: returning user opens a past scan and sees the full care card
@@ -331,12 +360,14 @@ _Signal: Maya forgot half the advice she found. Persistent history makes the adv
 _Signal: Maya: "I cut the stems, yeah. I forgot about the sunlight thing until right now." The gap between knowing and doing is the core behavioral problem. Reminders address it directly._
 
 **Acceptance Criteria:**
+
 - Given I have an active bouquet, then I can opt in to reminders at the time of saving the bouquet
 - Given I opt in, then I receive an email reminder every 2 days with the bouquet name and a simple care prompt (change water, retrim stems)
 - Given a bouquet is deleted or marked past peak, then its reminders stop automatically
 - Given I do not opt in, then no reminder emails are sent
 
 **Definition of Done:**
+
 - [ ] Unit test: reminder scheduling logic calculates the correct send dates from `added_at`
 - [ ] Integration test: opting in creates a reminder schedule record in Supabase
 - [ ] Integration test: deleting a bouquet removes its associated reminder schedule
@@ -354,6 +385,7 @@ _Signal: Maya: "I cut the stems, yeah. I forgot about the sunlight thing until r
 _Signal: Marcus avoided trying new flowers entirely because of past failures. Priya self-limited her experimentation out of fear of waste. Both would benefit from guided, confidence-building recommendations._
 
 **Acceptance Criteria:**
+
 - Given I have at least one past scan, then a "What to buy this season" section is visible on my dashboard
 - Given I have no past scans, then the section shows general seasonal recommendations for the current month without personalization
 - Given the recommendation is generated, then each suggested flower shows: common name, why it is in season now, and a one-line care preview
@@ -361,9 +393,11 @@ _Signal: Marcus avoided trying new flowers entirely because of past failures. Pr
 - Recommendations refresh at most once per day (cached per user in Supabase)
 
 **Acceptance Criteria — Security:**
+
 - Given I am authenticated, then the recommendations endpoint only uses my own scan history to personalize results (no cross-user data)
 
 **Definition of Done:**
+
 - [ ] Unit test: season detection from current month (Spring: March–May, Summer: June–August, Autumn: September–November, Winter: December–February)
 - [ ] Unit test: recommendation cache freshness check (returns cached result if generated within 24 hours)
 - [ ] Integration test: `/api/recommendations` calls Gemini with the correct season and the authenticated user's flower history only
@@ -388,6 +422,7 @@ _Product decision: Hearts and water droplets give the health system a tactile, g
 **Water droplets (thirst):** A display of 5 droplets indicating current hydration level. All 5 droplets are full when the bouquet was watered on schedule. Droplets drain at a rate of one per overdue day. Droplets are independent of hearts — a bouquet can be well-watered (5 droplets) but still losing hearts as it ages naturally.
 
 **Acceptance Criteria:**
+
 - Given a bouquet is saved, then it displays 3 hearts and 5 full droplets
 - Given the lifespan countdown drops below 66% of the total lifespan, then the bouquet shows 2 hearts
 - Given the lifespan countdown drops below 33% of the total lifespan, then the bouquet shows 1 heart
@@ -399,6 +434,7 @@ _Product decision: Hearts and water droplets give the health system a tactile, g
 - Hearts and droplets are rendered as pixel-art style icons consistent with the neo-brutalist design system
 
 **Definition of Done:**
+
 - [ ] Unit test: `computeHearts` returns 3, 2, 1, 0 at the correct lifespan percentage thresholds (100%, below 66%, below 33%, 0%)
 - [ ] Unit test: droplet drain rate given days since last watering and the flower's watering frequency
 - [ ] Unit test: bouquet correctly transitions to `past_peak` status at 0 hearts
@@ -415,6 +451,7 @@ _Product decision: Hearts and water droplets give the health system a tactile, g
 _Product decision: Static care cards tell users what to do in general. Adaptive tips tell users what to do based on what they specifically did or did not do. This is the difference between a manual and a coach. Combined with the health system, it closes the loop between user behavior and outcome — which is the core unmet need from the interviews (Maya knew there was something she did wrong but could not identify what)._
 
 **Behavior logic:**
+
 - If the user has missed one or more waterings: tip surfaces the specific missed action and the consequence ("You missed watering yesterday — your roses may be starting to stress. Top up the water now and add a drop of flower food.")
 - If the user has watered consistently but has not trimmed stems: tip flags the untrimmed stems specifically
 - If the user has followed all care steps for the past 3+ days: tip is positive ("Your peonies are loving it — keep doing what you're doing.")
@@ -422,6 +459,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 - Tips refresh once per day per bouquet
 
 **Acceptance Criteria:**
+
 - Given I open a bouquet detail page, then each flower card shows a "How's it going?" section below the Trim care row
 - Given I have missed at least one logged care action in the past 7 days, then the tip names the specific action missed and a concrete next step
 - Given I have completed all care actions for the past 3+ consecutive days, then the tip is a positive affirmation with no action item
@@ -430,6 +468,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 - The tip is rendered inside the flower card, below the Trim row, using a visually distinct background color per the design system (teal for positive, gold for corrective)
 
 **Definition of Done:**
+
 - [ ] Unit test: care log analyzer correctly classifies the last 7 days as "missed watering," "missed trim," "all good," or "no data"
 - [ ] Unit test: adaptive tip cache freshness check (same logic as recommendation cache — 24 hours)
 - [ ] Integration test: `POST /api/adaptive-tip` sends the correct care log context to Gemini and returns a parsed tip
@@ -449,6 +488,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 **Description:** Supabase Auth handles both email/password and Google OAuth. Users must be signed in before accessing any feature. Auth state is persisted via Supabase session management. All protected routes redirect to login if the session is absent or expired.
 
 **Requirements:**
+
 - Sign up and log in with email and password
 - Sign in with Google via Supabase OAuth provider
 - Password reset via email link
@@ -465,6 +505,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 **Description:** User uploads a single JPEG or PNG photo of their bouquet (max 10 MB). Image is stored in Supabase Storage under the authenticated user's folder path. File input only; no camera capture in v1.
 
 **Requirements:**
+
 - JPEG and PNG accepted; all other types rejected with an error
 - 10 MB size limit enforced client-side before upload
 - Preview shown before submission
@@ -481,6 +522,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 **Description:** The uploaded image is sent to the PlantNet `/identify` API endpoint. The highest-confidence species result is extracted and surfaced per plant detected in the image. Confidence scores are shown to the user.
 
 **Requirements:**
+
 - Call PlantNet with the uploaded image
 - Extract the top-ranked species result (common name, scientific name, confidence score)
 - Display confidence as a percentage on each flower card
@@ -500,6 +542,7 @@ _Product decision: Static care cards tell users what to do in general. Adaptive 
 **Requirements:**
 
 Gemini prompt must request this JSON structure:
+
 ```json
 {
   "common_name": "string",
@@ -532,6 +575,7 @@ Gemini prompt must request this JSON structure:
 **Description:** After a scan, users can save the result as a named active bouquet. Multiple bouquets can be active simultaneously. The dashboard displays all active bouquets with lifespan countdowns. Bouquets can be deleted individually.
 
 **Requirements:**
+
 - Named bouquet created from a scan result (user provides a label; default: today's date)
 - Dashboard lists all active bouquets ordered by most recently added
 - Each bouquet tile shows: name, thumbnail, age in days, lifespan countdown
@@ -548,6 +592,7 @@ Gemini prompt must request this JSON structure:
 **Description:** All completed scans are persisted per user. History is accessible as a paginated list with thumbnails. Opening a past scan displays the full stored care cards without re-calling any external API.
 
 **Requirements:**
+
 - Scan history list: thumbnail, date, comma-separated flower names
 - Paginated at 20 items per page
 - Opening a scan reads from the stored `flowers` JSONB; no external API calls on re-open
@@ -563,6 +608,7 @@ Gemini prompt must request this JSON structure:
 **Description:** Users can correct a misidentified flower by searching for and selecting the correct species. The care card and fun facts regenerate for the corrected species via a new Gemini call. The scan record is updated in Supabase.
 
 **Requirements:**
+
 - Edit button visible on any flower card, not just low-confidence ones
 - Species search input with autocomplete (search against a static list of common cut flower species for v1)
 - Selecting a corrected species triggers a new `/api/care` call
@@ -579,6 +625,7 @@ Gemini prompt must request this JSON structure:
 **Description:** Users can opt in to email reminders when saving an active bouquet. Reminders are sent every 2 days prompting a water change and stem trim. Reminders stop when the bouquet is deleted or marked past peak.
 
 **Requirements:**
+
 - Opt-in checkbox shown at bouquet save time (opt-in is not the default)
 - Reminder emails sent every 2 days via Supabase Edge Functions and a transactional email provider (Resend recommended)
 - Email content: bouquet name, simple care prompt, link back to the bouquet in the app
@@ -594,6 +641,7 @@ Gemini prompt must request this JSON structure:
 **Description:** The dashboard shows a "What to buy this season" section driven by Gemini. The prompt includes the current season and the user's past scan history (list of species names). Recommendations are cached per user for 24 hours in Supabase to avoid excessive API calls.
 
 **Requirements:**
+
 - Season derived from current calendar month (Spring: March–May, Summer: June–August, Autumn: September–November, Winter: December–February)
 - Gemini prompt includes: current season, user's past flower history (species names only, no image data), and a request for 3–5 recommended flowers
 - Each recommendation shows: common name, why it is in season, one-line care preview
@@ -612,6 +660,7 @@ Gemini prompt must request this JSON structure:
 **Description:** Each active bouquet displays a health state driven by two independent indicators: hearts (lives, max 3) driven purely by lifespan, and water droplets (thirst level, max 5) driven by the care log. They are intentionally decoupled — hearts show how much life the bouquet has left as a function of time, droplets show how thirsty it is right now as a function of care behavior.
 
 **Requirements:**
+
 - Each bouquet initializes with 3 hearts and 5 full droplets on creation
 - Heart thresholds (lifespan-only): 3 hearts when lifespan is above 66% remaining, 2 hearts when below 66%, 1 heart when below 33%, 0 hearts when expired
 - Hearts are not affected by watering behavior — they are a time-based aging indicator only
@@ -622,6 +671,7 @@ Gemini prompt must request this JSON structure:
 - Health state is not stored in the database — it is always derived from the care log and `added_at` date at render time
 
 **`HealthState` type:**
+
 ```typescript
 type HealthState = {
   hearts: 0 | 1 | 2 | 3;
@@ -640,6 +690,7 @@ type HealthState = {
 **Description:** Each flower card shows a "How's it going?" section below the Trim care row. The tip is personalized to the user's actual care behavior over the past 7 days for that bouquet, generated by Gemini and cached per bouquet per day. The tip is positive when care is on track and corrective when specific actions have been missed. It lives inside the flower card — not as a standalone section — so the feedback is tied directly to the species it applies to.
 
 **Requirements:**
+
 - Care log is a `care_log` table recording each logged action (water, trim) with a timestamp and bouquet ID
 - A new `POST /api/adaptive-tip` route accepts `bouquet_id` and returns a cached or freshly generated tip
 - Gemini prompt includes: species names in the bouquet, the care card for each species, and a structured summary of the care log for the past 7 days
@@ -648,6 +699,7 @@ type HealthState = {
 - The "no data" state (no care actions logged yet) renders a static onboarding prompt without calling Gemini
 
 **New table:**
+
 ```
 care_log
   id              uuid        primary key default gen_random_uuid()
@@ -697,7 +749,8 @@ const ratelimit = new Ratelimit({
 
 export async function POST(request: Request) {
   const userId = await getAuthenticatedUserId(request);
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!userId)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { success } = await ratelimit.limit(userId);
   if (!success) {
@@ -714,6 +767,7 @@ export async function POST(request: Request) {
 A 429 response must always include the `Retry-After` header set to 60 seconds.
 
 **Routes that must be rate limited:**
+
 - `POST /api/identify`
 - `POST /api/care`
 - `POST /api/recommendations`
@@ -897,7 +951,7 @@ const { data, error } = await supabase
   .from('scans')
   .select('*')
   .eq('id', scanId)
-  .eq('user_id', userId)  // <-- ownership check, always required
+  .eq('user_id', userId) // <-- ownership check, always required
   .single();
 
 if (!data) {
@@ -920,7 +974,9 @@ export async function getAuthenticatedUserId(
   request: Request,
 ): Promise<string | null> {
   const supabase = createServerClient(request);
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user?.id ?? null;
 }
 ```
@@ -1025,16 +1081,16 @@ At least 50% of users who complete a scan save it as a named active bouquet. Thi
 
 ### Stack
 
-| Layer | Technology | Reason |
-|---|---|---|
-| Framework | Next.js 14 (App Router) with TypeScript | Server components reduce client bundle; App Router enables co-located API routes; API keys never reach the client |
-| Styling | Tailwind CSS | Fast iteration; consistent design tokens without a separate CSS layer |
-| Auth and DB | Supabase | Auth, Postgres, Storage, and Edge Functions in one service; native RLS support |
-| Flower ID | PlantNet API | Domain-specific plant identification with confidence scores; more accurate on real-world photos than general-purpose vision |
-| Care tips | Gemini API (gemini-1.5-flash) | Fast and cost-effective for short structured JSON outputs from a known species name |
-| Rate limiting | Upstash Redis + @upstash/ratelimit | Serverless-compatible, persistent sliding window rate limiting across Vercel function instances |
-| Email | Resend | Transactional email for care reminders; simple API, good deliverability |
-| Deployment | Vercel | Native Next.js deployment; zero-config for App Router and Edge Functions |
+| Layer         | Technology                              | Reason                                                                                                                      |
+| ------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Framework     | Next.js 14 (App Router) with TypeScript | Server components reduce client bundle; App Router enables co-located API routes; API keys never reach the client           |
+| Styling       | Tailwind CSS                            | Fast iteration; consistent design tokens without a separate CSS layer                                                       |
+| Auth and DB   | Supabase                                | Auth, Postgres, Storage, and Edge Functions in one service; native RLS support                                              |
+| Flower ID     | PlantNet API                            | Domain-specific plant identification with confidence scores; more accurate on real-world photos than general-purpose vision |
+| Care tips     | Gemini API (gemini-1.5-flash)           | Fast and cost-effective for short structured JSON outputs from a known species name                                         |
+| Rate limiting | Upstash Redis + @upstash/ratelimit      | Serverless-compatible, persistent sliding window rate limiting across Vercel function instances                             |
+| Email         | Resend                                  | Transactional email for care reminders; simple API, good deliverability                                                     |
+| Deployment    | Vercel                                  | Native Next.js deployment; zero-config for App Router and Edge Functions                                                    |
 
 ---
 
@@ -1067,6 +1123,7 @@ Upstash Redis is used rather than in-memory limiting because Vercel deploys mult
 Bloom's visual style is **neo-brutalist with a hand-drawn retro aesthetic inspired by Cuphead (2017).** The goal is a UI that feels alive, tactile, and slightly playful — the opposite of a sterile health-tracker dashboard. Every visual decision should reinforce the feeling that you are tending to something living, not filling out a spreadsheet.
 
 **Reference points:**
+
 - Cuphead: bold ink outlines, saturated muted colors, imperfect hand-drawn textures, rubber-hose character shapes
 - Neo-brutalism: thick borders, high-contrast color blocks, deliberate visual weight, no drop shadows (use solid offsets instead), flat stacking
 - Retro palette: avoid pure white and pure black; use off-whites, warm creams, deep navy, brick red, moss green, and golden yellow as the primary palette
@@ -1077,15 +1134,15 @@ Bloom's visual style is **neo-brutalist with a hand-drawn retro aesthetic inspir
 
 ```css
 :root {
-  --color-bg:          #F5EDD6;   /* warm cream — page background */
-  --color-surface:     #FDF6E3;   /* near-white — card backgrounds */
-  --color-border:      #1A1A2E;   /* near-black — all borders and outlines */
-  --color-ink:         #1A1A2E;   /* near-black — all body text */
-  --color-accent-red:  #C0392B;   /* brick red — primary CTA, hearts */
-  --color-accent-gold: #E2A12B;   /* golden yellow — secondary accent, droplets */
-  --color-accent-teal: #2A7F6F;   /* moss teal — success states, "all good" tips */
-  --color-accent-navy: #1A1A2E;   /* deep navy — headers, nav */
-  --color-muted:       #8B7355;   /* warm brown — secondary text, labels */
+  --color-bg: #f5edd6; /* warm cream — page background */
+  --color-surface: #fdf6e3; /* near-white — card backgrounds */
+  --color-border: #1a1a2e; /* near-black — all borders and outlines */
+  --color-ink: #1a1a2e; /* near-black — all body text */
+  --color-accent-red: #c0392b; /* brick red — primary CTA, hearts */
+  --color-accent-gold: #e2a12b; /* golden yellow — secondary accent, droplets */
+  --color-accent-teal: #2a7f6f; /* moss teal — success states, "all good" tips */
+  --color-accent-navy: #1a1a2e; /* deep navy — headers, nav */
+  --color-muted: #8b7355; /* warm brown — secondary text, labels */
 }
 ```
 
@@ -1110,6 +1167,7 @@ All interactive elements (cards, buttons, inputs) use a `2px solid var(--color-b
 Instead of `box-shadow` with blur, use a solid offset: `4px 4px 0px var(--color-border)`. This is the neo-brutalist alternative to a drop shadow. Applied to cards, buttons, and modals.
 
 **Buttons:**
+
 - Background: `var(--color-accent-red)` for primary, `var(--color-surface)` for secondary
 - Text: `var(--color-surface)` on primary (white-ish on red), `var(--color-ink)` on secondary
 - Border: `2px solid var(--color-border)`
@@ -1117,6 +1175,7 @@ Instead of `box-shadow` with blur, use a solid offset: `4px 4px 0px var(--color-
 - On hover/active: shift the element 3px down and right, remove the offset shadow (simulates pressing)
 
 **Cards:**
+
 - Background: `var(--color-surface)`
 - Border: `2px solid var(--color-border)`
 - Offset shadow: `4px 4px 0px var(--color-border)`
@@ -1127,12 +1186,14 @@ Instead of `box-shadow` with blur, use a solid offset: `4px 4px 0px var(--color-
 ### Health Indicator Icons
 
 **Hearts:**
+
 - 3 pixel-art style heart SVGs per bouquet
 - Full heart: filled `var(--color-accent-red)` with `var(--color-border)` outline
 - Empty heart: `var(--color-surface)` fill with `var(--color-border)` outline
 - Size: 24×24px, rendered inline
 
 **Water droplets:**
+
 - 5 pixel-art style droplet SVGs per bouquet
 - Full droplet: filled `var(--color-accent-gold)` with `var(--color-border)` outline
 - Empty droplet: `var(--color-surface)` fill with `var(--color-border)` outline
@@ -1309,6 +1370,7 @@ Do not put data-fetching logic inside components. Fetch in Server Components or 
 ### Prettier Configuration
 
 **.prettierrc**
+
 ```json
 {
   "singleQuote": true,
@@ -1322,6 +1384,7 @@ Do not put data-fetching logic inside components. Fetch in Server Components or 
 ```
 
 **.prettierignore**
+
 ```
 .next/
 node_modules/
@@ -1331,6 +1394,7 @@ public/
 ```
 
 **package.json scripts**
+
 ```json
 {
   "scripts": {
@@ -1343,17 +1407,20 @@ public/
 **Pre-commit hook**
 
 Install:
+
 ```bash
 npm install --save-dev lint-staged husky
 npx husky init
 ```
 
 **.husky/pre-commit**
+
 ```bash
 npx lint-staged
 ```
 
 **lint-staged in package.json**
+
 ```json
 {
   "lint-staged": {
@@ -1377,6 +1444,7 @@ No unformatted code can be committed. The hook runs Prettier on all staged files
 ```
 
 **Types:**
+
 - `feat` — new feature or user-facing behavior
 - `fix` — bug fix
 - `test` — adding or updating tests with no production code change
@@ -1386,6 +1454,7 @@ No unformatted code can be committed. The hook runs Prettier on all staged files
 **Scope** is the feature area: `auth`, `scan`, `care`, `bouquet`, `history`, `recommendations`, `reminders`, `rls`, `ratelimit`.
 
 **Examples:**
+
 ```
 feat(scan): render flower cards progressively as Gemini calls resolve
 fix(care): return fallback error card when Gemini JSON fails Zod validation
@@ -1407,6 +1476,7 @@ refactor(<scope>): <describe what was cleaned up>
 ```
 
 **Example sequence for the confidence threshold feature:**
+
 ```
 test(scan): [RED] confidence below 50% returns low-confidence warning flag
 feat(scan): [GREEN] add threshold check in parsePlantNetResponse
@@ -1488,6 +1558,7 @@ This creates a readable git history that shows the reasoning behind each impleme
 ### End-to-End Tests — Playwright
 
 **Flow 1 — New user scans a bouquet and saves it**
+
 1. User visits the app unauthenticated; is redirected to login
 2. User creates an account with email and password
 3. User uploads a bouquet photo
@@ -1496,33 +1567,39 @@ This creates a readable git history that shows the reasoning behind each impleme
 6. Named bouquet appears on the dashboard with a lifespan countdown
 
 **Flow 2 — Returning user accesses scan history**
+
 1. User logs in via Google OAuth
 2. User navigates to history
 3. User opens a past scan
 4. Full care cards are displayed without any loading spinner (reads from DB, no API calls)
 
 **Flow 3 — Low-confidence identification is handled**
+
 1. User uploads a photo that returns a sub-50% confidence result
 2. Low-confidence warning badge is visible
 3. Care card is still shown
 4. User taps "Edit," searches for a species, selects it, care card regenerates
 
 **Flow 4 — PlantNet failure is handled gracefully**
+
 1. PlantNet returns an error (mocked via Playwright network interception)
 2. User sees the photography tip error message
 3. No broken or empty cards are shown
 
 **Flow 5 — IDOR: User cannot access another user's scan**
+
 1. User A creates an account and scans a bouquet; scan ID is recorded
 2. User A logs out
 3. User B creates an account and sends a direct request to `/api/scans/{user_A_scan_id}`
 4. Response is 404 (not 403, not 200)
 
 **Flow 6 — Rate limiting**
+
 1. Authenticated user sends 101 consecutive requests to `/api/identify`
 2. The 101st request returns 429 with a `Retry-After` header
 
 **Flow 7 — Plant health and adaptive tips**
+
 1. User saves a bouquet; it displays 3 hearts and 5 full droplets
 2. User logs a watering action; droplets remain at 5
 3. User does not log a watering for 2 days (simulated via a test fixture); 2 droplets are shown as empty

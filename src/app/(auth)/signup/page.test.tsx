@@ -32,7 +32,9 @@ describe('SignupPage', () => {
     render(<SignupPage />);
 
     const emailInput = screen.getByLabelText(/email/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
     fireEvent.blur(emailInput);
@@ -48,7 +50,9 @@ describe('SignupPage', () => {
 
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'short' } });
@@ -78,7 +82,9 @@ describe('SignupPage', () => {
 
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
@@ -115,7 +121,9 @@ describe('SignupPage', () => {
 
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
@@ -139,7 +147,9 @@ describe('SignupPage', () => {
 
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'existing@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
@@ -177,7 +187,9 @@ describe('SignupPage', () => {
 
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', {
+      name: /create account/i,
+    });
 
     fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });

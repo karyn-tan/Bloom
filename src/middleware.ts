@@ -28,7 +28,11 @@ export async function middleware(request: NextRequest) {
 
   // Allow public paths through without auth check
   // Root path uses exact match; all others use startsWith
-  if (PUBLIC_PATHS.some((p) => (p === '/' ? pathname === '/' : pathname.startsWith(p)))) {
+  if (
+    PUBLIC_PATHS.some((p) =>
+      p === '/' ? pathname === '/' : pathname.startsWith(p),
+    )
+  ) {
     return NextResponse.next();
   }
 

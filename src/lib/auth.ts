@@ -50,9 +50,7 @@ export function validateEmail(email: string): boolean {
  * @param password - The password string to validate
  * @returns Object with valid flag and optional error message
  */
-export function validatePassword(
-  password: string,
-): PasswordValidationResult {
+export function validatePassword(password: string): PasswordValidationResult {
   const result = passwordSchema.safeParse(password);
 
   if (!result.success) {

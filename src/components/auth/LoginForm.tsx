@@ -114,7 +114,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           aria-describedby={errors.email ? 'email-error' : undefined}
         />
         {touched.email && errors.email && (
-          <p id="email-error" className="mt-1 text-sm text-accent-red font-medium">
+          <p
+            id="email-error"
+            className="mt-1 text-sm text-accent-red font-medium"
+          >
             {errors.email}
           </p>
         )}
@@ -140,7 +143,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           aria-describedby={errors.password ? 'password-error' : undefined}
         />
         {touched.password && errors.password && (
-          <p id="password-error" className="mt-1 text-sm text-accent-red font-medium">
+          <p
+            id="password-error"
+            className="mt-1 text-sm text-accent-red font-medium"
+          >
             {errors.password}
           </p>
         )}

@@ -9,7 +9,11 @@ import type { Database } from '@/types/supabase';
 interface CookieHandler {
   getAll: () => { name: string; value: string }[];
   setAll: (
-    cookies: { name: string; value: string; options?: Record<string, unknown> }[],
+    cookies: {
+      name: string;
+      value: string;
+      options?: Record<string, unknown>;
+    }[],
   ) => void;
 }
 
@@ -62,9 +66,9 @@ function createResponseCookieHandler(response: NextResponse): CookieHandler {
  * @param request - The NextRequest object
  * @returns Supabase client instance
  */
-export function createClient(request: NextRequest): ReturnType<
-  typeof createServerClient<Database>
->;
+export function createClient(
+  request: NextRequest,
+): ReturnType<typeof createServerClient<Database>>;
 /**
  * Creates a Supabase server client with response cookie handling
  * @param request - The NextRequest object
@@ -84,8 +88,13 @@ export function createClient(
   const cookieHandler = response
     ? {
         getAll: () => createCookieHandler(request).getAll(),
-        setAll: (cookies: { name: string; value: string; options?: Record<string, unknown> }[]) =>
-          createResponseCookieHandler(response).setAll(cookies),
+        setAll: (
+          cookies: {
+            name: string;
+            value: string;
+            options?: Record<string, unknown>;
+          }[],
+        ) => createResponseCookieHandler(response).setAll(cookies),
       }
     : createCookieHandler(request);
 

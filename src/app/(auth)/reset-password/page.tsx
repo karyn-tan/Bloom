@@ -89,7 +89,8 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  if (passwordTouched) setPasswordError(validate(e.target.value));
+                  if (passwordTouched)
+                    setPasswordError(validate(e.target.value));
                 }}
                 onBlur={() => {
                   setPasswordTouched(true);
@@ -100,7 +101,10 @@ export default function ResetPasswordPage() {
                 aria-describedby={passwordError ? 'password-error' : undefined}
               />
               {passwordTouched && passwordError && (
-                <p id="password-error" className="mt-1 text-sm text-accent-red font-medium">
+                <p
+                  id="password-error"
+                  className="mt-1 text-sm text-accent-red font-medium"
+                >
                   {passwordError}
                 </p>
               )}

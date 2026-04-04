@@ -77,6 +77,7 @@ supabase gen types typescript --local > src/types/supabase.ts
 Types: `feat`, `fix`, `test`, `refactor`, `chore`. Scopes: `auth`, `scan`, `care`, `bouquet`, `history`, `recommendations`, `reminders`, `rls`, `ratelimit`, `health`, `careLog`.
 
 TDD commits must follow this three-commit pattern per cycle:
+
 ```
 test(scope): [RED] <describe the behavior being tested>
 feat(scope): [GREEN] <minimum implementation>
@@ -99,6 +100,7 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 ## Do's and Don'ts
 
 **DO:**
+
 - Scope every DB query with `user_id = auth.uid()` — always, without exception
 - Enable RLS on every table before writing any query logic
 - Rate-limit all API routes via Upstash before any external call
@@ -110,6 +112,7 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 - Compute `HealthState` in `lib/health.ts` as a pure function; pass the result to components — never derive it inside a component
 
 **DON'T:**
+
 - Don't call Gemini Vision directly on the photo — use PlantNet first, then pass the species name to Gemini
 - Don't regenerate Gemini care tips that are already cached in the DB
 - Don't expose `PLANTNET_API_KEY`, `GEMINI_API_KEY`, or `RESEND_API_KEY` in client-side code

@@ -29,7 +29,9 @@ describe('GoogleSignInButton', () => {
   it('calls supabase.auth.signInWithOAuth with provider google on click', async () => {
     render(<GoogleSignInButton />);
 
-    const button = screen.getByRole('button', { name: /continue with google/i });
+    const button = screen.getByRole('button', {
+      name: /continue with google/i,
+    });
     fireEvent.click(button);
 
     await waitFor(() => {
@@ -42,7 +44,9 @@ describe('GoogleSignInButton', () => {
   it('passes correct redirectTo URL to signInWithOAuth', async () => {
     render(<GoogleSignInButton />);
 
-    const button = screen.getByRole('button', { name: /continue with google/i });
+    const button = screen.getByRole('button', {
+      name: /continue with google/i,
+    });
     fireEvent.click(button);
 
     await waitFor(() => {
@@ -64,7 +68,9 @@ describe('GoogleSignInButton', () => {
 
     render(<GoogleSignInButton />);
 
-    const button = screen.getByRole('button', { name: /continue with google/i });
+    const button = screen.getByRole('button', {
+      name: /continue with google/i,
+    });
     fireEvent.click(button);
 
     await waitFor(() => {
