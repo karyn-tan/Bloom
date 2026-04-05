@@ -1,7 +1,6 @@
 # HW5: Custom Skill + MCP Integration
 
 **Student:** Hemang Murugan | Feng Hua Tan
-**Repository:** Bloom - Flower Care Tracking Application
 
 ---
 
@@ -160,6 +159,7 @@ See `hw5-deliverables/MCP_DEMONSTRATION.md` for full details:
 ├── settings.json              # MCP: Playwright, GitHub
 └── skills/
     └── tdd-feature/
+        ├── SKILL.md           # Active skill (loaded by Claude Code)
         ├── v1.md              # Skill v1
         ├── v2.md              # Skill v2 (enhanced)
         └── SESSION_LOG.md     # Task evidence
@@ -260,7 +260,3 @@ claude mcp list
 - IDOR protection via user_id scoping (pattern from auth.ts)
 - RLS policies verified via Supabase MCP
 - All 77 tests pass (15 test files)
-
----
-
-_Submitted: April 3, 2025_

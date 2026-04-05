@@ -83,20 +83,7 @@ claude mcp add github --command npx --args "-y,@modelcontextprotocol/server-gith
 - Repository access and file listing
 - Issue and PR management
 - Code search across repositories
-
-### Verification — `claude mcp list`
-
-Running `claude mcp list` confirms both servers are configured and connected:
-
-```
-Checking MCP server health...
-
-supabase: https://mcp.supabase.com/mcp?project_ref=zudwnujpkhwopvjnitmj (HTTP) - ✓ Connected
-playwright: npx @playwright/mcp@latest - ✓ Connected
-```
-
-Both servers show `✓ Connected`, confirming the `claude mcp add` commands were executed successfully.
-
+  
 ---
 
 ### Demonstrated Workflows
@@ -336,8 +323,8 @@ claude mcp list
    - Cross-reference live table structures against PRD spec before writing a line of code
 
 2. **Integrated Browser Testing:**
-   - Navigate pages, fill forms, and click buttons — all from within Claude Code
-   - Capture screenshots automatically at each step (no manual snipping)
+   - Navigate pages, fill forms, and click buttons
+   - Capture screenshots automatically at each step
    - Use `browser_snapshot` to get the accessibility tree and element refs for precise targeting
 
 3. **Streamlined Workflow:**
@@ -346,7 +333,7 @@ claude mcp list
    - Form validation, redirect behavior, and UI state verified in seconds
 
 4. **Living Documentation:**
-   - Query the actual live database for documentation — schema tables above are not hand-written, they are the real output
+   - Query the actual live database for documentation
    - Screenshots in this file were taken by Playwright MCP during this session, not mocked
 
 ---
