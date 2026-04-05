@@ -11,7 +11,7 @@
 | Custom Skill v1       | `.claude/skills/tdd-feature/v1.md`          | 12.5        |
 | Custom Skill v2       | `.claude/skills/tdd-feature/v2.md`          | 12.5        |
 | Custom Skill (active) | `.claude/skills/tdd-feature/SKILL.md`       | incl. above |
-| Session Log (2 tasks) | `.claude/skills/tdd-feature/SESSION_LOG.md` | incl. above |
+| Session Log (3 tasks) | `.claude/skills/tdd-feature/SESSION_LOG.md` | incl. above |
 | MCP Config            | `.mcp.json`, `.claude/settings.json`        | 17.5        |
 | MCP Demonstration     | `hw5-deliverables/MCP_DEMONSTRATION.md`     | incl. above |
 | Retrospective         | `HW5_RETROSPECTIVE.md`                      | 7.5         |
@@ -28,8 +28,9 @@
 | **Skill v2**        | [`.claude/skills/tdd-feature/v2.md`](.claude/skills/tdd-feature/v2.md)                   | Enhanced with auto-detection & logging  |
 | **Skill (active)**  | [`.claude/skills/tdd-feature/SKILL.md`](.claude/skills/tdd-feature/SKILL.md)             | Active skill loaded by Claude Code      |
 | **Session Log**     | [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md) | 3 tasks executed with TDD               |
-| **Task 1: Logout**  | [`src/app/api/auth/logout/`](src/app/api/auth/logout/)                                   | Logout endpoint (3 commits)             |
-| **Task 2: Flowers** | [`src/lib/flowers.ts`](src/lib/flowers.ts) + [`.test.ts`](src/lib/flowers.test.ts)       | Flower validation (5 commits)           |
+| **Task 1: Login**   | [`src/app/api/auth/login/`](src/app/api/auth/login/)                                     | Login implementation (7 commits)        |
+| **Task 2: Logout**  | [`src/app/api/auth/logout/`](src/app/api/auth/logout/)                                   | Logout endpoint (3 commits)             |
+| **Task 3: Flowers** | [`src/lib/flowers.ts`](src/lib/flowers.ts) + [`.test.ts`](src/lib/flowers.test.ts)       | Flower validation (3 commits)           |
 | **MCP Config**      | [`.mcp.json`](.mcp.json) + [`.claude/settings.json`](.claude/settings.json)              | Supabase, Playwright, GitHub            |
 | **MCP Demo**        | [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)         | 3 demonstrated workflows                |
 | **Retrospective**   | [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)                                           | 2-page reflection                       |
@@ -50,7 +51,7 @@
 | `.claude/skills/tdd-feature/v1.md`          | Initial skill with basic TDD workflow          |
 | `.claude/skills/tdd-feature/v2.md`          | Enhanced skill with auto-detection and logging |
 | `.claude/skills/tdd-feature/SKILL.md`       | Active skill file loaded by Claude Code        |
-| `.claude/skills/tdd-feature/SESSION_LOG.md` | Execution logs for 2 real tasks                |
+| `.claude/skills/tdd-feature/SESSION_LOG.md` | Execution logs for 3 real tasks                |
 
 ### v1 → v2 Iteration
 
@@ -61,9 +62,24 @@
 | No session logging         | Automatic SESSION_LOG.md entries    |
 | No formatting step         | Prettier in REFACTOR phase          |
 
-### Evidence: 2 Real Tasks Executed
+### Evidence: 3 Real Tasks Executed
 
-#### Task 1: Logout Endpoint
+#### Task 1: Login Implementation
+
+```
+Location: src/app/(auth)/login/page.tsx, src/app/api/auth/login/route.ts, src/lib/auth.ts
+Commits:
+  1. test(auth): [RED] validate email format and password minimum length
+  2. feat(auth): [GREEN] implement email and password validation functions
+  3. test(auth): [RED] login API route returns 400/401 for invalid input
+  4. feat(auth): [GREEN] implement login API route with Supabase
+  5. test(auth): [RED] login form displays validation errors and handles submission
+  6. feat(auth): [GREEN] implement login page with form validation
+  7. refactor(auth): extract LoginForm, GoogleSignInButton, and Auth components
+Tests: 12 passed
+```
+
+#### Task 2: Logout Endpoint
 
 ```
 Location: src/app/api/auth/logout/
@@ -74,7 +90,9 @@ Commits:
 Tests: 3 passed
 ```
 
-#### Task 2: Flower Name Validation
+
+
+#### Task 3: Flower Name Validation
 
 ```
 Location: src/lib/flowers.ts
@@ -172,7 +190,6 @@ hw5-deliverables/
 screenshots/hw5/               # Proof images (5 screenshots)
 
 HW5_RETROSPECTIVE.md           # Retrospective (2 pages)
-HW5_SUBMISSION.md             # Detailed submission
 README.md                     # This file
 
 # New code from skill execution:
@@ -194,6 +211,7 @@ src/lib/
 npm test
 
 # Verify new tests specifically
+npm test -- src/app/api/auth/login/route.test.ts
 npm test -- src/app/api/auth/logout/route.test.ts
 npm test -- src/lib/flowers.test.ts
 
@@ -215,11 +233,11 @@ claude mcp list
 
 | Requirement              | Evidence                                               | Status |
 | ------------------------ | ------------------------------------------------------ | ------ |
-| Skill file with metadata | `v1.md`: name, description, version                    | ✅     |
+| Skill file with metadata | `SKILL.md` (active), `v1.md`, `v2.md`: name, description, version | ✅     |
 | Clear instructions       | Phase-by-phase workflow in both versions               | ✅     |
 | Constraints documented   | "Never mix test/implementation", "No any types"        | ✅     |
 | v1 → v2 iteration        | `v2.md` changelog section                              | ✅     |
-| 2 real tasks tested      | Logout (3 tests) + Flowers (5 tests) in SESSION_LOG.md | ✅     |
+| 3 real tasks tested      | Login (12 tests) + Logout (3 tests) + Flowers (5 tests) in SESSION_LOG.md | ✅     |
 | Screenshots/logs         | SESSION_LOG.md with commit history                     | ✅     |
 
 **Score: 25/25**
