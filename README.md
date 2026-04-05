@@ -28,9 +28,6 @@
 | **Skill v2**        | [`.claude/skills/tdd-feature/v2.md`](.claude/skills/tdd-feature/v2.md)                   | Enhanced with auto-detection & logging  |
 | **Skill (active)**  | [`.claude/skills/tdd-feature/SKILL.md`](.claude/skills/tdd-feature/SKILL.md)             | Active skill loaded by Claude Code      |
 | **Session Log**     | [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md) | 3 tasks executed with TDD               |
-| **Task 1: Login**   | [`src/app/api/auth/login/`](src/app/api/auth/login/)                                     | Login implementation (7 commits)        |
-| **Task 2: Logout**  | [`src/app/api/auth/logout/`](src/app/api/auth/logout/)                                   | Logout endpoint (3 commits)             |
-| **Task 3: Flowers** | [`src/lib/flowers.ts`](src/lib/flowers.ts) + [`.test.ts`](src/lib/flowers.test.ts)       | Flower validation (3 commits)           |
 | **MCP Config**      | [`.mcp.json`](.mcp.json) + [`.claude/settings.json`](.claude/settings.json)              | Supabase, Playwright, GitHub            |
 | **MCP Demo**        | [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)         | 3 demonstrated workflows                |
 | **Retrospective**   | [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)                                           | 2-page reflection                       |
@@ -248,7 +245,7 @@ claude mcp list
 | ------------------------ | -------------------------------------------- | ------ |
 | MCP server configuration | `.mcp.json` + `.claude/settings.json`        | ✅     |
 | Working connection       | Demonstrated queries in MCP_DEMONSTRATION.md | ✅     |
-| Complete workflow demo   | 3 workflows documented                       | ✅     |
+| Complete workflow demo   | 2 workflows documented                       | ✅     |
 | Setup documentation      | Step-by-step in MCP_DEMONSTRATION.md         | ✅     |
 | What it enables          | Section in MCP_DEMONSTRATION.md              | ✅     |
 
