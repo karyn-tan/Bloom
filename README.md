@@ -29,7 +29,7 @@
 | **Skill (active)**  | [`.claude/skills/tdd-feature/SKILL.md`](.claude/skills/tdd-feature/SKILL.md)             | Active skill loaded by Claude Code      |
 | **Session Log**     | [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md) | 3 tasks executed with TDD               |
 | **MCP Config**      | [`.mcp.json`](.mcp.json) + [`.claude/settings.json`](.claude/settings.json)              | Supabase, Playwright, GitHub            |
-| **MCP Demo**        | [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)         | 2 demonstrated workflows                |
+| **MCP Demo**        | [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)         | 3 demonstrated workflows                |
 | **Retrospective**   | [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)                                           | 2-page reflection                       |
 
 ---
