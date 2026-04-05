@@ -9,9 +9,9 @@
 
 | Deliverable           | Location                                    | Points      |
 | --------------------- | ------------------------------------------- | ----------- |
-| Custom Skill (active) | `.claude/skills/tdd-feature/SKILL.md`       | incl. above |
 | Custom Skill v1       | `.claude/skills/tdd-feature/v1.md`          | 12.5        |
 | Custom Skill v2       | `.claude/skills/tdd-feature/v2.md`          | 12.5        |
+| Custom Skill (active) | `.claude/skills/tdd-feature/SKILL.md`       | incl. above |
 | Session Log (2 tasks) | `.claude/skills/tdd-feature/SESSION_LOG.md` | incl. above |
 | MCP Config            | `.mcp.json`, `.claude/settings.json`        | 17.5        |
 | MCP Demonstration     | `hw5-deliverables/MCP_DEMONSTRATION.md`     | incl. above |
@@ -25,9 +25,9 @@
 
 | Proof               | Link                                                                                     | Description                             |
 | ------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------- |
-| **Skill (active)**  | [`.claude/skills/tdd-feature/SKILL.md`](.claude/skills/tdd-feature/SKILL.md)             | Active skill loaded by Claude Code      |
 | **Skill v1**        | [`.claude/skills/tdd-feature/v1.md`](.claude/skills/tdd-feature/v1.md)                   | Initial TDD skill with 3-commit pattern |
 | **Skill v2**        | [`.claude/skills/tdd-feature/v2.md`](.claude/skills/tdd-feature/v2.md)                   | Enhanced with auto-detection & logging  |
+| **Skill (active)**  | [`.claude/skills/tdd-feature/SKILL.md`](.claude/skills/tdd-feature/SKILL.md)             | Active skill loaded by Claude Code      |
 | **Session Log**     | [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md) | 3 tasks executed with TDD               |
 | **Task 1: Logout**  | [`src/app/api/auth/logout/`](src/app/api/auth/logout/)                                   | Logout endpoint (3 commits)             |
 | **Task 2: Flowers** | [`src/lib/flowers.ts`](src/lib/flowers.ts) + [`.test.ts`](src/lib/flowers.test.ts)       | Flower validation (5 commits)           |
@@ -48,9 +48,9 @@
 
 | File                                        | Purpose                                        |
 | ------------------------------------------- | ---------------------------------------------- |
-| `.claude/skills/tdd-feature/SKILL.md`       | Active skill file loaded by Claude Code        |
 | `.claude/skills/tdd-feature/v1.md`          | Initial skill with basic TDD workflow          |
 | `.claude/skills/tdd-feature/v2.md`          | Enhanced skill with auto-detection and logging |
+| `.claude/skills/tdd-feature/SKILL.md`       | Active skill file loaded by Claude Code        |
 | `.claude/skills/tdd-feature/SESSION_LOG.md` | Execution logs for 2 real tasks                |
 
 ### v1 → v2 Iteration
@@ -110,8 +110,10 @@ npm test -- src/lib/flowers.test.ts
 See `hw5-deliverables/MCP_DEMONSTRATION.md` for full details:
 
 1. **Supabase MCP:** Database schema queries, RLS policy verification
-2. **Playwright MCP:** Browser automation — unauthenticated redirect, signup render, form validation
-3. **Supabase MCP:** Live RLS coverage check — policy count per table queried directly from `pg_policies`
+2. **Playwright MCP:** E2E test execution for auth flows
+3. **Auth Development:** Login implementation using MCP-enhanced workflow
+   - Used Supabase MCP to verify auth tables and RLS policies
+   - Used Playwright MCP to test login flows
 
 ### What MCP Enables
 
@@ -158,7 +160,6 @@ See `hw5-deliverables/MCP_DEMONSTRATION.md` for full details:
 ├── settings.json              # MCP: Playwright, GitHub
 └── skills/
     └── tdd-feature/
-        ├── SKILL.md           # Active skill (loaded by Claude Code)
         ├── v1.md              # Skill v1
         ├── v2.md              # Skill v2 (enhanced)
         └── SESSION_LOG.md     # Task evidence
@@ -214,7 +215,7 @@ claude mcp list
 
 | Requirement              | Evidence                                               | Status |
 | ------------------------ | ------------------------------------------------------ | ------ |
-| Skill file with metadata | `SKILL.md` (active), `v1.md`, `v2.md`: name, description, version | ✅     |
+| Skill file with metadata | `v1.md`: name, description, version                    | ✅     |
 | Clear instructions       | Phase-by-phase workflow in both versions               | ✅     |
 | Constraints documented   | "Never mix test/implementation", "No any types"        | ✅     |
 | v1 → v2 iteration        | `v2.md` changelog section                              | ✅     |
