@@ -4,60 +4,6 @@ import { getSupabaseEnv } from '@/lib/config';
 import type { Database } from '@/types/supabase';
 
 /**
- * Cookie handler interface
- */
-interface CookieHandler {
-  getAll: () => { name: string; value: string }[];
-  setAll: (
-    cookies: { name: string; value: string; options?: Record<string, unknown> }[],
-  ) => void;
-}
-
-/**
- * Creates a cookie handler from a NextRequest
- * @param request - The NextRequest object
- * @returns CookieHandler implementation
- */
-function createCookieHandler(request: NextRequest): CookieHandler {
-  return {
-    getAll: () => {
-      const cookieHeader = request.headers.get('cookie') || '';
-      if (!cookieHeader) return [];
-      return cookieHeader.split(';').map((cookie) => {
-        const [name, ...rest] = cookie.trim().split('=');
-        return { name: name || '', value: rest.join('=') };
-      });
-    },
-    setAll: () => {
-      // Cookies are handled via response in route handlers
-    },
-  };
-}
-
-/**
- * Creates a cookie handler from a NextResponse
- * @param response - The NextResponse object
- * @returns CookieHandler implementation that sets cookies
- */
-function createResponseCookieHandler(response: NextResponse): CookieHandler {
-  return {
-    getAll: () => [],
-    setAll: (cookiesToSet) => {
-      cookiesToSet.forEach(({ name, value, options }) => {
-        const cookieValue = `${name}=${value}`;
-        const cookieOptions = Object.entries(options || {})
-          .map(([key, val]) => `${key}=${val}`)
-          .join('; ');
-        response.headers.append(
-          'Set-Cookie',
-          `${cookieValue}; ${cookieOptions}`,
-        );
-      });
-    },
-  };
-}
-
-/**
  * Creates a Supabase server client for use in API routes
  * @param request - The NextRequest object
  * @returns Supabase client instance
@@ -83,11 +29,25 @@ export function createClient(
 
   const cookieHandler = response
     ? {
-        getAll: () => createCookieHandler(request).getAll(),
-        setAll: (cookies: { name: string; value: string; options?: Record<string, unknown> }[]) =>
-          createResponseCookieHandler(response).setAll(cookies),
+        getAll: () => request.cookies.getAll(),
+        setAll: (
+          cookiesToSet: {
+            name: string;
+            value: string;
+            options?: Record<string, unknown>;
+          }[],
+        ) => {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
       }
-    : createCookieHandler(request);
+    : {
+        getAll: () => request.cookies.getAll(),
+        setAll: () => {
+          // Cookies are handled via response in route handlers
+        },
+      };
 
   return createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,

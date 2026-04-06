@@ -27,10 +27,10 @@ export function GoogleSignInButton() {
       type="button"
       onClick={handleGoogleSignIn}
       disabled={isLoading}
-      className="w-full flex justify-center py-2 px-4 border-2 border-border text-sm font-medium text-ink bg-surface shadow-[3px_3px_0px_var(--color-border)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
+      className="w-full flex justify-center items-center gap-2 py-3 px-4 border-2 border-border text-sm font-bold text-ink bg-bg shadow-[4px_4px_0px_var(--color-border)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
     >
       <svg
-        className="h-5 w-5 mr-2"
+        className="h-5 w-5"
         viewBox="0 0 24 24"
         width="24"
         height="24"
@@ -53,7 +53,7 @@ export function GoogleSignInButton() {
           fill="#EA4335"
         />
       </svg>
-      Continue with Google
+      Google
     </button>
   );
 }

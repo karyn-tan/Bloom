@@ -87,7 +87,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {serverError && (
         <div
           className="p-3 bg-accent-red text-surface text-sm border-2 border-border"
@@ -98,7 +98,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-ink">
+        <label
+          htmlFor="email"
+          className="block text-sm font-bold text-ink uppercase tracking-wide mb-1"
+        >
           Email
         </label>
         <input
@@ -109,12 +112,16 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           onChange={handleChange}
           onBlur={handleBlur}
           disabled={isSubmitting}
-          className="mt-1 block w-full px-3 py-2 border-2 border-border bg-surface text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-teal"
+          className="block w-full px-3 py-2.5 border-2 border-border bg-bg text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:border-accent-teal"
           aria-invalid={touched.email && !!errors.email}
           aria-describedby={errors.email ? 'email-error' : undefined}
+          placeholder="you@example.com"
         />
         {touched.email && errors.email && (
-          <p id="email-error" className="mt-1 text-sm text-accent-red font-medium">
+          <p
+            id="email-error"
+            className="mt-1 text-sm text-accent-red font-medium"
+          >
             {errors.email}
           </p>
         )}
@@ -123,7 +130,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-ink"
+          className="block text-sm font-bold text-ink uppercase tracking-wide mb-1"
         >
           Password
         </label>
@@ -135,12 +142,16 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           onChange={handleChange}
           onBlur={handleBlur}
           disabled={isSubmitting}
-          className="mt-1 block w-full px-3 py-2 border-2 border-border bg-surface text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-teal"
+          className="block w-full px-3 py-2.5 border-2 border-border bg-bg text-ink disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:border-accent-teal"
           aria-invalid={touched.password && !!errors.password}
           aria-describedby={errors.password ? 'password-error' : undefined}
+          placeholder="••••••••"
         />
         {touched.password && errors.password && (
-          <p id="password-error" className="mt-1 text-sm text-accent-red font-medium">
+          <p
+            id="password-error"
+            className="mt-1 text-sm text-accent-red font-medium"
+          >
             {errors.password}
           </p>
         )}
@@ -149,16 +160,16 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <div className="flex justify-end">
         <Link
           href="/forgot-password"
-          className="text-sm font-medium text-accent-teal"
+          className="text-sm font-bold text-accent-teal hover:underline"
         >
-          Forgot your password?
+          Forgot password?
         </Link>
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex justify-center py-2 px-4 border-2 border-border text-sm font-medium text-surface bg-accent-red shadow-[3px_3px_0px_var(--color-border)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
+        className="w-full flex justify-center py-3 px-4 border-2 border-border text-sm font-bold text-surface bg-accent-red shadow-[4px_4px_0px_var(--color-border)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
         {isSubmitting ? 'Signing in...' : 'Sign in'}
       </button>
