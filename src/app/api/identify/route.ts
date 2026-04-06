@@ -75,7 +75,8 @@ export async function POST(request: NextRequest) {
     identified = await identifyFlowers(buffer, 'bouquet.jpg');
   } catch (err) {
     await supabase.storage.from('flower-images').remove([storagePath]);
-    console.error('PlantNet identification failed:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('[Identify] PlantNet FAILED:', msg);
     return NextResponse.json(
       {
         error:
@@ -106,7 +107,8 @@ export async function POST(request: NextRequest) {
       topFlower.common_name,
     );
   } catch (err) {
-    console.error('Gemini care tip generation failed:', err);
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('Gemini care tip generation failed:', message);
   }
 
   // 7. Save scan with single flower + care tips

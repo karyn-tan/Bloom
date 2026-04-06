@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { getGeminiEnv } from '@/lib/config';
 
 const GEMINI_API_URL =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 export const careTipSchema = z.object({
   common_name: z.string(),
