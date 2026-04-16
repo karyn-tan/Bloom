@@ -30,7 +30,6 @@ export function FlowerCard({
       <div className="flex items-start justify-between gap-3 mb-2">
         <div>
           <h3 className="text-lg font-extrabold text-ink">{commonName}</h3>
-          <p className="text-sm text-muted italic">{scientificName}</p>
         </div>
         <ConfidenceBadge confidence={confidence} />
       </div>

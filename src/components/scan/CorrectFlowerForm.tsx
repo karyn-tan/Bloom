@@ -67,13 +67,6 @@ export function CorrectFlowerForm({
         required
         className="border-[2px] border-border bg-bg px-2 py-1 text-sm font-medium text-ink focus:outline-none focus:border-coral"
       />
-      <input
-        type="text"
-        value={scientificName}
-        onChange={(e) => setScientificName(e.target.value)}
-        placeholder="Scientific name"
-        className="border-[2px] border-border bg-bg px-2 py-1 text-sm font-medium text-ink focus:outline-none focus:border-coral italic"
-      />
       {error ? <p className="text-xs text-coral font-bold">{error}</p> : null}
       <div className="flex gap-2">
         <button

@@ -232,9 +232,6 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
                 <h1 className="text-2xl font-black text-ink uppercase tracking-tight">
                   {flower.common_name}
                 </h1>
-                <p className="text-sm text-muted italic font-medium">
-                  {flower.scientific_name}
-                </p>
                 <CorrectFlowerForm
                   scanId={scan.id}
                   currentCommonName={flower.common_name}
