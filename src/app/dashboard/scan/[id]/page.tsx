@@ -168,12 +168,14 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
             <ArrowLeftIcon className="w-4 h-4" />
             Back to Dashboard
           </Link>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border shadow-[3px_3px_0px_0px_var(--color-border)]">
-            <SparklesIcon className="w-4 h-4 text-ink" />
-            <span className="text-xs font-black uppercase tracking-wider text-ink">
-              Successfully Identified
-            </span>
-          </div>
+          {searchParams.new === '1' && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border shadow-[3px_3px_0px_0px_var(--color-border)]">
+              <SparklesIcon className="w-4 h-4 text-ink" />
+              <span className="text-xs font-black uppercase tracking-wider text-ink">
+                Successfully Identified
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Uploaded photo */}
