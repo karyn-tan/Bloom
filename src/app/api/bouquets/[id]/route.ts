@@ -34,6 +34,7 @@ export async function DELETE(
     .from('scans')
     .select('image_url')
     .eq('id', bouquet.scan_id)
+    .eq('user_id', userId)
     .single();
 
   if (scanError || !scan) {
@@ -45,18 +46,7 @@ export async function DELETE(
   }
 
   // Delete the bouquet row (cascades to care_log, reminders, adaptive_tip_cache)
-  const { error: deleteError } = await (
-    supabase as unknown as {
-      from: (t: string) => {
-        delete: () => {
-          eq: (
-            c: string,
-            v: string,
-          ) => { eq: (c: string, v: string) => Promise<{ error: unknown }> };
-        };
-      };
-    }
-  )
+  const { error: deleteError } = await supabase
     .from('bouquets')
     .delete()
     .eq('id', id)

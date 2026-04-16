@@ -48,30 +48,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  const { data, error: insertError } = await (
-    supabase as unknown as {
-      from: (t: string) => {
-        insert: (
-          row: Record<string, unknown>,
-        ) => Promise<{ data: unknown[] | null; error: unknown }>;
-      };
-    }
-  )
+  const { data, error: insertError } = await supabase
     .from('bouquets')
     .insert({
       scan_id,
       user_id: userId,
       name,
       reminder_opt_in: reminder_opt_in ?? false,
-    });
+    })
+    .select()
+    .single();
 
-  if (insertError || !data || data.length === 0) {
-    console.error('[bouquets] insert error:', insertError);
+  if (insertError || !data) {
+    console.error('[bouquets] insert error:', insertError?.message);
     return NextResponse.json(
       { error: 'Failed to create bouquet' },
       { status: 500 },
     );
   }
 
-  return NextResponse.json({ bouquet: data[0] }, { status: 201 });
+  return NextResponse.json({ bouquet: data }, { status: 201 });
 }

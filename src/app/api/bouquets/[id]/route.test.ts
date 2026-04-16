@@ -40,7 +40,9 @@ vi.mock('@/lib/supabase', () => ({
       return {
         select: () => ({
           eq: () => ({
-            single: mockScanSingle,
+            eq: () => ({
+              single: mockScanSingle,
+            }),
           }),
         }),
       };

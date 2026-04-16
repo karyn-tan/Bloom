@@ -27,7 +27,13 @@ vi.mock('@/lib/supabase', () => ({
           }),
         };
       }
-      return { insert: mockInsert };
+      return {
+        insert: () => ({
+          select: () => ({
+            single: mockInsert,
+          }),
+        }),
+      };
     },
   })),
 }));
@@ -104,16 +110,14 @@ describe('POST /api/bouquets', () => {
   it('should return 201 with bouquet data on success', async () => {
     mockSingle.mockResolvedValue({ data: { id: VALID_UUID }, error: null });
     mockInsert.mockResolvedValue({
-      data: [
-        {
-          id: 'bouq-1',
-          name: 'Kitchen table',
-          scan_id: VALID_UUID,
-          user_id: 'user-abc',
-          added_at: '2026-04-16T00:00:00Z',
-          reminder_opt_in: false,
-        },
-      ],
+      data: {
+        id: 'bouq-1',
+        name: 'Kitchen table',
+        scan_id: VALID_UUID,
+        user_id: 'user-abc',
+        added_at: '2026-04-16T00:00:00Z',
+        reminder_opt_in: false,
+      },
       error: null,
     });
     const response = await POST(
@@ -130,6 +134,7 @@ describe('POST /api/bouquets', () => {
     mockInsert.mockResolvedValue({
       data: null,
       error: { message: 'db error' },
+      // insert().select().single() returns null data on error
     });
     const response = await POST(
       makeRequest({ scan_id: VALID_UUID, name: 'Kitchen table' }),
