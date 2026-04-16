@@ -6,6 +6,7 @@ import { generateCareTip, assessFreshness } from '@/lib/gemini';
 import type { Database } from '@/types/supabase';
 
 type ScansInsert = Database['public']['Tables']['scans']['Insert'];
+type BouquetsInsert = Database['public']['Tables']['bouquets']['Insert'];
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png'];
@@ -131,13 +132,17 @@ export async function POST(request: NextRequest) {
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: insertError } = await (supabase as any).from('scans').insert({
+  const scanInsertPayload: ScansInsert = {
     id: scanId,
     user_id: userId,
     image_url: storagePath,
     flowers,
-  });
+  };
+  const { error: insertError } = (await supabase
+    .from('scans')
+    .insert(scanInsertPayload as never)) as unknown as {
+    error: { message: string } | null;
+  };
 
   if (insertError) {
     console.error('Scan insert failed:', insertError.message);
@@ -147,15 +152,17 @@ export async function POST(request: NextRequest) {
 
   // Auto-create a bouquet for this scan using the flower's common name
   const bouquetName = topFlower.common_name;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: bouquetInsertError } = await (supabase as any)
+  const bouquetInsertPayload: BouquetsInsert = {
+    scan_id: scanId,
+    user_id: userId,
+    name: bouquetName,
+    reminder_opt_in: false,
+  };
+  const { error: bouquetInsertError } = (await supabase
     .from('bouquets')
-    .insert({
-      scan_id: scanId,
-      user_id: userId,
-      name: bouquetName,
-      reminder_opt_in: false,
-    });
+    .insert(bouquetInsertPayload as never)) as unknown as {
+    error: { message: string } | null;
+  };
 
   if (bouquetInsertError) {
     console.error('Bouquet auto-create failed:', bouquetInsertError.message);

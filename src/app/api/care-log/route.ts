@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
+import type { Database } from '@/types/supabase';
+
+type CareLogInsert = Database['public']['Tables']['care_log']['Insert'];
 
 const createCareLogSchema = z.object({
   bouquet_id: z.string().uuid(),
@@ -47,16 +50,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error: insertError } = await (supabase as any)
+  const insertPayload: CareLogInsert = { bouquet_id, user_id: userId, action };
+  type CareLogRow = Database['public']['Tables']['care_log']['Row'];
+  type InsertResult = {
+    data: CareLogRow | null;
+    error: { message: string } | null;
+  };
+  const { data, error: insertError } = (await supabase
     .from('care_log')
-    .insert({
-      bouquet_id,
-      user_id: userId,
-      action,
-    })
+    .insert(insertPayload as never)
     .select()
-    .single();
+    .single()) as unknown as InsertResult;
 
   if (insertError || !data) {
     console.error('[care-log] insert error:', insertError?.message);

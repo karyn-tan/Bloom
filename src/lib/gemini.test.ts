@@ -179,4 +179,58 @@ describe('assessFreshness', () => {
       assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
     ).rejects.toThrow();
   });
+
+  it('throws when Gemini returns freshness below range (0)', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"freshness": 0}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow();
+  });
+
+  it('throws when Gemini returns non-integer freshness (3.5)', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"freshness": 3.5}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow();
+  });
+
+  it('throws when Gemini response has no candidates', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [],
+        }),
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow();
+  });
 });
