@@ -158,6 +158,7 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
       .from('care_log')
       .select('logged_at')
       .eq('bouquet_id', bouquet.id)
+      .eq('user_id', user.id)
       .eq('action', 'water')
       .order('logged_at', { ascending: false })
       .limit(1)
