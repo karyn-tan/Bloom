@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
 import { identifyFlowers } from '@/lib/plantnet';
-import { generateCareTip } from '@/lib/gemini';
+import { generateCareTip, assessFreshness } from '@/lib/gemini';
 import type { Database } from '@/types/supabase';
 
 type ScansInsert = Database['public']['Tables']['scans']['Insert'];
@@ -111,12 +111,22 @@ export async function POST(request: NextRequest) {
     console.error('Gemini care tip generation failed:', message);
   }
 
-  // 7. Save scan with single flower + care tips
+  // 7. Assess visual freshness via Gemini Vision (non-fatal if it fails)
+  let initialDroplets = 5;
+  try {
+    initialDroplets = await assessFreshness(buffer, file.type);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('Gemini freshness assessment failed:', message);
+  }
+
+  // 8. Save scan with single flower + care tips
   const flowers = [
     {
       scientific_name: topFlower.scientific_name,
       common_name: topFlower.common_name,
       confidence: topFlower.confidence,
+      initial_droplets: initialDroplets,
       care,
     },
   ];
