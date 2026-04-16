@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
@@ -9,7 +9,7 @@ const createBouquetSchema = z.object({
   reminder_opt_in: z.boolean().optional(),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const userId = await getAuthenticatedUserId(request);
   if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,7 +48,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  const { data, error: insertError } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error: insertError } = await (supabase as any)
     .from('bouquets')
     .insert({
       scan_id,

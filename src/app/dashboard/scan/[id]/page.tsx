@@ -7,6 +7,7 @@ import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
 import { HeartIcon } from '@/components/icons/HeartIcon';
 import { DropletIcon } from '@/components/icons/DropletIcon';
 import { careTipSchema } from '@/lib/gemini';
+import { CorrectFlowerForm } from '@/components/scan/CorrectFlowerForm';
 import type { Database } from '@/types/supabase';
 
 type ScanRow = Database['public']['Tables']['scans']['Row'];
@@ -157,21 +158,21 @@ export default async function ScanDetailPage({ params }: PageProps) {
       <div className="w-full h-3 bg-mint" />
 
       <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Back link */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-muted hover:text-ink font-bold mb-8 transition-colors"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Back to Dashboard
-        </Link>
-
-        {/* Success badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border mb-6 shadow-[3px_3px_0px_0px_var(--color-border)]">
-          <SparklesIcon className="w-4 h-4 text-ink" />
-          <span className="text-xs font-black uppercase tracking-wider text-ink">
-            Successfully Identified
-          </span>
+        {/* Back link + success badge */}
+        <div className="flex items-center justify-between mb-8">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 text-muted hover:text-ink font-bold transition-colors"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            Back to Dashboard
+          </Link>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border shadow-[3px_3px_0px_0px_var(--color-border)]">
+            <SparklesIcon className="w-4 h-4 text-ink" />
+            <span className="text-xs font-black uppercase tracking-wider text-ink">
+              Successfully Identified
+            </span>
+          </div>
         </div>
 
         {/* Uploaded photo */}
@@ -231,6 +232,11 @@ export default async function ScanDetailPage({ params }: PageProps) {
                 <p className="text-sm text-muted italic font-medium">
                   {flower.scientific_name}
                 </p>
+                <CorrectFlowerForm
+                  scanId={scan.id}
+                  currentCommonName={flower.common_name}
+                  currentScientificName={flower.scientific_name}
+                />
               </div>
             </div>
             <ConfidenceBadge confidence={flower.confidence} />

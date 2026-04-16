@@ -137,7 +137,8 @@ export async function POST(request: NextRequest) {
 
   // Auto-create a bouquet for this scan using the flower's common name
   const bouquetName = topFlower.common_name;
-  const { error: bouquetInsertError } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: bouquetInsertError } = await (supabase as any)
     .from('bouquets')
     .insert({
       scan_id: scanId,

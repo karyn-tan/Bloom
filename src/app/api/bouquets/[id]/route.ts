@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   const userId = await getAuthenticatedUserId(request);
@@ -23,6 +23,7 @@ export async function DELETE(
     .select('scan_id')
     .eq('id', id)
     .eq('user_id', userId)
+    .returns<{ scan_id: string }[]>()
     .single();
 
   if (bouquetError || !bouquet) {
@@ -33,8 +34,9 @@ export async function DELETE(
   const { data: scan, error: scanError } = await supabase
     .from('scans')
     .select('image_url')
-    .eq('id', bouquet.scan_id)
+    .eq('id', (bouquet as { scan_id: string }).scan_id)
     .eq('user_id', userId)
+    .returns<{ image_url: string }[]>()
     .single();
 
   if (scanError || !scan) {
@@ -63,9 +65,10 @@ export async function DELETE(
   // Remove image from storage (non-fatal — row is already deleted)
   // image_url is stored as a bucket-relative path (e.g. "{userId}/{scanId}.jpg").
   // Strip any accidental full URL prefix so storage.remove() gets the bare path.
-  const storagePath = scan.image_url.includes('/flower-images/')
-    ? scan.image_url.split('/flower-images/')[1]
-    : scan.image_url;
+  const imageUrl = (scan as { image_url: string }).image_url;
+  const storagePath = imageUrl.includes('/flower-images/')
+    ? imageUrl.split('/flower-images/')[1]
+    : imageUrl;
   const { error: storageError } = await supabase.storage
     .from('flower-images')
     .remove([storagePath]);
