@@ -180,11 +180,11 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
 
         {/* Uploaded photo */}
         {imageUrl && (
-          <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#FFD966] overflow-hidden mb-8">
+          <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#FFD966] overflow-hidden mb-8 aspect-square">
             <img
               src={imageUrl}
               alt={flower.common_name}
-              className="w-full max-h-72 object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
         )}
