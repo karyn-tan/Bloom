@@ -91,6 +91,59 @@ Return ONLY valid JSON in this exact format:
   return careTipSchema.parse(parsed);
 }
 
+const freshnessResponseSchema = z.object({
+  freshness: z.number().int().min(1).max(5),
+});
+
+function buildImagePart(imageBuffer: Buffer, mimeType: string) {
+  return {
+    inline_data: {
+      mime_type: mimeType,
+      data: imageBuffer.toString('base64'),
+    },
+  };
+}
+
+/**
+ * Uses Gemini Vision to assess the visual freshness of flowers in a bouquet photo.
+ * Returns a freshness score 1-5 (5=very fresh, 1=wilting).
+ * Falls back to 5 on any error (non-fatal).
+ */
+export async function assessFreshness(
+  imageBuffer: Buffer,
+  mimeType: string,
+): Promise<number> {
+  const env = getGeminiEnv();
+  const url = `${GEMINI_API_URL}?key=${env.GEMINI_API_KEY}`;
+
+  const prompt = `Look at this bouquet photo. On a scale of 1 to 5, how fresh do the flowers appear? 5 = just cut, very fresh and perky. 1 = wilting, drooping, or browning. Return ONLY valid JSON: { "freshness": <number 1-5> }`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [buildImagePart(imageBuffer, mimeType), { text: prompt }],
+        },
+      ],
+      generationConfig: { response_mime_type: 'application/json' },
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini freshness API error: ${response.status}`);
+  }
+
+  const json: unknown = await response.json();
+  const envelope = geminiResponseSchema.parse(json);
+  const rawText = envelope.candidates[0]?.content.parts[0]?.text;
+  if (!rawText) throw new Error('Empty freshness response');
+
+  const parsed = freshnessResponseSchema.parse(JSON.parse(rawText));
+  return parsed.freshness;
+}
+
 export class GeminiValidationError extends Error {
   constructor(
     message: string,
