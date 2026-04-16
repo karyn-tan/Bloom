@@ -66,6 +66,24 @@ describe('computeHearts', () => {
   it('returns 2 when lifespanMin=0 (invalid)', () => {
     expect(computeHearts(3, 0)).toBe(2);
   });
+
+  // --- exact 2/3 boundary: pct = (15-10)/15 = 1/3 exactly → should return 1 ---
+  it('returns 1 when ageInDays=10, lifespanMin=15 (pct=1/3 exactly, at ONE_THIRD boundary)', () => {
+    // pct = (15 - 10) / 15 = 0.333... which is <= ONE_THIRD → returns 1
+    expect(computeHearts(10, 15)).toBe(1);
+  });
+
+  // --- exact 2/3 boundary: pct = (15-5)/15 = 2/3 exactly → pct <= TWO_THIRDS → returns 2 ---
+  it('returns 2 when ageInDays=5, lifespanMin=15 (pct=2/3 exactly, at TWO_THIRDS boundary)', () => {
+    // pct = (15 - 5) / 15 = 0.666... which is <= TWO_THIRDS → returns 2
+    expect(computeHearts(5, 15)).toBe(2);
+  });
+
+  // --- just above 2/3: pct > TWO_THIRDS → returns 3 ---
+  it('returns 3 when ageInDays=4, lifespanMin=15 (pct above TWO_THIRDS)', () => {
+    // pct = (15 - 4) / 15 ≈ 0.733 which is > TWO_THIRDS → returns 3
+    expect(computeHearts(4, 15)).toBe(3);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -107,6 +125,26 @@ describe('computeDroplets', () => {
 
   it('returns 4 when no watering logged and bouquet added 3 days ago with interval=2', () => {
     expect(computeDroplets(null, daysAgo(3), 2, NOW)).toBe(4);
+  });
+
+  // --- boundary: initialDroplets ---
+  it('returns 1 when no watering logged, bouquet added today, initialDroplets=1 (lower boundary)', () => {
+    expect(computeDroplets(null, daysAgo(0), 2, NOW, 1)).toBe(1);
+  });
+
+  it('returns 5 when no watering logged, bouquet added today, initialDroplets=5 (upper boundary)', () => {
+    expect(computeDroplets(null, daysAgo(0), 2, NOW, 5)).toBe(5);
+  });
+
+  // --- still within interval ---
+  it('returns 5 when watered 1 day ago with interval=3 (still within interval)', () => {
+    expect(computeDroplets(daysAgo(1), daysAgo(10), 3, NOW)).toBe(5);
+  });
+
+  // --- clock skew: reference timestamp is in the future ---
+  it('returns 5 when lastWateredAt is in the future (negative daysSince, clock skew)', () => {
+    const futureDate = new Date(NOW.getTime() + 2 * 86_400_000).toISOString();
+    expect(computeDroplets(futureDate, daysAgo(10), 2, NOW)).toBe(5);
   });
 });
 

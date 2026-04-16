@@ -155,4 +155,24 @@ describe('assessFreshness', () => {
       assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
     ).rejects.toThrow();
   });
+
+  it('throws when Gemini returns invalid JSON in the freshness response', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: 'not-valid-json{{{' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow();
+  });
 });
