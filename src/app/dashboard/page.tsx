@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getUserDashboardState, getUserBouquets } from '@/lib/dashboard';
 import { EmptyDashboard } from '@/components/dashboard/EmptyDashboard';
-import { ScanGrid } from '@/components/dashboard/ScanGrid';
 import { BouquetTile } from '@/components/dashboard/BouquetTile';
 
 const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
@@ -147,8 +146,6 @@ export default async function DashboardPage() {
           )}
         </section>
 
-        {/* Scan grid */}
-        <ScanGrid scans={state.scans} />
       </div>
     </main>
   );
