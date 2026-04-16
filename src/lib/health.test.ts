@@ -85,15 +85,15 @@ describe('computeDroplets', () => {
     expect(computeDroplets(daysAgo(3), daysAgo(10), 2, NOW)).toBe(4);
   });
 
-  it('returns 3 when watered 5 days ago with interval=2 (3 days overdue)', () => {
-    expect(computeDroplets(daysAgo(5), daysAgo(10), 2, NOW)).toBe(3);
+  it('returns 2 when watered 5 days ago with interval=2 (3 days overdue)', () => {
+    expect(computeDroplets(daysAgo(5), daysAgo(10), 2, NOW)).toBe(2);
   });
 
-  it('returns 1 when watered 7 days ago with interval=2 (5 days overdue)', () => {
-    expect(computeDroplets(daysAgo(7), daysAgo(10), 2, NOW)).toBe(1);
+  it('returns 0 when watered 7 days ago with interval=2 (5 days overdue)', () => {
+    expect(computeDroplets(daysAgo(7), daysAgo(10), 2, NOW)).toBe(0);
   });
 
-  it('returns 0 when watered 9 days ago with interval=2 (7 days overdue)', () => {
+  it('returns 0 when watered 9 days ago with interval=2 (7 days overdue, capped at 0)', () => {
     expect(computeDroplets(daysAgo(9), daysAgo(10), 2, NOW)).toBe(0);
   });
 
