@@ -8,6 +8,9 @@ import { HeartIcon } from '@/components/icons/HeartIcon';
 import { DropletIcon } from '@/components/icons/DropletIcon';
 import { careTipSchema } from '@/lib/gemini';
 import { CorrectFlowerForm } from '@/components/scan/CorrectFlowerForm';
+import { CareActionButtons } from '@/components/scan/CareActionButtons';
+import { computeHealthState } from '@/lib/health';
+import { computeBouquetStatus } from '@/lib/dashboard';
 import type { Database } from '@/types/supabase';
 
 type ScanRow = Database['public']['Tables']['scans']['Row'];
@@ -16,6 +19,7 @@ const flowerEntrySchema = z.object({
   scientific_name: z.string(),
   common_name: z.string(),
   confidence: z.number(),
+  initial_droplets: z.number().int().min(1).max(5).optional(),
   care: careTipSchema.nullable(),
 });
 
@@ -133,12 +137,60 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
 
   const scan = rawScan as ScanRow;
 
+  // Find bouquet linked to this scan
+  const bouquetResult = await supabase
+    .from('bouquets')
+    .select('id, added_at')
+    .eq('scan_id', params.id)
+    .eq('user_id', user.id)
+    .order('added_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const bouquet = bouquetResult.data as
+    | { id: string; added_at: string }
+    | null
+    | undefined;
+
+  // Get latest watering log
+  let latestWaterLoggedAt: string | null = null;
+  if (bouquet?.id) {
+    const waterResult = await supabase
+      .from('care_log')
+      .select('logged_at')
+      .eq('bouquet_id', bouquet.id)
+      .eq('action', 'water')
+      .order('logged_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    const waterData = waterResult.data as
+      | { logged_at: string }
+      | null
+      | undefined;
+    latestWaterLoggedAt = waterData?.logged_at ?? null;
+  }
+
   // Parse the first flower from JSONB
   const flowersArray = z.array(flowerEntrySchema).safeParse(scan.flowers);
   if (!flowersArray.success || flowersArray.data.length === 0) {
     notFound();
   }
   const flower = flowersArray.data[0];
+
+  // Compute health state from real bouquet and care log data
+  const lifespanMin = flower.care?.lifespan_days.min ?? null;
+  const addedAt = bouquet?.added_at ?? scan.created_at;
+  const { ageInDays } = computeBouquetStatus(addedAt, lifespanMin);
+
+  const health = bouquet
+    ? computeHealthState({
+        ageInDays,
+        lifespanMin,
+        lastWateredAt: latestWaterLoggedAt,
+        bouquetAddedAt: bouquet.added_at,
+        waterText: flower.care?.care.water ?? '',
+        initialDroplets: flower.initial_droplets,
+      })
+    : null;
 
   // Generate signed URL for the image
   let imageUrl: string | null = null;
@@ -189,37 +241,62 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
           </div>
         )}
 
-        {/* Health indicators — static 3/3 hearts and 4/5 droplets until health system (US-14) is built */}
+        {/* Health indicators — computed from real lifespan and care log data */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#FF6B6B] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <HeartIcon filled className="w-6 h-6" />
-              <HeartIcon filled className="w-6 h-6" />
-              <HeartIcon filled className="w-6 h-6" />
+              {[0, 1, 2].map((i) => (
+                <HeartIcon
+                  key={i}
+                  filled={i < (health?.hearts ?? 3)}
+                  className="w-6 h-6"
+                />
+              ))}
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">
                 Health
               </p>
-              <p className="font-black text-ink">Good</p>
+              <p className="font-black text-ink">
+                {health?.status === 'past_peak'
+                  ? 'Past Peak'
+                  : health?.status === 'struggling'
+                    ? 'Struggling'
+                    : 'Good'}
+              </p>
             </div>
           </div>
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#74C0FC] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled={false} className="w-5 h-5" />
+              {[0, 1, 2, 3, 4].map((i) => (
+                <DropletIcon
+                  key={i}
+                  filled={i < (health?.droplets ?? 4)}
+                  className="w-5 h-5"
+                />
+              ))}
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">
                 Hydration
               </p>
-              <p className="font-black text-ink">Well Watered</p>
+              <p className="font-black text-ink">
+                {(health?.droplets ?? 4) >= 4
+                  ? 'Well Watered'
+                  : (health?.droplets ?? 4) >= 2
+                    ? 'Needs Water'
+                    : 'Very Dry'}
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Care action buttons — only shown when bouquet exists */}
+        {bouquet && (
+          <div className="mb-8">
+            <CareActionButtons bouquetId={bouquet.id} />
+          </div>
+        )}
 
         {/* Flower info */}
         <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#7CB97A] p-6 mb-8">
