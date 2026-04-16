@@ -1,6 +1,7 @@
 ---
 name: test-writer
 description: Writes Vitest unit/integration tests and Playwright E2E tests following the project's TDD red-green-refactor workflow. Invoke when: implementing a new feature (TDD mode), fixing a bug (write regression test first), or coverage is below 70%. Use: "write tests for [file or feature]".
+model: claude-opus-4-6
 tools: Read, Write, Edit, Glob, Grep, Bash, mcp__github__create_pull_request, mcp__github__create_branch, mcp__github__get_pull_request
 ---
 

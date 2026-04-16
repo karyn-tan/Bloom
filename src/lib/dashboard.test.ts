@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { computeBouquetStatus } from './dashboard';
 
 vi.mock('@/lib/supabase-server', () => ({
   createServerComponentClient: vi.fn(),
@@ -148,5 +149,45 @@ describe('getUserDashboardState', () => {
     await expect(getUserDashboardState()).rejects.toThrow('NEXT_REDIRECT');
 
     expect(redirect).toHaveBeenCalledWith('/login');
+  });
+});
+
+describe('computeBouquetStatus', () => {
+  it('should return ageInDays=0 and daysRemaining=7 when bouquet added today with lifespanMin=7', () => {
+    const addedAt = new Date().toISOString();
+    const result = computeBouquetStatus(addedAt, 7);
+    expect(result.ageInDays).toBe(0);
+    expect(result.daysRemaining).toBe(7);
+    expect(result.isPastPeak).toBe(false);
+  });
+
+  it('should return ageInDays=3 and daysRemaining=4 when bouquet added 3 days ago with lifespanMin=7', () => {
+    const addedAt = new Date(Date.now() - 3 * 86_400_000).toISOString();
+    const result = computeBouquetStatus(addedAt, 7);
+    expect(result.ageInDays).toBe(3);
+    expect(result.daysRemaining).toBe(4);
+    expect(result.isPastPeak).toBe(false);
+  });
+
+  it('should return daysRemaining=-1 and isPastPeak=true when bouquet added 8 days ago with lifespanMin=7', () => {
+    const addedAt = new Date(Date.now() - 8 * 86_400_000).toISOString();
+    const result = computeBouquetStatus(addedAt, 7);
+    expect(result.ageInDays).toBe(8);
+    expect(result.daysRemaining).toBe(-1);
+    expect(result.isPastPeak).toBe(true);
+  });
+
+  it('should return isPastPeak=true when daysRemaining is exactly 0', () => {
+    const addedAt = new Date(Date.now() - 7 * 86_400_000).toISOString();
+    const result = computeBouquetStatus(addedAt, 7);
+    expect(result.daysRemaining).toBe(0);
+    expect(result.isPastPeak).toBe(true);
+  });
+
+  it('should return isPastPeak=false and daysRemaining=null when lifespanMin is null', () => {
+    const addedAt = new Date().toISOString();
+    const result = computeBouquetStatus(addedAt, null);
+    expect(result.daysRemaining).toBeNull();
+    expect(result.isPastPeak).toBe(false);
   });
 });

@@ -1,6 +1,7 @@
 ---
 name: security-reviewer
 description: Reviews code for security vulnerabilities in this Next.js + Supabase project. Invoke when: a PR is ready for review, new API routes are added, auth logic changes, DB queries are modified, or user input handling is introduced. Use: "review [file/feature] for security issues" or "review PR #[number]".
+model: claude-opus-4-6
 tools: Read, Glob, Grep, mcp__supabase__execute_sql, mcp__supabase__list_tables, mcp__supabase__get_advisors, mcp__github__get_pull_request, mcp__github__list_pull_request_files, mcp__github__create_pull_request_review
 ---
 
