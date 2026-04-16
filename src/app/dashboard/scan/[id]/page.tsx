@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { createServerComponentClient } from '@/lib/supabase-server';
 import { CareTipSection } from '@/components/scan/CareTipSection';
 import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
 import { careTipSchema } from '@/lib/gemini';
 import type { Database } from '@/types/supabase';
 
@@ -255,6 +256,14 @@ export default async function ScanDetailPage({ params }: PageProps) {
             </div>
           )}
         </div>
+
+        {/* Save as Bouquet */}
+        <section className="mb-8">
+          <h2 className="text-xl font-black text-ink uppercase tracking-tight mb-4">
+            Save as Bouquet
+          </h2>
+          <SaveBouquetForm scanId={scan.id} />
+        </section>
 
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row gap-4">
