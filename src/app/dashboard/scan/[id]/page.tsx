@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { createServerComponentClient } from '@/lib/supabase-server';
 import { CareTipSection } from '@/components/scan/CareTipSection';
 import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
-import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
 import { HeartIcon } from '@/components/icons/HeartIcon';
 import { DropletIcon } from '@/components/icons/DropletIcon';
 import { careTipSchema } from '@/lib/gemini';
@@ -248,13 +247,17 @@ export default async function ScanDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        {/* Save as Bouquet */}
-        <section className="mb-8">
-          <h2 className="text-xl font-black text-ink uppercase tracking-tight mb-4">
-            Save as Bouquet
-          </h2>
-          <SaveBouquetForm scanId={scan.id} />
-        </section>
+        {/* Bouquet tracked confirmation */}
+        <div className="mb-8 p-4 bg-sage/10 border-[3px] border-sage flex items-center gap-3">
+          <div className="w-8 h-8 bg-sage border-[3px] border-border flex items-center justify-center flex-shrink-0">
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="font-black text-ink uppercase text-sm tracking-wider">
+            Added to your active bouquets
+          </p>
+        </div>
 
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row gap-4">

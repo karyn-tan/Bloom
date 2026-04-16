@@ -135,6 +135,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to save scan' }, { status: 500 });
   }
 
+  // Auto-create a bouquet for this scan using the flower's common name
+  const bouquetName = topFlower.common_name;
+  const { error: bouquetInsertError } = await supabase
+    .from('bouquets')
+    .insert({
+      scan_id: scanId,
+      user_id: userId,
+      name: bouquetName,
+      reminder_opt_in: false,
+    });
+
+  if (bouquetInsertError) {
+    console.error('Bouquet auto-create failed:', bouquetInsertError.message);
+    // Non-fatal: scan is saved, bouquet just wasn't auto-created
+  }
+
   return NextResponse.json({
     scan_id: scanId,
     flowers,
