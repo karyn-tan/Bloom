@@ -106,9 +106,10 @@ export const metadata = {
 
 type PageProps = {
   params: { id: string };
+  searchParams: { new?: string };
 };
 
-export default async function ScanDetailPage({ params }: PageProps) {
+export default async function ScanDetailPage({ params, searchParams }: PageProps) {
   const supabase = createServerComponentClient();
 
   const {
@@ -239,7 +240,7 @@ export default async function ScanDetailPage({ params }: PageProps) {
                 />
               </div>
             </div>
-            <ConfidenceBadge confidence={flower.confidence} />
+            {searchParams.new === '1' && <ConfidenceBadge confidence={flower.confidence} />}
           </div>
 
           {flower.care ? (

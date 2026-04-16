@@ -149,7 +149,7 @@ export default function ScanPage() {
       }
 
       const data = (await res.json()) as { scan_id: string };
-      router.push(`/dashboard/scan/${data.scan_id}`);
+      router.push(`/dashboard/scan/${data.scan_id}?new=1`);
     } catch {
       setState({
         step: 'error',
