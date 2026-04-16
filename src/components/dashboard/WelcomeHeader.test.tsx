@@ -11,8 +11,6 @@ describe('WelcomeHeader', () => {
 
   it('renders a subtitle about flower care', () => {
     render(<WelcomeHeader />);
-    expect(
-      screen.getByText(/help your flowers last longer/i),
-    ).toBeTruthy();
+    expect(screen.getByText(/help your flowers last longer/i)).toBeTruthy();
   });
 });

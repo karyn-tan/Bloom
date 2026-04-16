@@ -38,10 +38,7 @@ describe('identifyFlowers', () => {
         }),
     });
 
-    const result = await identifyFlowers(
-      Buffer.from('fake-image'),
-      'test.jpg',
-    );
+    const result = await identifyFlowers(Buffer.from('fake-image'), 'test.jpg');
 
     expect(result).toHaveLength(2);
     expect(result[0].common_name).toBe('Tulip');
@@ -67,10 +64,7 @@ describe('identifyFlowers', () => {
         }),
     });
 
-    const result = await identifyFlowers(
-      Buffer.from('fake-image'),
-      'test.jpg',
-    );
+    const result = await identifyFlowers(Buffer.from('fake-image'), 'test.jpg');
 
     expect(result[0].common_name).toBe('Alstroemeria aurea');
   });

@@ -5,9 +5,7 @@ import { ImageUploader } from './ImageUploader';
 describe('ImageUploader', () => {
   it('renders upload prompt', () => {
     render(<ImageUploader onSubmit={vi.fn()} isUploading={false} />);
-    expect(
-      screen.getByText(/upload your bouquet photo/i),
-    ).toBeTruthy();
+    expect(screen.getByText(/upload your bouquet photo/i)).toBeTruthy();
   });
 
   it('shows error for invalid file type', () => {
@@ -17,9 +15,7 @@ describe('ImageUploader', () => {
     const file = new File(['data'], 'test.gif', { type: 'image/gif' });
     fireEvent.change(input, { target: { files: [file] } });
 
-    expect(
-      screen.getByText(/please upload a jpeg or png photo/i),
-    ).toBeTruthy();
+    expect(screen.getByText(/please upload a jpeg or png photo/i)).toBeTruthy();
   });
 
   it('shows error for oversized file', () => {
@@ -48,8 +44,6 @@ describe('ImageUploader', () => {
   it('shows loading state when uploading', () => {
     render(<ImageUploader onSubmit={vi.fn()} isUploading={true} />);
     // No submit button visible in upload state without a file
-    expect(
-      screen.queryByRole('button', { name: /identifying/i }),
-    ).toBeNull();
+    expect(screen.queryByRole('button', { name: /identifying/i })).toBeNull();
   });
 });

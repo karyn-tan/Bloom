@@ -18,8 +18,6 @@ describe('SeasonalTeaser', () => {
 
   it('renders care notes for each flower', () => {
     render(<SeasonalTeaser />);
-    expect(
-      screen.getByText(/keep stems trimmed at an angle/i),
-    ).toBeTruthy();
+    expect(screen.getByText(/keep stems trimmed at an angle/i)).toBeTruthy();
   });
 });

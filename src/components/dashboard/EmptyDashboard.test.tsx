@@ -5,9 +5,7 @@ import { EmptyDashboard } from './EmptyDashboard';
 describe('EmptyDashboard', () => {
   it('renders the welcome header', () => {
     render(<EmptyDashboard />);
-    expect(
-      screen.getByRole('heading', { level: 1 }),
-    ).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1 })).toBeTruthy();
   });
 
   it('renders the how-it-works steps', () => {

@@ -56,9 +56,9 @@ describe('generateCareTip', () => {
       text: () => Promise.resolve('Internal error'),
     });
 
-    await expect(
-      generateCareTip('Rosa gallica', 'Rose'),
-    ).rejects.toThrow('Gemini API error');
+    await expect(generateCareTip('Rosa gallica', 'Rose')).rejects.toThrow(
+      'Gemini API error',
+    );
   });
 
   it('throws GeminiValidationError on invalid JSON from Gemini', async () => {
@@ -76,9 +76,9 @@ describe('generateCareTip', () => {
         }),
     });
 
-    await expect(
-      generateCareTip('Rosa gallica', 'Rose'),
-    ).rejects.toThrow(GeminiValidationError);
+    await expect(generateCareTip('Rosa gallica', 'Rose')).rejects.toThrow(
+      GeminiValidationError,
+    );
   });
 
   it('throws on Zod validation failure', async () => {
@@ -98,8 +98,6 @@ describe('generateCareTip', () => {
         }),
     });
 
-    await expect(
-      generateCareTip('Rosa gallica', 'Rose'),
-    ).rejects.toThrow();
+    await expect(generateCareTip('Rosa gallica', 'Rose')).rejects.toThrow();
   });
 });

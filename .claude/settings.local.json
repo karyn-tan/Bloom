@@ -9,11 +9,10 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(xargs -I {} cat /Users/chocolate/Downloads/Bloom-1/supabase/migrations/{})",
-      "Bash(grep \"\\\\.ts$\")"
+      "Bash(grep \"\\\\.ts$\")",
+      "Bash(git stash:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "supabase"
-  ]
+  "enabledMcpjsonServers": ["supabase"]
 }

@@ -28,8 +28,6 @@ describe('Navbar', () => {
 
   it('renders the profile dropdown', () => {
     render(<Navbar user={mockUser} />);
-    expect(
-      screen.getByRole('button', { name: /profile/i }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: /profile/i })).toBeTruthy();
   });
 });

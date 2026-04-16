@@ -24,19 +24,19 @@ When the user invokes `/create-pr`, follow this workflow:
 
 Match scopes and feature descriptions to user stories from the PRD:
 
-| Scope | User Stories |
-|-------|-------------|
-| auth | US-1 (signup), US-2 (Google OAuth), US-3 (login/redirect) |
-| scan | US-4 (photo upload), US-5 (identification), US-6 (correction) |
-| care | US-7 (care card), US-8 (lifespan), US-9 (fun facts) |
-| bouquet | US-10 (multi-bouquet management) |
-| history | US-11 (scan history) |
-| reminders | US-12 (email reminders) |
-| recommendations | US-13 (seasonal recommendations) |
-| health | US-14 (hearts + droplets) |
-| careLog | US-15 (adaptive care tips) |
-| rls | Security requirement 5.2 |
-| ratelimit | Security requirement 5.1 |
+| Scope           | User Stories                                                  |
+| --------------- | ------------------------------------------------------------- |
+| auth            | US-1 (signup), US-2 (Google OAuth), US-3 (login/redirect)     |
+| scan            | US-4 (photo upload), US-5 (identification), US-6 (correction) |
+| care            | US-7 (care card), US-8 (lifespan), US-9 (fun facts)           |
+| bouquet         | US-10 (multi-bouquet management)                              |
+| history         | US-11 (scan history)                                          |
+| reminders       | US-12 (email reminders)                                       |
+| recommendations | US-13 (seasonal recommendations)                              |
+| health          | US-14 (hearts + droplets)                                     |
+| careLog         | US-15 (adaptive care tips)                                    |
+| rls             | Security requirement 5.2                                      |
+| ratelimit       | Security requirement 5.1                                      |
 
 ### Phase 3: Definition of Done Verification
 
@@ -100,6 +100,7 @@ Generate a PR body using this template:
 ## PR Title Format
 
 Follow the project commit convention:
+
 - `feat(auth): add forgot-password and reset-password flow`
 - `feat(scan): implement flower identification with PlantNet`
 - `fix(care): return fallback card when Gemini JSON fails validation`

@@ -49,16 +49,19 @@ You are a test engineer for the Bloom Next.js + Supabase application. You write 
 ## What to Test (by type)
 
 **Utility functions (`src/lib/`):**
+
 - Pure functions: no mocks needed
 - Functions that call Supabase: mock `@/lib/supabase` with `vi.mock`
 - Functions that call fetch (PlantNet, Gemini): mock `global.fetch` with `vi.stubGlobal`
 
 **API routes (`src/app/api/*/route.ts`):**
+
 - Import the handler: `import { POST } from '@/app/api/identify/route'`
 - Always test: authenticated success, unauthenticated (expect 401), rate limited (expect 429), invalid input (expect 400), upstream API failure (expect 500 with sanitized message)
 - Mock: `@/lib/supabase` (for `getAuthenticatedUserId`), `@/lib/ratelimit` (for `checkRateLimit`), any external fetch calls
 
 **React components (`src/components/`):**
+
 - Use `render()` from `@testing-library/react`
 - Assert on visible text and ARIA roles, not implementation details
 - Mock any hooks or lib calls the component makes
@@ -66,6 +69,7 @@ You are a test engineer for the Bloom Next.js + Supabase application. You write 
 ## Required Test Coverage Per Route
 
 Every API route test must include at minimum:
+
 - Success case with expected response shape
 - Unauthenticated request → 401
 - Rate limited request → 429 with `Retry-After` header
@@ -86,10 +90,13 @@ it('should drain one droplet per overdue day since last watering')
 ## Coverage Target
 
 70% line coverage minimum. After writing tests run:
+
 ```bash
 npx vitest run --coverage <test-file>
 ```
+
 If below 70%, add tests for the untested branches before finishing.
+
 ## Opening a PR After Implementation
 
 When the RED-GREEN-REFACTOR cycle is complete for a feature, open a PR using `mcp__github__create_pull_request` with the following description template — do not skip any section:

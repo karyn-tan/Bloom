@@ -21,22 +21,26 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-function setupMock(
-  countValue: number,
-  scansData: unknown[] = [],
-) {
+function setupMock(countValue: number, scansData: unknown[] = []) {
   let callCount = 0;
 
   function createChain(finalValue: unknown) {
     const chain: Record<string, unknown> = {};
-    const handler = () => new Proxy(chain, { get: (_t, p) => {
-      if (p === 'then') return (resolve: (v: unknown) => void) => resolve(finalValue);
-      return handler;
-    }});
-    return new Proxy(chain, { get: (_t, p) => {
-      if (p === 'then') return (resolve: (v: unknown) => void) => resolve(finalValue);
-      return handler;
-    }});
+    const handler = () =>
+      new Proxy(chain, {
+        get: (_t, p) => {
+          if (p === 'then')
+            return (resolve: (v: unknown) => void) => resolve(finalValue);
+          return handler;
+        },
+      });
+    return new Proxy(chain, {
+      get: (_t, p) => {
+        if (p === 'then')
+          return (resolve: (v: unknown) => void) => resolve(finalValue);
+        return handler;
+      },
+    });
   }
 
   const mockFrom = vi.fn().mockImplementation(() => {
@@ -54,11 +58,9 @@ function setupMock(
     from: mockFrom,
     storage: {
       from: () => ({
-        createSignedUrl: vi
-          .fn()
-          .mockResolvedValue({
-            data: { signedUrl: 'https://signed.url/image.jpg' },
-          }),
+        createSignedUrl: vi.fn().mockResolvedValue({
+          data: { signedUrl: 'https://signed.url/image.jpg' },
+        }),
       }),
     },
   } as unknown as ReturnType<typeof createServerComponentClient>);

@@ -83,7 +83,7 @@ claude mcp add github --command npx --args "-y,@modelcontextprotocol/server-gith
 - Repository access and file listing
 - Issue and PR management
 - Code search across repositories
-  
+
 ---
 
 ### Demonstrated Workflows
@@ -106,14 +106,14 @@ MCP Tool: mcp__supabase__execute_sql  (RLS policy query)
 -- Result (live from Supabase):
 ```
 
-| Table | RLS Enabled | Rows |
-|---|---|---|
-| public.scans | ✅ true | 0 |
-| public.bouquets | ✅ true | 0 |
-| public.reminders | ✅ true | 0 |
-| public.recommendation_cache | ✅ true | 0 |
-| public.care_log | ✅ true | 0 |
-| public.adaptive_tip_cache | ✅ true | 0 |
+| Table                       | RLS Enabled | Rows |
+| --------------------------- | ----------- | ---- |
+| public.scans                | ✅ true     | 0    |
+| public.bouquets             | ✅ true     | 0    |
+| public.reminders            | ✅ true     | 0    |
+| public.recommendation_cache | ✅ true     | 0    |
+| public.care_log             | ✅ true     | 0    |
+| public.adaptive_tip_cache   | ✅ true     | 0    |
 
 **Query 2 — RLS Policy Verification:**
 
@@ -124,28 +124,28 @@ WHERE schemaname = 'public'
 ORDER BY tablename, cmd;
 ```
 
-| Table | Command | Policy | Filter |
-|---|---|---|---|
-| adaptive_tip_cache | INSERT | Users can insert their own adaptive tip cache | (with check) |
-| adaptive_tip_cache | SELECT | Users can select their own adaptive tip cache | auth.uid() = user_id |
-| adaptive_tip_cache | UPDATE | Users can update their own adaptive tip cache | auth.uid() = user_id |
-| bouquets | DELETE | Users can delete their own bouquets | auth.uid() = user_id |
-| bouquets | INSERT | Users can insert their own bouquets | (with check) |
-| bouquets | SELECT | Users can select their own bouquets | auth.uid() = user_id |
-| bouquets | UPDATE | Users can update their own bouquets | auth.uid() = user_id |
-| care_log | DELETE | Users can delete their own care log entries | auth.uid() = user_id |
-| care_log | INSERT | Users can insert their own care log entries | (with check) |
-| care_log | SELECT | Users can select their own care log | auth.uid() = user_id |
-| recommendation_cache | INSERT | Users can upsert their own recommendation cache | (with check) |
-| recommendation_cache | SELECT | Users can select their own recommendation cache | auth.uid() = user_id |
-| recommendation_cache | UPDATE | Users can update their own recommendation cache | auth.uid() = user_id |
-| reminders | DELETE | Users can delete their own reminders | auth.uid() = user_id |
-| reminders | INSERT | Users can insert their own reminders | (with check) |
-| reminders | SELECT | Users can select their own reminders | auth.uid() = user_id |
-| scans | DELETE | Users can delete their own scans | auth.uid() = user_id |
-| scans | INSERT | Users can insert their own scans | (with check) |
-| scans | SELECT | Users can select their own scans | auth.uid() = user_id |
-| scans | UPDATE | Users can update their own scans | auth.uid() = user_id |
+| Table                | Command | Policy                                          | Filter               |
+| -------------------- | ------- | ----------------------------------------------- | -------------------- |
+| adaptive_tip_cache   | INSERT  | Users can insert their own adaptive tip cache   | (with check)         |
+| adaptive_tip_cache   | SELECT  | Users can select their own adaptive tip cache   | auth.uid() = user_id |
+| adaptive_tip_cache   | UPDATE  | Users can update their own adaptive tip cache   | auth.uid() = user_id |
+| bouquets             | DELETE  | Users can delete their own bouquets             | auth.uid() = user_id |
+| bouquets             | INSERT  | Users can insert their own bouquets             | (with check)         |
+| bouquets             | SELECT  | Users can select their own bouquets             | auth.uid() = user_id |
+| bouquets             | UPDATE  | Users can update their own bouquets             | auth.uid() = user_id |
+| care_log             | DELETE  | Users can delete their own care log entries     | auth.uid() = user_id |
+| care_log             | INSERT  | Users can insert their own care log entries     | (with check)         |
+| care_log             | SELECT  | Users can select their own care log             | auth.uid() = user_id |
+| recommendation_cache | INSERT  | Users can upsert their own recommendation cache | (with check)         |
+| recommendation_cache | SELECT  | Users can select their own recommendation cache | auth.uid() = user_id |
+| recommendation_cache | UPDATE  | Users can update their own recommendation cache | auth.uid() = user_id |
+| reminders            | DELETE  | Users can delete their own reminders            | auth.uid() = user_id |
+| reminders            | INSERT  | Users can insert their own reminders            | (with check)         |
+| reminders            | SELECT  | Users can select their own reminders            | auth.uid() = user_id |
+| scans                | DELETE  | Users can delete their own scans                | auth.uid() = user_id |
+| scans                | INSERT  | Users can insert their own scans                | (with check)         |
+| scans                | SELECT  | Users can select their own scans                | auth.uid() = user_id |
+| scans                | UPDATE  | Users can update their own scans                | auth.uid() = user_id |
 
 **Key Findings:**
 
@@ -194,7 +194,7 @@ Used `browser_fill_form` to enter a valid email and a 5-character password ("sho
 
 > **"Password must be at least 8 characters"**
 
-This confirms the acceptance criterion: *"Given I submit a password shorter than 8 characters, then I see an inline error before the form is submitted."*
+This confirms the acceptance criterion: _"Given I submit a password shorter than 8 characters, then I see an inline error before the form is submitted."_
 
 ![Playwright MCP — password validation error](../screenshots/hw5/playwright_mcp_validation_error.png)
 
@@ -220,14 +220,14 @@ ORDER BY relname;
 
 **Live result:**
 
-| Table | RLS Enabled | Policy Count |
-|---|---|---|
-| adaptive_tip_cache | ✅ true | 3 (SELECT, INSERT, UPDATE) |
-| bouquets | ✅ true | 4 (SELECT, INSERT, UPDATE, DELETE) |
-| care_log | ✅ true | 3 (SELECT, INSERT, DELETE) |
-| recommendation_cache | ✅ true | 3 (SELECT, INSERT, UPDATE) |
-| reminders | ✅ true | 3 (SELECT, INSERT, DELETE) |
-| scans | ✅ true | 4 (SELECT, INSERT, UPDATE, DELETE) |
+| Table                | RLS Enabled | Policy Count                       |
+| -------------------- | ----------- | ---------------------------------- |
+| adaptive_tip_cache   | ✅ true     | 3 (SELECT, INSERT, UPDATE)         |
+| bouquets             | ✅ true     | 4 (SELECT, INSERT, UPDATE, DELETE) |
+| care_log             | ✅ true     | 3 (SELECT, INSERT, DELETE)         |
+| recommendation_cache | ✅ true     | 3 (SELECT, INSERT, UPDATE)         |
+| reminders            | ✅ true     | 3 (SELECT, INSERT, DELETE)         |
+| scans                | ✅ true     | 4 (SELECT, INSERT, UPDATE, DELETE) |
 
 **Key Findings:**
 
@@ -238,14 +238,14 @@ ORDER BY relname;
 
 **Verbose schema (live, `mcp__supabase__list_tables` with `verbose: true`):**
 
-| Table | Key Columns | Foreign Keys |
-|---|---|---|
-| scans | id, user_id, created_at, image_url, flowers(jsonb) | → auth.users (cascade) |
-| bouquets | id, user_id, scan_id, name, added_at, reminder_opt_in | → auth.users, scans (cascade) |
-| reminders | id, user_id, bouquet_id, next_send_at, created_at | → auth.users, bouquets (cascade) |
-| recommendation_cache | id, user_id, season, generated_at, recommendations(jsonb) | → auth.users (cascade) |
-| care_log | id, user_id, bouquet_id, action, logged_at | → auth.users, bouquets (cascade) |
-| adaptive_tip_cache | id, user_id, bouquet_id, generated_date, tip | → auth.users, bouquets (cascade) |
+| Table                | Key Columns                                               | Foreign Keys                     |
+| -------------------- | --------------------------------------------------------- | -------------------------------- |
+| scans                | id, user_id, created_at, image_url, flowers(jsonb)        | → auth.users (cascade)           |
+| bouquets             | id, user_id, scan_id, name, added_at, reminder_opt_in     | → auth.users, scans (cascade)    |
+| reminders            | id, user_id, bouquet_id, next_send_at, created_at         | → auth.users, bouquets (cascade) |
+| recommendation_cache | id, user_id, season, generated_at, recommendations(jsonb) | → auth.users (cascade)           |
+| care_log             | id, user_id, bouquet_id, action, logged_at                | → auth.users, bouquets (cascade) |
+| adaptive_tip_cache   | id, user_id, bouquet_id, generated_date, tip              | → auth.users, bouquets (cascade) |
 
 All foreign keys confirmed with `ON DELETE CASCADE` — orphan records are impossible.
 
@@ -340,10 +340,10 @@ claude mcp list
 
 ### Live Evidence Summary
 
-| Evidence | MCP Tool Used | Screenshot / Result |
-|---|---|---|
-| All 6 tables have RLS enabled | `mcp__supabase__list_tables` | [supabase_mcp_query_1.png](../screenshots/hw5/supabase_mcp_query_1.png) |
-| 20 RLS policies all enforce `auth.uid() = user_id` | `mcp__supabase__execute_sql` | [supabase_mcp_query_1.png](../screenshots/hw5/supabase_mcp_query_1.png) + [supabase_mcp_query_2.png](../screenshots/hw5/supabase_mcp_query_2.png) |
-| Unauthenticated `/` redirects to `/login` | `mcp__playwright__browser_navigate` | [playwright_mcp_login_redirect.png](../screenshots/hw5/playwright_mcp_login_redirect.png) |
-| Signup page renders correctly | `mcp__playwright__browser_navigate` | [playwright_mcp_signup_page.png](../screenshots/hw5/playwright_mcp_signup_page.png) |
-| Short password shows inline validation error | `mcp__playwright__browser_fill_form` + `browser_click` | [playwright_mcp_validation_error.png](../screenshots/hw5/playwright_mcp_validation_error.png) |
+| Evidence                                           | MCP Tool Used                                          | Screenshot / Result                                                                                                                               |
+| -------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All 6 tables have RLS enabled                      | `mcp__supabase__list_tables`                           | [supabase_mcp_query_1.png](../screenshots/hw5/supabase_mcp_query_1.png)                                                                           |
+| 20 RLS policies all enforce `auth.uid() = user_id` | `mcp__supabase__execute_sql`                           | [supabase_mcp_query_1.png](../screenshots/hw5/supabase_mcp_query_1.png) + [supabase_mcp_query_2.png](../screenshots/hw5/supabase_mcp_query_2.png) |
+| Unauthenticated `/` redirects to `/login`          | `mcp__playwright__browser_navigate`                    | [playwright_mcp_login_redirect.png](../screenshots/hw5/playwright_mcp_login_redirect.png)                                                         |
+| Signup page renders correctly                      | `mcp__playwright__browser_navigate`                    | [playwright_mcp_signup_page.png](../screenshots/hw5/playwright_mcp_signup_page.png)                                                               |
+| Short password shows inline validation error       | `mcp__playwright__browser_fill_form` + `browser_click` | [playwright_mcp_validation_error.png](../screenshots/hw5/playwright_mcp_validation_error.png)                                                     |

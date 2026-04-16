@@ -22,9 +22,7 @@ beforeEach(() => {
 describe('LogoutButton', () => {
   it('renders a button with text "Log Out"', () => {
     render(<LogoutButton />);
-    expect(
-      screen.getByRole('button', { name: /log out/i }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: /log out/i })).toBeTruthy();
   });
 
   it('calls signOut and redirects to /login on click', async () => {

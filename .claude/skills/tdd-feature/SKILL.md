@@ -97,4 +97,3 @@ When the user invokes `/tdd-feature <description>`, follow this workflow:
 - Passing tests
 - Formatted, refactored code
 - Session log entry
-

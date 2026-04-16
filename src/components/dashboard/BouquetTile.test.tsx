@@ -45,18 +45,30 @@ describe('BouquetTile', () => {
   });
 
   it('should render days remaining when not past peak', () => {
-    render(<BouquetTile bouquet={makeBouquet({ daysRemaining: 4, isPastPeak: false })} />);
+    render(
+      <BouquetTile
+        bouquet={makeBouquet({ daysRemaining: 4, isPastPeak: false })}
+      />,
+    );
     expect(screen.getByText(/4 days? left/i)).toBeTruthy();
   });
 
   it('should render "Likely past peak" badge and not render countdown when isPastPeak is true', () => {
-    render(<BouquetTile bouquet={makeBouquet({ isPastPeak: true, daysRemaining: -1 })} />);
+    render(
+      <BouquetTile
+        bouquet={makeBouquet({ isPastPeak: true, daysRemaining: -1 })}
+      />,
+    );
     expect(screen.getByTestId('past-peak-badge')).toBeTruthy();
     expect(screen.queryByText(/days? left/i)).toBeNull();
   });
 
   it('should render image when imageUrl is provided', () => {
-    render(<BouquetTile bouquet={makeBouquet({ imageUrl: 'https://example.com/img.jpg' })} />);
+    render(
+      <BouquetTile
+        bouquet={makeBouquet({ imageUrl: 'https://example.com/img.jpg' })}
+      />,
+    );
     expect(screen.getByRole('img')).toBeTruthy();
   });
 
@@ -90,8 +102,9 @@ describe('BouquetTile', () => {
     render(<BouquetTile bouquet={makeBouquet()} />);
     const deleteBtn = screen.getByRole('button', { name: /delete/i });
     fireEvent.click(deleteBtn);
+    // Button text changes to "Deleting…" — match by role without name filter
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /delete/i })).toHaveProperty('disabled', true);
+      expect(screen.getByRole('button')).toHaveProperty('disabled', true);
     });
     resolveFetch();
   });

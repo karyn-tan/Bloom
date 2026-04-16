@@ -85,10 +85,7 @@ Return ONLY valid JSON in this exact format:
   try {
     parsed = JSON.parse(rawText);
   } catch {
-    throw new GeminiValidationError(
-      'Gemini returned invalid JSON',
-      rawText,
-    );
+    throw new GeminiValidationError('Gemini returned invalid JSON', rawText);
   }
 
   return careTipSchema.parse(parsed);

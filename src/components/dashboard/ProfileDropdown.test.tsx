@@ -21,12 +21,8 @@ beforeEach(() => {
 
 describe('ProfileDropdown', () => {
   it('renders an avatar button', () => {
-    render(
-      <ProfileDropdown email="test@example.com" avatarUrl={null} />,
-    );
-    expect(
-      screen.getByRole('button', { name: /profile/i }),
-    ).toBeTruthy();
+    render(<ProfileDropdown email="test@example.com" avatarUrl={null} />);
+    expect(screen.getByRole('button', { name: /profile/i })).toBeTruthy();
   });
 
   it('shows Google avatar when avatarUrl is provided', () => {
@@ -37,51 +33,37 @@ describe('ProfileDropdown', () => {
       />,
     );
     const img = screen.getByAltText(/profile/i);
-    expect(img.getAttribute('src')).toContain(
-      'googleusercontent.com',
-    );
+    expect(img.getAttribute('src')).toContain('googleusercontent.com');
   });
 
   it('shows DiceBear avatar when avatarUrl is null', () => {
-    render(
-      <ProfileDropdown email="test@example.com" avatarUrl={null} />,
-    );
+    render(<ProfileDropdown email="test@example.com" avatarUrl={null} />);
     const img = screen.getByAltText(/profile/i);
     expect(img.getAttribute('src')).toContain('dicebear');
   });
 
   it('uses email as seed for DiceBear avatar', () => {
-    render(
-      <ProfileDropdown email="maya@example.com" avatarUrl={null} />,
-    );
+    render(<ProfileDropdown email="maya@example.com" avatarUrl={null} />);
     const img = screen.getByAltText(/profile/i);
     expect(img.getAttribute('src')).toContain('maya%40example.com');
   });
 
   it('shows dropdown with email and logout on click', () => {
-    render(
-      <ProfileDropdown email="test@example.com" avatarUrl={null} />,
-    );
+    render(<ProfileDropdown email="test@example.com" avatarUrl={null} />);
 
     // Dropdown should not be visible initially
     expect(screen.queryByText('test@example.com')).toBeNull();
 
     // Click the avatar button
-    fireEvent.click(
-      screen.getByRole('button', { name: /profile/i }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: /profile/i }));
 
     // Dropdown should now be visible
     expect(screen.getByText('test@example.com')).toBeTruthy();
-    expect(
-      screen.getByRole('button', { name: /log out/i }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: /log out/i })).toBeTruthy();
   });
 
   it('closes dropdown when clicking avatar again', () => {
-    render(
-      <ProfileDropdown email="test@example.com" avatarUrl={null} />,
-    );
+    render(<ProfileDropdown email="test@example.com" avatarUrl={null} />);
 
     const avatarButton = screen.getByRole('button', {
       name: /profile/i,
@@ -97,16 +79,10 @@ describe('ProfileDropdown', () => {
   it('calls signOut and redirects on logout click', async () => {
     mockSignOut.mockResolvedValue({ error: null });
 
-    render(
-      <ProfileDropdown email="test@example.com" avatarUrl={null} />,
-    );
+    render(<ProfileDropdown email="test@example.com" avatarUrl={null} />);
 
-    fireEvent.click(
-      screen.getByRole('button', { name: /profile/i }),
-    );
-    fireEvent.click(
-      screen.getByRole('button', { name: /log out/i }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: /profile/i }));
+    fireEvent.click(screen.getByRole('button', { name: /log out/i }));
 
     await vi.waitFor(() => {
       expect(mockSignOut).toHaveBeenCalled();

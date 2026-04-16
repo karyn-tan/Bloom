@@ -52,7 +52,9 @@ describe('SaveBouquetForm', () => {
           body: expect.stringContaining('"scan_id":"scan-123"'),
         }),
       );
-      const callBody = JSON.parse((mockFetch.mock.calls[0][1] as RequestInit).body as string);
+      const callBody = JSON.parse(
+        (mockFetch.mock.calls[0][1] as RequestInit).body as string,
+      );
       expect(callBody.reminder_opt_in).toBe(false);
     });
   });
@@ -80,18 +82,23 @@ describe('SaveBouquetForm', () => {
   it('should disable submit button while submitting', async () => {
     let resolveFetch!: () => void;
     mockFetch.mockReturnValue(
-      new Promise<{ ok: boolean; json: () => Promise<{ bouquet: { id: string } }> }>((resolve) => {
+      new Promise<{
+        ok: boolean;
+        json: () => Promise<{ bouquet: { id: string } }>;
+      }>((resolve) => {
         resolveFetch = () =>
-          resolve({ ok: true, json: () => Promise.resolve({ bouquet: { id: 'b1' } }) });
+          resolve({
+            ok: true,
+            json: () => Promise.resolve({ bouquet: { id: 'b1' } }),
+          });
       }),
     );
     render(<SaveBouquetForm scanId="scan-123" />);
     fireEvent.click(screen.getByRole('button', { name: /save bouquet/i }));
+    // Button text changes to "Saving…" when submitting — match by type instead
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /save bouquet/i })).toHaveProperty(
-        'disabled',
-        true,
-      );
+      const btn = screen.getByRole('button');
+      expect(btn).toHaveProperty('disabled', true);
     });
     resolveFetch();
   });
@@ -101,7 +108,9 @@ describe('SaveBouquetForm', () => {
     fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /save bouquet/i }));
     await waitFor(() => {
-      const callBody = JSON.parse((mockFetch.mock.calls[0][1] as RequestInit).body as string);
+      const callBody = JSON.parse(
+        (mockFetch.mock.calls[0][1] as RequestInit).body as string,
+      );
       expect(callBody.reminder_opt_in).toBe(true);
     });
   });

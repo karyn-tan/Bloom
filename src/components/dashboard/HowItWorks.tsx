@@ -8,8 +8,7 @@ const STEPS = [
   {
     number: '2',
     title: 'Identify',
-    description:
-      'We identify each flower in your bouquet using PlantNet.',
+    description: 'We identify each flower in your bouquet using PlantNet.',
     accent: 'bg-accent-gold',
   },
   {

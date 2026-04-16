@@ -8,8 +8,8 @@ export function WelcomeHeader() {
         Welcome to Bloom!
       </h1>
       <p className="text-lg text-muted font-medium max-w-lg">
-        Let&apos;s help your flowers last longer. Upload a photo of your
-        bouquet and we&apos;ll tell you exactly what to do.
+        Let&apos;s help your flowers last longer. Upload a photo of your bouquet
+        and we&apos;ll tell you exactly what to do.
       </p>
     </header>
   );
