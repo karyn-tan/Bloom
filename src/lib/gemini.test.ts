@@ -4,7 +4,7 @@ vi.mock('@/lib/config', () => ({
   getGeminiEnv: () => ({ GEMINI_API_KEY: 'test-key' }),
 }));
 
-import { generateCareTip, GeminiValidationError } from './gemini';
+import { generateCareTip, GeminiValidationError, assessFreshness } from './gemini';
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -99,5 +99,60 @@ describe('generateCareTip', () => {
     });
 
     await expect(generateCareTip('Rosa gallica', 'Rose')).rejects.toThrow();
+  });
+});
+
+describe('assessFreshness', () => {
+  it('returns freshness score from Gemini response', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"freshness": 4}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    const result = await assessFreshness(
+      Buffer.from('fake-image-data'),
+      'image/jpeg',
+    );
+    expect(result).toBe(4);
+  });
+
+  it('throws when Gemini returns non-OK status', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 503,
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow('Gemini freshness API error');
+  });
+
+  it('throws when response fails Zod validation (freshness=6 out of range)', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"freshness": 6}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(
+      assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
+    ).rejects.toThrow();
   });
 });
