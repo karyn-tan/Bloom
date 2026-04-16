@@ -15,7 +15,7 @@ export function BouquetTile({ bouquet }: BouquetTileProps) {
   const router = useRouter();
 
   async function handleDelete() {
-    if (!window.confirm('Delete this bouquet? This cannot be undone.')) return;
+    if (!window.confirm('Delete this flower? This cannot be undone.')) return;
     setIsDeleting(true);
     try {
       const res = await fetch(`/api/bouquets/${bouquet.id}`, {

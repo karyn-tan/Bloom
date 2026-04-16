@@ -261,7 +261,7 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
             className="inline-flex items-center justify-center gap-2 bg-coral text-ink-light font-black px-6 py-3 border-[3px] border-border shadow-[4px_4px_0px_0px_var(--color-border)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all text-sm uppercase tracking-wider"
           >
             <CameraIcon className="w-5 h-5" />
-            Scan Another Bouquet
+            Scan Another Flower
           </Link>
           <Link
             href="/dashboard"

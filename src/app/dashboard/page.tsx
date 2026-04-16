@@ -37,7 +37,7 @@ const FlowerIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
 
 export const metadata = {
   title: 'Dashboard - Bloom',
-  description: 'Your active bouquets and care tips',
+  description: 'Your active flowers and care tips',
 };
 
 /**
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
               </h1>
               <p className="text-muted mt-1 font-medium text-sm">
                 {state.scans.length}{' '}
-                {state.scans.length === 1 ? 'bouquet' : 'bouquets'} tracked
+                {state.scans.length === 1 ? 'flower' : 'flowers'} tracked
               </p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default async function DashboardPage() {
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#7CB97A] p-4">
             <p className="text-3xl font-black text-ink">{bouquets.length}</p>
             <p className="text-xs font-black uppercase tracking-wider text-muted">
-              Active Bouquets
+              Active Flowers
             </p>
           </div>
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#FFD966] p-4">
@@ -127,13 +127,13 @@ export default async function DashboardPage() {
         {/* Bouquet grid */}
         <section className="mb-10">
           <h2 className="text-xl font-black text-ink uppercase tracking-tight mb-4">
-            Active Bouquets
+            Active Flowers
           </h2>
           {bouquets.length === 0 ? (
             <p className="text-muted font-medium">
-              No active bouquets yet.{' '}
+              No active flowers yet.{' '}
               <Link href="/scan" className="underline font-bold text-ink">
-                Scan a bouquet
+                Scan a flower
               </Link>{' '}
               to start tracking.
             </p>

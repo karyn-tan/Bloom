@@ -131,7 +131,7 @@ export function ImageUploader({ onSubmit, isUploading }: ImageUploaderProps) {
           <div className="relative">
             <img
               src={preview}
-              alt="Bouquet preview"
+              alt="Flower preview"
               className="max-h-64 mx-auto border-[3px] border-border"
             />
             {!isUploading && (
@@ -164,7 +164,7 @@ export function ImageUploader({ onSubmit, isUploading }: ImageUploaderProps) {
               <CameraIcon className="w-8 h-8 text-lime" />
             </div>
             <p className="text-lg font-black text-ink uppercase tracking-tight mb-1">
-              Upload your bouquet photo
+              Upload your flower photo
             </p>
             <p className="text-sm text-ink/50 font-medium">
               JPEG or PNG, up to 10 MB
