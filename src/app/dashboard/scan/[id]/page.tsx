@@ -5,6 +5,8 @@ import { createServerComponentClient } from '@/lib/supabase-server';
 import { CareTipSection } from '@/components/scan/CareTipSection';
 import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
 import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+import { HeartIcon } from '@/components/icons/HeartIcon';
+import { DropletIcon } from '@/components/icons/DropletIcon';
 import { careTipSchema } from '@/lib/gemini';
 import type { Database } from '@/types/supabase';
 
@@ -83,18 +85,6 @@ const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
       strokeLinejoin="round"
       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
     />
-  </svg>
-);
-
-const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-  </svg>
-);
-
-const DropletIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
   </svg>
 );
 
@@ -196,13 +186,13 @@ export default async function ScanDetailPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Health indicators */}
+        {/* Health indicators — static 3/3 hearts and 4/5 droplets until health system (US-14) is built */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#FF6B6B] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <HeartIcon className="w-6 h-6 text-coral" />
-              <HeartIcon className="w-6 h-6 text-coral" />
-              <HeartIcon className="w-6 h-6 text-coral" />
+              <HeartIcon filled className="w-6 h-6" />
+              <HeartIcon filled className="w-6 h-6" />
+              <HeartIcon filled className="w-6 h-6" />
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">
@@ -213,10 +203,11 @@ export default async function ScanDetailPage({ params }: PageProps) {
           </div>
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#74C0FC] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <DropletIcon className="w-6 h-6 text-sky" />
-              <DropletIcon className="w-6 h-6 text-sky" />
-              <DropletIcon className="w-6 h-6 text-sky" />
-              <DropletIcon className="w-6 h-6 text-sky" />
+              <DropletIcon filled className="w-5 h-5" />
+              <DropletIcon filled className="w-5 h-5" />
+              <DropletIcon filled className="w-5 h-5" />
+              <DropletIcon filled className="w-5 h-5" />
+              <DropletIcon filled={false} className="w-5 h-5" />
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">

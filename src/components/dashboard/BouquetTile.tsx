@@ -17,7 +17,16 @@ export function BouquetTile({ bouquet }: BouquetTileProps) {
     if (!window.confirm('Delete this bouquet? This cannot be undone.')) return;
     setIsDeleting(true);
     try {
-      await fetch(`/api/bouquets/${bouquet.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/bouquets/${bouquet.id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as {
+          error?: string;
+        };
+        window.alert(body.error ?? 'Failed to delete bouquet');
+        return;
+      }
       router.refresh();
     } finally {
       setIsDeleting(false);

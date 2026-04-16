@@ -61,9 +61,14 @@ export async function DELETE(
   }
 
   // Remove image from storage (non-fatal — row is already deleted)
+  // image_url is stored as a bucket-relative path (e.g. "{userId}/{scanId}.jpg").
+  // Strip any accidental full URL prefix so storage.remove() gets the bare path.
+  const storagePath = scan.image_url.includes('/flower-images/')
+    ? scan.image_url.split('/flower-images/')[1]
+    : scan.image_url;
   const { error: storageError } = await supabase.storage
     .from('flower-images')
-    .remove([scan.image_url]);
+    .remove([storagePath]);
 
   if (storageError) {
     console.error('[bouquets/delete] storage cleanup error:', storageError);

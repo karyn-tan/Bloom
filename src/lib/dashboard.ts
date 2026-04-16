@@ -124,7 +124,8 @@ export async function getUserDashboardState(): Promise<DashboardState> {
 type FlowerEntry = {
   common_name?: string;
   scientific_name?: string;
-  care?: { lifespan_days?: { min?: number; max?: number } } | null;
+  lifespan_days?: { min?: number; max?: number };
+  care?: Record<string, string> | null;
 };
 
 type ScanRow = {
@@ -170,8 +171,8 @@ async function fetchUserScans(
       imageUrl,
       flowerName: flower?.common_name ?? 'Unknown flower',
       scientificName: flower?.scientific_name ?? '',
-      lifespanMin: flower?.care?.lifespan_days?.min ?? null,
-      lifespanMax: flower?.care?.lifespan_days?.max ?? null,
+      lifespanMin: flower?.lifespan_days?.min ?? null,
+      lifespanMax: flower?.lifespan_days?.max ?? null,
       createdAt: row.created_at,
     });
   }
@@ -201,30 +202,12 @@ export async function getUserBouquets(): Promise<BouquetSummary[]> {
     redirect('/login');
   }
 
-  const { data, error } = await (
-    supabase as unknown as {
-      from: (table: string) => {
-        select: (cols: string) => {
-          eq: (
-            col: string,
-            val: string,
-          ) => {
-            order: (
-              col: string,
-              opts: { ascending: boolean },
-            ) => Promise<{
-              data: BouquetRow[] | null;
-              error: unknown;
-            }>;
-          };
-        };
-      };
-    }
-  )
+  const { data, error } = await supabase
     .from('bouquets')
     .select('id, name, scan_id, added_at, scans(image_url, flowers)')
     .eq('user_id', user.id)
-    .order('added_at', { ascending: false });
+    .order('added_at', { ascending: false })
+    .returns<BouquetRow[]>();
 
   if (error || !data) return [];
 
@@ -234,7 +217,7 @@ export async function getUserBouquets(): Promise<BouquetSummary[]> {
     const scan = row.scans;
     const flowers = scan?.flowers as FlowerEntry[] | null;
     const flower = Array.isArray(flowers) ? flowers[0] : null;
-    const lifespanMin = flower?.care?.lifespan_days?.min ?? null;
+    const lifespanMin = flower?.lifespan_days?.min ?? null;
     const { ageInDays, daysRemaining, isPastPeak } = computeBouquetStatus(
       row.added_at,
       lifespanMin,
