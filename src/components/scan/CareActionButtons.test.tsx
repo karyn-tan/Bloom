@@ -20,12 +20,8 @@ const BOUQUET_ID = '550e8400-e29b-41d4-a716-446655440000';
 describe('CareActionButtons', () => {
   it('renders Water and Trim buttons', () => {
     render(<CareActionButtons bouquetId={BOUQUET_ID} />);
-    expect(
-      screen.getByRole('button', { name: /water/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /trim/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /water/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /trim/i })).toBeInTheDocument();
   });
 
   it('calls fetch with correct body when Water button is clicked', async () => {

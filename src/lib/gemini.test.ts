@@ -4,7 +4,11 @@ vi.mock('@/lib/config', () => ({
   getGeminiEnv: () => ({ GEMINI_API_KEY: 'test-key' }),
 }));
 
-import { generateCareTip, GeminiValidationError, assessFreshness } from './gemini';
+import {
+  generateCareTip,
+  GeminiValidationError,
+  assessFreshness,
+} from './gemini';
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;

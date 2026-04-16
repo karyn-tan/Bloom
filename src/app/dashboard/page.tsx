@@ -145,7 +145,6 @@ export default async function DashboardPage() {
             </div>
           )}
         </section>
-
       </div>
     </main>
   );

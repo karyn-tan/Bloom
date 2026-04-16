@@ -30,7 +30,10 @@ export function CorrectFlowerForm({
       const res = await fetch(`/api/scans/${scanId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ common_name: commonName, scientific_name: scientificName }),
+        body: JSON.stringify({
+          common_name: commonName,
+          scientific_name: scientificName,
+        }),
       });
 
       if (!res.ok) {
@@ -78,7 +81,10 @@ export function CorrectFlowerForm({
         </button>
         <button
           type="button"
-          onClick={() => { setIsOpen(false); setError(null); }}
+          onClick={() => {
+            setIsOpen(false);
+            setError(null);
+          }}
           className="text-xs font-bold text-muted hover:text-ink transition-colors"
         >
           Cancel

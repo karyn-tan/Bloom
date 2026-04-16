@@ -251,8 +251,8 @@ export default function Home() {
                   Snap a Photo
                 </h3>
                 <p className="text-muted leading-relaxed flex-grow font-medium">
-                  Take a picture of your flower and upload it. Our AI
-                  recognizes each flower species instantly.
+                  Take a picture of your flower and upload it. Our AI recognizes
+                  each flower species instantly.
                 </p>
               </div>
             </div>

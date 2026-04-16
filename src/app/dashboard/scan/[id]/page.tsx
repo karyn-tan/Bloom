@@ -113,7 +113,10 @@ type PageProps = {
   searchParams: { new?: string };
 };
 
-export default async function ScanDetailPage({ params, searchParams }: PageProps) {
+export default async function ScanDetailPage({
+  params,
+  searchParams,
+}: PageProps) {
   const supabase = createServerComponentClient();
 
   const {
@@ -317,7 +320,9 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
                 />
               </div>
             </div>
-            {searchParams.new === '1' && <ConfidenceBadge confidence={flower.confidence} />}
+            {searchParams.new === '1' && (
+              <ConfidenceBadge confidence={flower.confidence} />
+            )}
           </div>
 
           {flower.care ? (
@@ -330,7 +335,6 @@ export default async function ScanDetailPage({ params, searchParams }: PageProps
             </div>
           )}
         </div>
-
 
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row gap-4">

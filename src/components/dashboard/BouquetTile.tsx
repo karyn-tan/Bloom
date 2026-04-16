@@ -36,7 +36,10 @@ export function BouquetTile({ bouquet }: BouquetTileProps) {
 
   return (
     <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_var(--color-border)] flex flex-col">
-      <Link href={`/dashboard/scan/${bouquet.scanId}`} className="flex flex-col flex-1 hover:opacity-90 transition-opacity">
+      <Link
+        href={`/dashboard/scan/${bouquet.scanId}`}
+        className="flex flex-col flex-1 hover:opacity-90 transition-opacity"
+      >
         {bouquet.imageUrl ? (
           <div className="relative h-32 w-full border-b-[3px] border-border overflow-hidden">
             <Image

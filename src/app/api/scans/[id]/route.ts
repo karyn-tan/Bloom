@@ -27,7 +27,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 },
+    );
   }
 
   const parsed = patchSchema.safeParse(body);
@@ -62,7 +65,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 
   // 6. Update flowers[0] in the JSONB array
-  const flowers = Array.isArray(scan.flowers) ? [...(scan.flowers as unknown[])] : [];
+  const flowers = Array.isArray(scan.flowers)
+    ? [...(scan.flowers as unknown[])]
+    : [];
   const existingFlower =
     flowers.length > 0 && typeof flowers[0] === 'object' && flowers[0] !== null
       ? (flowers[0] as Record<string, unknown>)
@@ -84,7 +89,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
   if (updateError) {
     console.error('[scans PATCH] update error:', updateError.message);
-    return NextResponse.json({ error: 'Failed to update scan' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update scan' },
+      { status: 500 },
+    );
   }
 
   // 7. Also update the bouquet name to match corrected flower name
