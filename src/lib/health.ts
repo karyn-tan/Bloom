@@ -78,6 +78,10 @@ type ComputeHealthStateParams = {
   waterText: string;
   initialDroplets?: number;
   now?: Date;
+  /** Days since the last 'refresh' action. When >= 6 (4 days to 1 droplet + 2
+   *  days stagnant), penalty days are added to the effective age so hearts
+   *  drain faster — murky water shortens the bouquet's lifespan. */
+  daysSinceRefresh?: number | null;
 };
 
 /**
@@ -95,9 +99,19 @@ export function computeHealthState(
     waterText,
     initialDroplets,
     now,
+    daysSinceRefresh,
   } = params;
 
-  const hearts = computeHearts(ageInDays, lifespanMin);
+  // Stagnant water penalty: once water has been stale for 2+ days at 1 droplet
+  // (i.e. 6+ days without a refresh), each additional day counts as an extra
+  // day of ageing for the purpose of heart calculation.
+  const STAGNANT_THRESHOLD = 6;
+  const penaltyDays =
+    daysSinceRefresh != null && daysSinceRefresh >= STAGNANT_THRESHOLD
+      ? daysSinceRefresh - (STAGNANT_THRESHOLD - 1)
+      : 0;
+
+  const hearts = computeHearts(ageInDays + penaltyDays, lifespanMin);
   const wateringIntervalDays = parseWateringInterval(waterText);
   const droplets = computeDroplets(
     lastWateredAt,

@@ -8,7 +8,7 @@ type CareLogInsert = Database['public']['Tables']['care_log']['Insert'];
 
 const createCareLogSchema = z.object({
   bouquet_id: z.string().uuid(),
-  action: z.enum(['water', 'trim']),
+  action: z.enum(['water', 'trim', 'refresh']),
 });
 
 export async function POST(request: NextRequest) {

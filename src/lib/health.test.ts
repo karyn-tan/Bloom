@@ -207,4 +207,66 @@ describe('computeHealthState', () => {
     expect(result.hearts).toBe(0);
     expect(result.status).toBe('past_peak');
   });
+
+  // --- stagnant water penalty ---
+  it('no penalty when daysSinceRefresh < 6 (below stagnant threshold)', () => {
+    // Day 0, fresh bouquet — 5 days without refresh should not yet penalise
+    const result = computeHealthState({
+      ageInDays: 0,
+      lifespanMin: 14,
+      lastWateredAt: null,
+      bouquetAddedAt: daysAgo(0),
+      waterText: 'Change water every 2 days',
+      daysSinceRefresh: 5,
+      now: NOW,
+    });
+    // No penalty: effective age stays 0 → 3 hearts
+    expect(result.hearts).toBe(3);
+  });
+
+  it('1 penalty day when daysSinceRefresh=6 (exactly at threshold)', () => {
+    // ageInDays=0, lifespanMin=14; penalty=1 → effectiveAge=1 (>2/3 remaining → 3 hearts still)
+    // Use a shorter lifespan so the penalty is visible: lifespanMin=3, ageInDays=0
+    // Without penalty: pct=(3-0)/3=1.0 → 3 hearts
+    // With penalty (daysSinceRefresh=6 → penaltyDays=1): effectiveAge=1, pct=(3-1)/3≈0.67
+    // pct=0.666... ≤ TWO_THIRDS → 2 hearts
+    const result = computeHealthState({
+      ageInDays: 0,
+      lifespanMin: 3,
+      lastWateredAt: null,
+      bouquetAddedAt: daysAgo(0),
+      waterText: 'Change water every 2 days',
+      daysSinceRefresh: 6,
+      now: NOW,
+    });
+    expect(result.hearts).toBe(2);
+  });
+
+  it('2 penalty days when daysSinceRefresh=7', () => {
+    // ageInDays=0, lifespanMin=3, daysSinceRefresh=7 → penaltyDays=2 → effectiveAge=2
+    // pct=(3-2)/3≈0.333 ≤ ONE_THIRD → 1 heart
+    const result = computeHealthState({
+      ageInDays: 0,
+      lifespanMin: 3,
+      lastWateredAt: null,
+      bouquetAddedAt: daysAgo(0),
+      waterText: 'Change water every 2 days',
+      daysSinceRefresh: 7,
+      now: NOW,
+    });
+    expect(result.hearts).toBe(1);
+  });
+
+  it('no penalty when daysSinceRefresh is null (never refreshed, treated as bouquet added today)', () => {
+    const result = computeHealthState({
+      ageInDays: 0,
+      lifespanMin: 14,
+      lastWateredAt: null,
+      bouquetAddedAt: daysAgo(0),
+      waterText: 'Change water every 2 days',
+      daysSinceRefresh: null,
+      now: NOW,
+    });
+    expect(result.hearts).toBe(3);
+  });
 });
