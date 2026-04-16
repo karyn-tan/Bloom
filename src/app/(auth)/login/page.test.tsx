@@ -23,7 +23,9 @@ describe('LoginPage', () => {
 
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /sign in/i }),
+    ).toBeInTheDocument();
   });
 
   it('shows error for invalid email format', async () => {
@@ -141,7 +143,9 @@ describe('LoginPage', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/invalid email or password/i),
+      ).toBeInTheDocument();
     });
   });
 

@@ -94,9 +94,7 @@ describe('ResetPasswordPage', () => {
     fireEvent.click(screen.getByRole('button', { name: /set new password/i }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText(/invalid or has expired/i),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/invalid or has expired/i)).toBeInTheDocument();
     });
   });
 });

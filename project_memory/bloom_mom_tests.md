@@ -4,12 +4,14 @@
 
 **Interview method:** The Mom Test (Rob Fitzpatrick)
 **Core rules applied:**
+
 - Talk about their life, not your idea
 - Ask about specifics in the past, not hypotheticals about the future
 - Talk less, listen more
 - Deflect compliments, anchor fluff, dig beneath surface answers
 
 **Scary assumptions being tested:**
+
 - People don't actually try to keep flowers alive longer
 - Most people just let flowers die without caring
 
@@ -31,7 +33,7 @@
 
 **You:** Do you know what flowers were in it?
 
-**Maya:** *(laughs)* No idea. There's like... something fluffy and purple, and then some white ones? I genuinely could not tell you.
+**Maya:** _(laughs)_ No idea. There's like... something fluffy and purple, and then some white ones? I genuinely could not tell you.
 
 **You:** Has that ever been an issue for you, not knowing what they are?
 
@@ -197,7 +199,7 @@
 
 **You:** Is looking things up after the fact a pattern for you?
 
-**Priya:** *(pauses)* Yeah, actually. I usually find out what I did wrong after the damage is done. I don't usually research before buying something new, I just go for it and learn from the mistake.
+**Priya:** _(pauses)_ Yeah, actually. I usually find out what I did wrong after the damage is done. I don't usually research before buying something new, I just go for it and learn from the mistake.
 
 **You:** Has that ever made you hesitant to try new flowers?
 
@@ -219,14 +221,14 @@
 
 ## Summary of Key Signals Across All Three Interviews
 
-| Signal | Maya | Marcus | Priya |
-|---|---|---|---|
-| Has searched for flower care info | Yes | No | Yes, extensively |
-| Took action on what they found | Partial | No | Yes |
-| Feels the financial sting of waste | Yes | Somewhat | Yes |
-| Self-limiting behavior due to uncertainty | Somewhat | Strongly | Somewhat |
-| Would change behavior with better info up front | Unclear | Unclear | Likely yes |
-| Has an existing workaround | Sort of (general Googling) | Yes (same 3 flowers always) | Yes (vendor relationships, YouTube) |
+| Signal                                          | Maya                       | Marcus                      | Priya                               |
+| ----------------------------------------------- | -------------------------- | --------------------------- | ----------------------------------- |
+| Has searched for flower care info               | Yes                        | No                          | Yes, extensively                    |
+| Took action on what they found                  | Partial                    | No                          | Yes                                 |
+| Feels the financial sting of waste              | Yes                        | Somewhat                    | Yes                                 |
+| Self-limiting behavior due to uncertainty       | Somewhat                   | Strongly                    | Somewhat                            |
+| Would change behavior with better info up front | Unclear                    | Unclear                     | Likely yes                          |
+| Has an existing workaround                      | Sort of (general Googling) | Yes (same 3 flowers always) | Yes (vendor relationships, YouTube) |
 
 ---
 
@@ -237,6 +239,7 @@ Marcus is the profile most likely to represent a large chunk of casual buyers, a
 If it's Maya or Priya, the signal is much warmer. Maya represents the low-engagement but cost-conscious buyer who has tried and failed to find usable information. Priya represents the motivated buyer who still hits friction every time she encounters a new variety. Both have demonstrated they care enough to search. Marcus has not.
 
 **Next 3 big questions to answer:**
+
 1. How many buyers behave like Marcus versus Maya? If Marcus is the majority, the market may not pull hard enough for a solution.
 2. Does the friction Priya describes at the "new variety" moment happen often enough to anchor repeat usage, or is it a one-time onboarding problem?
 3. Is the scan-and-identify feature the hook that gets people in the door, or is the lifespan estimate the thing they actually care about?

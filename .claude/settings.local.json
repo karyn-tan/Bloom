@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh project:*)",
+      "Bash(gh label:*)",
+      "Bash(ls /Users/chocolate/Downloads/Bloom-1/src/app/\\\\\\(auth\\\\\\))",
+      "Bash(ls /Users/chocolate/Downloads/Bloom-1/src/app/\\\\\\(auth\\\\\\)/login)",
+      "Bash(npx next:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs kill:*)",
+      "Bash(ls:*)",
+      "Bash(npx vitest:*)",
+      "Bash(git push:*)",
+      "Bash(claude mcp:*)",
+      "mcp__supabase__list_tables",
+      "mcp__supabase__execute_sql",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''mcpServers'''',{}\\), indent=2\\)\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_click"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}

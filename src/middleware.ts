@@ -6,7 +6,6 @@ import { getAuthenticatedUserId } from '@/lib/supabase';
  * All other paths require a valid session.
  */
 const PUBLIC_PATHS = [
-  '/', // root landing page
   '/login', // email/password login
   '/signup', // new account registration
   '/forgot-password', // request password reset email
@@ -26,9 +25,13 @@ const PUBLIC_PATHS = [
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  // Redirect root to login
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
   // Allow public paths through without auth check
-  // Root path uses exact match; all others use startsWith
-  if (PUBLIC_PATHS.some((p) => (p === '/' ? pathname === '/' : pathname.startsWith(p)))) {
+  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();
   }
 

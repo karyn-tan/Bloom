@@ -1,6 +1,7 @@
 # Annotated Claude Code Session Log: Bloom Login Feature
 
 ## Session Metadata
+
 - **Date**: March 21, 2026
 - **Project**: Bloom - Flower Care Web App
 - **Feature**: Authentication Login Screen (US-1, US-2, US-3)
@@ -21,6 +22,7 @@
 **My Response**: Used `glob` to list all files, `read` on key documents.
 
 **Discovery**: Project only had documentation files:
+
 - `CLAUDE.md` - Project guidelines
 - `project_memory/bloom_prd.md` - Full PRD
 - `project_memory/bloom_mom_tests.md` - User interviews
@@ -38,7 +40,8 @@
 
 **User Clarification**: Part 1 done, need Parts 2-4. Feature: authentication screen (login).
 
-**My Assessment**: 
+**My Assessment**:
+
 - Part 1 complete (CLAUDE.md exists)
 - Need Explore→Plan→Implement→Commit demonstration
 - Need TDD with RED→GREEN→REFACTOR commits
@@ -69,24 +72,27 @@ $ ls ~/.nvm/versions/node/
 > Note: Pressed `Shift+Tab` twice to enter plan mode before prompting
 
 ```
-[User] currently part 1 is done we need to weok on par2 and part3. 
-so we are just doing an authentication screen (login screen) as thats 
+[User] currently part 1 is done we need to weok on par2 and part3.
+so we are just doing an authentication screen (login screen) as thats
 what we have for one of the real P3 feature.
 ```
 
 **Plan Mode Response**: Created structured plan with 3 TDD cycles:
 
 **Cycle 1: Form Validation Utility**
+
 - RED: Tests for email/password validation
 - GREEN: Implement validation functions
 - REFACTOR: Extract Zod schemas
 
 **Cycle 2: Login API Route**
+
 - RED: Tests for 400/401/500 responses
 - GREEN: Implement POST handler with Supabase
 - REFACTOR: Extract cookie handlers
 
 **Cycle 3: Login UI Component**
+
 - RED: Tests for form rendering and submission
 - GREEN: Implement LoginForm component
 - REFACTOR: Extract sub-components
@@ -106,6 +112,7 @@ $ git commit -m "test(auth): [RED] validate email format and password minimum le
 ```
 
 **Files Created**:
+
 - `src/lib/auth.test.ts` - 6 test cases (empty email, invalid format, valid email, short password, etc.)
 - Config files: package.json, tsconfig.json, next.config.mjs, tailwind.config.ts, postcss.config.mjs, .prettierrc
 - Vitest setup: vitest.config.ts, src/test/setup.ts
@@ -122,6 +129,7 @@ $ git commit -m "feat(auth): [GREEN] implement email and password validation fun
 ```
 
 **Implementation**:
+
 - `src/lib/auth.ts` - `validateEmail()` with regex, `validatePassword()` with 8-char check
 - TypeScript interfaces for validation results
 
@@ -136,6 +144,7 @@ $ git commit -m "refactor(auth): extract validation logic into Zod schemas"
 ```
 
 **Changes**:
+
 - Replaced regex with Zod `z.string().email()`
 - Extracted constants: `MIN_PASSWORD_LENGTH`, `PASSWORD_ERROR_MESSAGE`
 - Added Zod schemas: `emailSchema`, `passwordSchema`
@@ -153,6 +162,7 @@ $ git commit -m "test(auth): [RED] login API route returns 400/401 for invalid i
 ```
 
 **Files Created**:
+
 - `src/app/api/auth/login/route.test.ts` - 5 test cases:
   - Returns 400 for invalid email format
   - Returns 400 for password < 8 characters
@@ -172,6 +182,7 @@ $ git commit -m "feat(auth): [GREEN] implement login API route with Supabase"
 ```
 
 **Implementation**:
+
 - `src/app/api/auth/login/route.ts` - POST handler with Zod validation
 - Full Supabase client implementation in `src/lib/supabase.ts`
 - Proper error responses (400, 401, 500)
@@ -188,6 +199,7 @@ $ git commit -m "refactor(auth): extract cookie handlers and add Zod env validat
 ```
 
 **Changes**:
+
 - Extracted `createCookieHandler()` and `createResponseCookieHandler()`
 - Added Zod schema for environment validation
 - Created `CookieHandler` interface
@@ -206,6 +218,7 @@ $ git commit -m "test(auth): [RED] login form displays validation errors and han
 ```
 
 **Files Created**:
+
 - `src/app/(auth)/login/page.test.tsx` - 7 test cases:
   - Renders email and password inputs
   - Shows error for invalid email
@@ -226,6 +239,7 @@ $ git commit -m "feat(auth): [GREEN] implement login page with form validation"
 ```
 
 **Implementation**:
+
 - `src/hooks/useForm.ts` - Generic form state management hook
 - `src/components/auth/LoginForm.tsx` - Login form with validation
 - `src/app/(auth)/login/page.tsx` - Login page with Google OAuth button
@@ -241,6 +255,7 @@ $ git commit -m "refactor(auth): extract LoginForm, GoogleSignInButton, and Auth
 ```
 
 **Changes**:
+
 - Extracted `GoogleSignInButton` component
 - Extracted `AuthDivider` and `AuthFooter` components
 - Updated `LoginForm` to use shared validation from `@/lib/auth`
@@ -279,6 +294,7 @@ $ find . -type f \( -name "*.ts" -o -name "*.tsx" \) | grep -v node_modules | wc
 ### 10:52:00 - Part 4 Deliverables
 
 Created:
+
 - `REFLECTION.md` - 850-word reflection on workflow and TDD experience
 - `SESSION_LOG.md` - This annotated session log
 
@@ -286,13 +302,13 @@ Created:
 
 ## Session Statistics
 
-| Metric | Value |
-|--------|-------|
-| **Total Commits** | 9 (3 RED + 3 GREEN + 3 REFACTOR) |
-| **Files Created** | 18 source files |
+| Metric            | Value                               |
+| ----------------- | ----------------------------------- |
+| **Total Commits** | 9 (3 RED + 3 GREEN + 3 REFACTOR)    |
+| **Files Created** | 18 source files                     |
 | **Lines of Code** | ~800 lines (tests + implementation) |
-| **TDD Cycles** | 3 complete cycles |
-| **Time Elapsed** | ~10 minutes |
+| **TDD Cycles**    | 3 complete cycles                   |
+| **Time Elapsed**  | ~10 minutes                         |
 
 ---
 
@@ -303,7 +319,7 @@ Created:
 ✅ **Implement**: Strict TDD - tests before implementation  
 ✅ **Commit**: Atomic commits with clear RED/GREEN/REFACTOR markers  
 ✅ **CLAUDE.md**: Referenced conventions (no `any`, Zod, 404 not 403)  
-✅ **Testing**: Vitest for unit/integration, React Testing Library for UI  
+✅ **Testing**: Vitest for unit/integration, React Testing Library for UI
 
 ---
 
@@ -319,24 +335,26 @@ Created:
 
 ## Challenges Encountered
 
-| Challenge | Solution |
-|-----------|----------|
-| No Node.js environment | Created files manually, used existing git |
-| Supabase mock complexity | Used vi.fn() to mock signInWithPassword |
-| Async test timing | Used waitFor from Testing Library |
-| Commit message format | Followed CLAUDE.md convention: `type(scope): [RED/GREEN] message` |
+| Challenge                | Solution                                                          |
+| ------------------------ | ----------------------------------------------------------------- |
+| No Node.js environment   | Created files manually, used existing git                         |
+| Supabase mock complexity | Used vi.fn() to mock signInWithPassword                           |
+| Async test timing        | Used waitFor from Testing Library                                 |
+| Commit message format    | Followed CLAUDE.md convention: `type(scope): [RED/GREEN] message` |
 
 ---
 
 ## Conclusion
 
 This session demonstrates the complete Claude Code workflow:
+
 - Systematic exploration prevented incorrect assumptions
 - Explicit planning provided clear direction
 - TDD ensured correctness at each step
 - Atomic commits created an audit trail
 
 The login feature is fully implemented with:
+
 - Server-side validation (Zod + API route)
 - Client-side validation (React hook)
 - Supabase integration (ready for cloud connection)

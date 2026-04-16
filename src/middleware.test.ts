@@ -76,7 +76,9 @@ describe('middleware', () => {
   it('preserves query string in the next param', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue(null);
 
-    const response = await middleware(makeRequest('/dashboard', '?tab=history'));
+    const response = await middleware(
+      makeRequest('/dashboard', '?tab=history'),
+    );
     expect(response.status).toBe(307);
 
     const location = response.headers.get('location');

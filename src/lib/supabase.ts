@@ -8,9 +8,9 @@ import type { Database } from '@/types/supabase';
  * @param request - The NextRequest object
  * @returns Supabase client instance
  */
-export function createClient(request: NextRequest): ReturnType<
-  typeof createServerClient<Database>
->;
+export function createClient(
+  request: NextRequest,
+): ReturnType<typeof createServerClient<Database>>;
 /**
  * Creates a Supabase server client with response cookie handling
  * @param request - The NextRequest object
