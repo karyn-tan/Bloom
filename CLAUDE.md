@@ -113,7 +113,7 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 
 **DON'T:**
 
-- Don't call Gemini Vision directly on the photo — use PlantNet first, then pass the species name to Gemini
+- Don't call Gemini Vision directly on the photo **for identification** — use PlantNet first, then pass the species name to Gemini for care tips. Exception: `assessFreshness` in `src/lib/gemini.ts` is explicitly permitted to send the raw image to Gemini Vision for **visual freshness scoring only** (not identification). This is a deliberate product decision (F10/US-14) and must not be used for any other purpose.
 - Don't regenerate Gemini care tips that are already cached in the DB
 - Don't expose `PLANTNET_API_KEY`, `GEMINI_API_KEY`, or `RESEND_API_KEY` in client-side code
 - Don't disable RLS on any table for any reason
