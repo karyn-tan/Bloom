@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { getUserDashboardState } from '@/lib/dashboard';
+import { getUserDashboardState, getUserBouquets } from '@/lib/dashboard';
 import { EmptyDashboard } from '@/components/dashboard/EmptyDashboard';
 import { ScanGrid } from '@/components/dashboard/ScanGrid';
+import { BouquetTile } from '@/components/dashboard/BouquetTile';
 
 const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
   <svg
@@ -44,7 +45,10 @@ export const metadata = {
  * DashboardPage — shows onboarding for new users, scan collection for returning users
  */
 export default async function DashboardPage() {
-  const state = await getUserDashboardState();
+  const [state, bouquets] = await Promise.all([
+    getUserDashboardState(),
+    getUserBouquets(),
+  ]);
 
   if (state.isNewUser) {
     return <EmptyDashboard />;
@@ -82,9 +86,9 @@ export default async function DashboardPage() {
         </div>
 
         {/* Stats bar */}
-        <div className="grid grid-cols-3 gap-4 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#74C0FC] p-4">
-            <p className="text-3xl font-black text-ink">{state.scans.length}</p>
+            <p className="text-3xl font-black text-ink">{state.scanCount}</p>
             <p className="text-xs font-black uppercase tracking-wider text-muted">
               Total Scans
             </p>
@@ -105,6 +109,12 @@ export default async function DashboardPage() {
               This Week
             </p>
           </div>
+          <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#7CB97A] p-4">
+            <p className="text-3xl font-black text-ink">{bouquets.length}</p>
+            <p className="text-xs font-black uppercase tracking-wider text-muted">
+              Active Bouquets
+            </p>
+          </div>
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#FFD966] p-4">
             <p className="text-3xl font-black text-ink">
               {new Set(state.scans.map((s) => s.scientificName)).size}
@@ -114,6 +124,28 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
+
+        {/* Bouquet grid */}
+        <section className="mb-10">
+          <h2 className="text-xl font-black text-ink uppercase tracking-tight mb-4">
+            Active Bouquets
+          </h2>
+          {bouquets.length === 0 ? (
+            <p className="text-muted font-medium">
+              No active bouquets yet.{' '}
+              <Link href="/scan" className="underline font-bold text-ink">
+                Scan a bouquet
+              </Link>{' '}
+              to start tracking.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {bouquets.map((bouquet) => (
+                <BouquetTile key={bouquet.id} bouquet={bouquet} />
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* Scan grid */}
         <ScanGrid scans={state.scans} />
