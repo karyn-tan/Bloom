@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Parallel Development Note
+
+This branch (feat/health-visualization) was developed in parallel with feat/email-reminders.
+See WORKTREE_EVIDENCE.md for parallel development evidence.
+
 @project_memory/bloom_prd.md
 
 Always start your response with a 🌸 emoji.
