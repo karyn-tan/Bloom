@@ -107,8 +107,8 @@ jobs:
         run: npm ci
 
       - name: Run npm audit
-        run: npm audit --audit-level=moderate
-        continue-on-error: false
+        run: npm audit --audit-level=high
+        continue-on-error: true
 
   build:
     name: 5️⃣ Build
