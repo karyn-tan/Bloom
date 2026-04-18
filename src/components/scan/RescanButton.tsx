@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 const MAX_SIZE_MB = 10;
 const ACCEPTED = ['image/jpeg', 'image/png'];
@@ -9,7 +8,6 @@ const ACCEPTED = ['image/jpeg', 'image/png'];
 type Props = { compact?: boolean; scanId?: string };
 
 export function RescanButton({ compact = false, scanId }: Props) {
-  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,8 +38,7 @@ export function RescanButton({ compact = false, scanId }: Props) {
         return;
       }
 
-      router.refresh();
-      router.push(`/dashboard/scan/${data.scan_id}`);
+      window.location.href = `/dashboard/scan/${data.scan_id}`;
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -131,7 +128,22 @@ export function RescanButton({ compact = false, scanId }: Props) {
         </button>
       )}
       {error && (
-        <p className="mt-2 text-xs text-accent-red font-bold">{error}</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40">
+          <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_var(--color-border)] p-6 max-w-sm w-full mx-4">
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-sm font-bold text-ink">{error}</p>
+              <button
+                onClick={() => setError(null)}
+                className="shrink-0 text-muted hover:text-ink transition-colors"
+                aria-label="Dismiss"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

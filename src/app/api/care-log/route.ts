@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
@@ -38,10 +39,10 @@ export async function POST(request: NextRequest) {
   const { bouquet_id, action } = parsed.data;
   const supabase = createClient(request);
 
-  // Verify bouquet ownership (IDOR protection)
+  // Verify bouquet ownership (IDOR protection) and get scan_id for revalidation
   const { data: bouquet, error: bouquetError } = await supabase
     .from('bouquets')
-    .select('id')
+    .select('id, scan_id')
     .eq('id', bouquet_id)
     .eq('user_id', userId)
     .single();
@@ -70,5 +71,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const scanId = (bouquet as { scan_id: string }).scan_id;
+  revalidatePath(`/dashboard/scan/${scanId}`);
+  revalidatePath('/dashboard');
   return NextResponse.json({ log: data }, { status: 201 });
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
 
@@ -77,5 +78,7 @@ export async function DELETE(
     console.error('[bouquets/delete] storage cleanup error:', storageError);
   }
 
+  revalidatePath('/dashboard');
+  revalidatePath(`/dashboard/scan/${(bouquet as { scan_id: string }).scan_id}`);
   return NextResponse.json({ success: true }, { status: 200 });
 }

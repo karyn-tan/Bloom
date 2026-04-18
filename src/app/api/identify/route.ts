@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
 import { identifyFlowers } from '@/lib/plantnet';
@@ -56,9 +57,26 @@ export async function POST(request: NextRequest) {
   // 4. Upload to Supabase Storage
   const scanId = existingScanIdStr ?? crypto.randomUUID();
   const buffer = Buffer.from(await file.arrayBuffer());
-  const storagePath = `${userId}/${scanId}.jpg`;
+  // For rescans, use a timestamped path to bust CDN cache; for new scans use scanId directly
+  const storagePath = existingScanIdStr
+    ? `${userId}/${scanId}_${Date.now()}.jpg`
+    : `${userId}/${scanId}.jpg`;
 
   const supabase = createClient(request);
+
+  // If rescanning, fetch the old image path so we can delete it after uploading the new one
+  let oldStoragePath: string | null = null;
+  if (existingScanIdStr) {
+    const { data: existingScan } = await supabase
+      .from('scans')
+      .select('image_url')
+      .eq('id', existingScanIdStr)
+      .eq('user_id', userId)
+      .returns<{ image_url: string }[]>()
+      .single();
+    oldStoragePath = (existingScan as { image_url: string } | null)?.image_url ?? null;
+  }
+
   const { error: uploadError } = await supabase.storage
     .from('flower-images')
     .upload(storagePath, buffer, {
@@ -152,6 +170,15 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
+
+    // Delete old image from storage now that the new one is saved
+    if (oldStoragePath && oldStoragePath !== storagePath) {
+      await supabase.storage.from('flower-images').remove([oldStoragePath]);
+    }
+
+    // Invalidate all pages that show this scan's data
+    revalidatePath(`/dashboard/scan/${existingScanIdStr}`);
+    revalidatePath('/dashboard');
   } else {
     // New scan: insert record and auto-create bouquet
     const scanInsertPayload: ScansInsert = {
@@ -192,6 +219,8 @@ export async function POST(request: NextRequest) {
       console.error('Bouquet auto-create failed:', bouquetInsertError.message);
       // Non-fatal: scan is saved, bouquet just wasn't auto-created
     }
+
+    revalidatePath('/dashboard');
   }
 
   return NextResponse.json({

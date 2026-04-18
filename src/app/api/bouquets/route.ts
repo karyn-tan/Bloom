@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
@@ -67,5 +68,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  revalidatePath('/dashboard');
   return NextResponse.json({ bouquet: data }, { status: 201 });
 }

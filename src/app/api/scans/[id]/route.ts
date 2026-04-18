@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getAuthenticatedUserId, createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/ratelimit';
@@ -101,5 +102,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     .eq('scan_id', scanId)
     .eq('user_id', userId);
 
+  revalidatePath(`/dashboard/scan/${scanId}`);
+  revalidatePath('/dashboard');
   return NextResponse.json({ flowers });
 }
