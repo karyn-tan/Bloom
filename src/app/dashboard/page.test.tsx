@@ -1,12 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-const mockGetUserDashboardState = vi.fn();
-const mockGetUserBouquets = vi.fn();
+// Hoist mock setup to avoid vi.mock hoisting issues
+const mocks = vi.hoisted(() => ({
+  mockGetUserDashboardState: vi.fn(),
+  mockGetUserBouquets: vi.fn(),
+}));
 
 vi.mock('@/lib/dashboard', () => ({
-  getUserDashboardState: mockGetUserDashboardState,
-  getUserBouquets: mockGetUserBouquets,
+  getUserDashboardState: mocks.mockGetUserDashboardState,
+  getUserBouquets: mocks.mockGetUserBouquets,
 }));
 
 vi.mock('next/navigation', () => ({
@@ -27,13 +30,13 @@ beforeEach(() => {
 
 describe('DashboardPage', () => {
   it('renders onboarding when user has no scans', async () => {
-    mockGetUserDashboardState.mockResolvedValue({
+    mocks.mockGetUserDashboardState.mockResolvedValue({
       isNewUser: true,
       scanCount: 0,
       user: { email: 'test@example.com', avatarUrl: null },
       scans: [],
     });
-    mockGetUserBouquets.mockResolvedValue([]);
+    mocks.mockGetUserBouquets.mockResolvedValue([]);
 
     const jsx = await DashboardPage();
     render(jsx);
@@ -45,7 +48,7 @@ describe('DashboardPage', () => {
   });
 
   it('renders scan grid when user has scans', async () => {
-    mockGetUserDashboardState.mockResolvedValue({
+    mocks.mockGetUserDashboardState.mockResolvedValue({
       isNewUser: false,
       scanCount: 1,
       user: { email: 'test@example.com', avatarUrl: null },
@@ -61,7 +64,7 @@ describe('DashboardPage', () => {
         },
       ],
     });
-    mockGetUserBouquets.mockResolvedValue([]);
+    mocks.mockGetUserBouquets.mockResolvedValue([]);
 
     const jsx = await DashboardPage();
     render(jsx);
