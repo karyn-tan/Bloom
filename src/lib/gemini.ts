@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { getGeminiEnv } from '@/lib/config';
+import type { CareLogStatus } from '@/lib/careLog';
 
 const GEMINI_API_URL =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
@@ -142,6 +143,84 @@ export async function assessFreshness(
 
   const parsed = freshnessResponseSchema.parse(JSON.parse(rawText));
   return parsed.freshness;
+}
+
+const adaptiveTipResponseSchema = z.object({
+  tip: z.string().min(10),
+});
+
+type GenerateAdaptiveTipParams = {
+  speciesNames: string[];
+  careCards: CareTip[];
+  careLogSummary: string;
+  status: CareLogStatus;
+};
+
+/**
+ * Calls Gemini to generate a short personalised adaptive care tip (2-4 sentences).
+ * Uses the species names, care cards, and care log classification as context.
+ */
+export async function generateAdaptiveTip(
+  params: GenerateAdaptiveTipParams,
+): Promise<string> {
+  const { speciesNames, careCards, careLogSummary, status } = params;
+  const env = getGeminiEnv();
+
+  const tone =
+    status === 'all_good'
+      ? 'Write a warm, positive affirmation. No action needed.'
+      : 'Write a gentle corrective message naming the specific action missed and a concrete next step.';
+
+  const careCardSummary = careCards
+    .map(
+      (c) =>
+        `${c.common_name}: water — ${c.care.water}; trim — ${c.care.trim}`,
+    )
+    .join('\n');
+
+  const prompt = `You are a friendly flower care coach. The user has a bouquet containing: ${speciesNames.join(', ')}.
+
+Care card summary:
+${careCardSummary}
+
+Care log status (last 7 days): ${careLogSummary}
+
+${tone}
+
+Respond in 2–4 sentences maximum. Return ONLY valid JSON: { "tip": "<your tip here>" }`;
+
+  const url = `${GEMINI_API_URL}?key=${env.GEMINI_API_KEY}`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { response_mime_type: 'application/json' },
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => 'Unknown error');
+    throw new Error(`Gemini API error: ${response.status} - ${text}`);
+  }
+
+  const json: unknown = await response.json();
+  const envelope = geminiResponseSchema.parse(json);
+  const rawText = envelope.candidates[0]?.content.parts[0]?.text;
+  if (!rawText) {
+    throw new GeminiValidationError('Gemini returned empty response', '');
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawText);
+  } catch {
+    throw new GeminiValidationError('Gemini returned invalid JSON', rawText);
+  }
+
+  const validated = adaptiveTipResponseSchema.parse(parsed);
+  return validated.tip;
 }
 
 export class GeminiValidationError extends Error {
