@@ -55,7 +55,10 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 },
+    );
   }
 
   const parsed = requestSchema.safeParse(body);
@@ -132,7 +135,9 @@ export async function POST(request: NextRequest) {
   // Generate tip via Gemini
   try {
     const speciesNames = flowers.map((f) => f.common_name);
-    const careCards = flowers.filter((f) => f.care !== null).map((f) => f.care!);
+    const careCards = flowers
+      .filter((f) => f.care !== null)
+      .map((f) => f.care!);
     const careLogSummary = buildCareLogSummary(status, careEntries);
 
     const tip = await generateAdaptiveTip({
@@ -166,10 +171,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function buildCareLogSummary(
-  status: string,
-  entries: CareLogEntry[],
-): string {
+function buildCareLogSummary(status: string, entries: CareLogEntry[]): string {
   if (status === 'all_good') {
     return `User has completed all care actions consistently for the past 3+ days (${entries.length} total actions logged).`;
   }
