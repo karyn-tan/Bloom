@@ -26,7 +26,9 @@ vi.mock('@/lib/supabase', () => ({
           select: () => ({
             eq: () => ({
               eq: () => ({
-                single: mockBouquetSingle,
+                returns: () => ({
+                  single: mockBouquetSingle,
+                }),
               }),
             }),
           }),
@@ -42,7 +44,9 @@ vi.mock('@/lib/supabase', () => ({
         select: () => ({
           eq: () => ({
             eq: () => ({
-              single: mockScanSingle,
+              returns: () => ({
+                single: mockScanSingle,
+              }),
             }),
           }),
         }),

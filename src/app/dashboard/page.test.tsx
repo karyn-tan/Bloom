@@ -1,9 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
+const mockGetUserDashboardState = vi.fn();
+const mockGetUserBouquets = vi.fn();
+
 vi.mock('@/lib/dashboard', () => ({
-  getUserDashboardState: vi.fn(),
-  getUserBouquets: vi.fn(),
+  getUserDashboardState: mockGetUserDashboardState,
+  getUserBouquets: mockGetUserBouquets,
 }));
 
 vi.mock('next/navigation', () => ({
@@ -16,7 +19,6 @@ vi.mock('@/lib/supabase-browser', () => ({
   }),
 }));
 
-import { getUserDashboardState } from '@/lib/dashboard';
 import DashboardPage from './page';
 
 beforeEach(() => {
@@ -25,12 +27,13 @@ beforeEach(() => {
 
 describe('DashboardPage', () => {
   it('renders onboarding when user has no scans', async () => {
-    vi.mocked(getUserDashboardState).mockResolvedValue({
+    mockGetUserDashboardState.mockResolvedValue({
       isNewUser: true,
       scanCount: 0,
       user: { email: 'test@example.com', avatarUrl: null },
       scans: [],
     });
+    mockGetUserBouquets.mockResolvedValue([]);
 
     const jsx = await DashboardPage();
     render(jsx);
@@ -42,7 +45,7 @@ describe('DashboardPage', () => {
   });
 
   it('renders scan grid when user has scans', async () => {
-    vi.mocked(getUserDashboardState).mockResolvedValue({
+    mockGetUserDashboardState.mockResolvedValue({
       isNewUser: false,
       scanCount: 1,
       user: { email: 'test@example.com', avatarUrl: null },
@@ -58,6 +61,7 @@ describe('DashboardPage', () => {
         },
       ],
     });
+    mockGetUserBouquets.mockResolvedValue([]);
 
     const jsx = await DashboardPage();
     render(jsx);

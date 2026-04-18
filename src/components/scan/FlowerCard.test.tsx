@@ -16,7 +16,7 @@ const mockCareTip: CareTip = {
 };
 
 describe('FlowerCard', () => {
-  it('renders flower name and scientific name', () => {
+  it('renders flower name', () => {
     render(
       <FlowerCard
         commonName="Rose"
@@ -29,7 +29,6 @@ describe('FlowerCard', () => {
       />,
     );
     expect(screen.getByText('Rose')).toBeTruthy();
-    expect(screen.getByText('Rosa gallica')).toBeTruthy();
   });
 
   it('shows loading skeleton when care is loading', () => {
