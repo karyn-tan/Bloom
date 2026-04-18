@@ -34,9 +34,9 @@ describe('BouquetTile', () => {
     mockFetch.mockResolvedValue({ ok: true });
   });
 
-  it('should render the bouquet name', () => {
+  it('should render the flower name', () => {
     render(<BouquetTile bouquet={makeBouquet()} />);
-    expect(screen.getByText('Kitchen table')).toBeTruthy();
+    expect(screen.getByText('Tulip')).toBeTruthy();
   });
 
   it('should render age in days', () => {
@@ -75,7 +75,7 @@ describe('BouquetTile', () => {
   it('should not crash when imageUrl is null', () => {
     render(<BouquetTile bouquet={makeBouquet({ imageUrl: null })} />);
     expect(screen.queryByRole('img')).toBeNull();
-    expect(screen.getByText('Kitchen table')).toBeTruthy();
+    expect(screen.getByText('Tulip')).toBeTruthy();
   });
 
   it('should call window.confirm, then fetch DELETE, then router.refresh on delete button click', async () => {
