@@ -1,0 +1,226 @@
+# Project 3: Production Application Checklist
+
+**Team:** Hemang Murugan | Feng Hua Tan  
+**Project:** Bloom - Cut Flower Care Tracker  
+**Total Points:** 200 (+10 bonus possible)
+
+---
+
+## Category 1: Application Quality (40 points)
+
+| Requirement                    | Status | Evidence                            | Notes                                           |
+| ------------------------------ | ------ | ----------------------------------- | ----------------------------------------------- |
+| Production-ready application   | ⏳     | Vercel URL                          | Need to deploy                                  |
+| Solves a real problem          | ✅     | PRD + User interviews               | Flower care identification gap                  |
+| 2+ user roles/feature areas    | ✅     | Maya (casual), Priya (hobbyist)     | Personas in PRD                                 |
+| Real-world use case (new idea) | ✅     | Bloom PRD                           | No existing solution combines PlantNet + Gemini |
+| Portfolio/interview-worthy     | ✅     | Neo-brutalist design, full features | Production quality UI                           |
+| Deployed on Vercel             | ⏳     | URL pending                         | Need final deployment                           |
+
+**Score Estimate:** 30/40 (pending deployment)
+
+---
+
+## Category 2: Claude Code Mastery (55 points)
+
+### 2.1 CLAUDE.md & Memory (W10)
+
+| Requirement                  | Status | Evidence                         | Notes                     |
+| ---------------------------- | ------ | -------------------------------- | ------------------------- |
+| Comprehensive CLAUDE.md      | ✅     | `CLAUDE.md`                      | Complete with conventions |
+| @imports for modular org     | ✅     | `@project_memory/bloom_prd.md`   | Auto-loads PRD            |
+| Auto-memory usage            | ✅     | Session persistence              | Used throughout           |
+| CLAUDE.md evolution in git   | ✅     | Git history                      | Multiple updates visible  |
+| Architecture decisions doc'd | ✅     | "Architecture Decisions" section | 8 decisions documented    |
+| Testing strategy doc'd       | ✅     | "Testing Strategy" section       | TDD workflow specified    |
+
+### 2.2 Custom Skills - Minimum 2 (W12)
+
+| Requirement            | Status | Evidence                      | Notes                    |
+| ---------------------- | ------ | ----------------------------- | ------------------------ |
+| Skill 1: tdd-feature   | ✅     | `.claude/skills/tdd-feature/` | v1→v2 iteration complete |
+| Skill 2: create-pr     | ✅     | `.claude/skills/create-pr/`   | PR creation skill        |
+| Evidence of team usage | ✅     | `SESSION_LOG.md`              | 3 tasks documented       |
+| v1→v2 iteration        | ✅     | `v1.md` → `v2.md`             | Auto-detection added     |
+
+### 2.3 Hooks - Minimum 2 (W12)
+
+| Requirement              | Status | Evidence                | Notes                         |
+| ------------------------ | ------ | ----------------------- | ----------------------------- |
+| PreToolUse hook          | ✅     | `.claude/settings.json` | Blocks protected files        |
+| PostToolUse hook         | ✅     | `.claude/settings.json` | Auto-runs tests on edit       |
+| Quality-enforcement hook | ✅     | PostToolUse runs tests  | Tests must pass before commit |
+
+### 2.4 MCP Servers - Minimum 1 (W12)
+
+| Requirement                 | Status | Evidence                    | Notes                        |
+| --------------------------- | ------ | --------------------------- | ---------------------------- |
+| MCP server integrated       | ✅     | `.mcp.json` + settings.json | 3 servers configured         |
+| Config shared via .mcp.json | ✅     | `.mcp.json`                 | Supabase HTTP                |
+| Evidence of use             | ✅     | `MCP_DEMONSTRATION.md`      | Supabase, Playwright, GitHub |
+
+### 2.5 Agents - Minimum 1 (W12-W13)
+
+| Requirement       | Status | Evidence          | Notes                          |
+| ----------------- | ------ | ----------------- | ------------------------------ |
+| Custom sub-agents | ✅     | `.claude/agents/` | test-writer, security-reviewer |
+| Evidence of use   | ✅     | Session logs      | Agent descriptions complete    |
+
+### 2.6 Parallel Development (W12)
+
+| Requirement             | Status | Evidence                                             | Notes                      |
+| ----------------------- | ------ | ---------------------------------------------------- | -------------------------- |
+| Worktree usage evidence | ✅     | `WORKTREE_EVIDENCE.md`                               | Both branches pushed       |
+| 2+ features in parallel | ✅     | `feat/health-visualization` + `feat/email-reminders` | Interleaved commits        |
+| Visible in git history  | ✅     | `git log --graph`                                    | Clear divergence from base |
+
+### 2.7 Writer/Reviewer Pattern + C.L.E.A.R. (W12)
+
+| Requirement                  | Status | Evidence           | Notes                                        |
+| ---------------------------- | ------ | ------------------ | -------------------------------------------- |
+| 2+ PRs with writer/reviewer  | ❌     | Need to create PRs | Not done yet                                 |
+| C.L.E.A.R. framework applied | ⏳     | Future PR comments | Context, Logic, Evidence, Architecture, Risk |
+| AI disclosure metadata       | ⏳     | Future PRs         | % AI-generated, tool used, human review      |
+
+**Claude Code Mastery Score:** ~42/55 (missing PRs with C.L.E.A.R.)
+
+---
+
+## Category 3: Testing & TDD (30 points)
+
+| Requirement                          | Status | Evidence                           | Notes                                        |
+| ------------------------------------ | ------ | ---------------------------------- | -------------------------------------------- |
+| TDD red-green-refactor (3+ features) | ✅     | Git history                        | Health, Reminders, Care-log all show pattern |
+| Failing tests before implementation  | ✅     | Commits with `[RED]`               | Multiple visible in git log                  |
+| Unit + integration tests             | ✅     | 35 test files                      | Vitest coverage                              |
+| At least 1 E2E test                  | ✅     | `e2e/health-visualization.spec.ts` | Playwright                                   |
+| 70%+ test coverage                   | ⏳     | Need coverage report               | Run `npm test -- --coverage`                 |
+
+**Testing Score Estimate:** 25/30 (pending coverage confirmation)
+
+---
+
+## Category 4: CI/CD & Production (35 points)
+
+| Requirement                  | Status | Evidence                          | Notes                         |
+| ---------------------------- | ------ | --------------------------------- | ----------------------------- |
+| Lint (ESLint + Prettier)     | ✅     | `.github/workflows/ci.yml`        | Stage 1 in pipeline           |
+| Type checking (tsc --noEmit) | ✅     | `.github/workflows/ci.yml`        | Stage 2 in pipeline           |
+| Unit and integration tests   | ✅     | `.github/workflows/ci.yml`        | Stage 3 in pipeline           |
+| E2E tests (Playwright)       | ✅     | `.github/workflows/ci.yml`        | Stage 6 in pipeline           |
+| Security scan (npm audit)    | ✅     | `.github/workflows/security.yml`  | Dependency scanning           |
+| AI PR review                 | ✅     | `.github/workflows/pr-review.yml` | C.L.E.A.R. framework comments |
+| Preview deploy (Vercel)      | ⏳     | Manual configuration              | Vercel dashboard setup needed |
+| Production deploy on merge   | ⏳     | Manual configuration              | Vercel Git integration        |
+| Security gates (4+)          | ✅     | See below                         | All 5 gates implemented       |
+
+### Security Gates Implemented
+
+| Gate                            | Status | Evidence                                    |
+| ------------------------------- | ------ | ------------------------------------------- |
+| 1. Pre-commit secrets detection | ✅     | `.github/workflows/security.yml` (Gitleaks) |
+| 2. Dependency scanning          | ✅     | `npm audit` in CI                           |
+| 3. SAST tool                    | ✅     | CodeQL in `.github/workflows/security.yml`  |
+| 4. Security acceptance criteria | ✅     | Documented in CLAUDE.md                     |
+| 5. OWASP Top 10 awareness       | ✅     | Documented in CLAUDE.md                     |
+
+**CI/CD Score Estimate:** 26/35 (missing only Vercel deployment)
+
+---
+
+## Category 5: Team Process (25 points)
+
+| Requirement                            | Status | Evidence                                            | Notes                          |
+| -------------------------------------- | ------ | --------------------------------------------------- | ------------------------------ |
+| 2 sprints documented                   | ❌     | Need sprint planning + retros                       | Create `sprints/` directory    |
+| Sprint planning + retrospective each   | ❌     | Not documented                                      | Need 4 docs total              |
+| GitHub Issues with acceptance criteria | ⏳     | Partial                                             | Some issues exist, need more   |
+| Branch-per-issue workflow              | ✅     | `feat/health-visualization`, `feat/email-reminders` | Following pattern              |
+| Async standups (3+ per sprint/partner) | ❌     | Not documented                                      | Need Slack screenshots or logs |
+| C.L.E.A.R. in reviews                  | ⏳     | Future PRs                                          | Pending PR creation            |
+| Peer evaluations                       | ⏳     | End of project                                      | Both partners complete         |
+
+**Team Process Score Estimate:** 6/25 (major gaps)
+
+---
+
+## Category 6: Documentation & Demo (15 points)
+
+| Requirement                       | Status | Evidence                     | Notes                      |
+| --------------------------------- | ------ | ---------------------------- | -------------------------- |
+| Clear README with Mermaid diagram | ⏳     | README exists, needs Mermaid | Add architecture diagram   |
+| Published blog post               | ❌     | Not started                  | Medium/dev.to post needed  |
+| 5-10 min video demo               | ❌     | Not recorded                 | Show app + Claude workflow |
+| 500-word reflections              | ❌     | Not written                  | One per partner            |
+
+**Documentation Score Estimate:** 4/15 (README good, rest missing)
+
+---
+
+## Summary
+
+| Category             | Points Possible | Current Estimate | Status              |
+| -------------------- | --------------- | ---------------- | ------------------- |
+| Application Quality  | 40              | 30               | ⏳ Needs deployment |
+| Claude Code Mastery  | 55              | 42               | ✅ Strong           |
+| Testing & TDD        | 30              | 25               | ✅ Good             |
+| CI/CD & Production   | 35              | 9                | ❌ Critical gap     |
+| Team Process         | 25              | 6                | ❌ Critical gap     |
+| Documentation & Demo | 15              | 4                | ❌ Critical gap     |
+| **TOTAL**            | **200**         | **116**          | ⚠️ Below passing    |
+
+---
+
+## Critical Actions Needed
+
+### Immediate (Next 48 hours):
+
+1. ❌ **Set up GitHub Actions CI/CD** - 8 pipeline stages
+2. ❌ **Create 2 PRs with Writer/Reviewer pattern** - Use agents
+3. ❌ **Document 2 sprints** - Planning + retrospectives
+4. ⏳ **Deploy to Vercel** - Production URL required
+
+### Week 1:
+
+5. ❌ **Write technical blog post** - Medium/dev.to
+6. ❌ **Record video demo** - 5-10 minutes
+7. ❌ **Write 500-word reflections** - Both partners
+8. ⏳ **Complete peer evaluations** - End of project
+
+### Verification Commands:
+
+```bash
+# Check test coverage
+npm test -- --coverage
+
+# Check git log for TDD evidence
+git log --oneline --all --grep="RED\|GREEN\|refactor" -15
+
+# Verify parallel development
+git log --oneline --graph --all | head -20
+
+# Check worktrees
+git worktree list
+
+# List all branches
+git branch -a
+```
+
+---
+
+## Evidence Locations
+
+| Evidence          | Location                                    |
+| ----------------- | ------------------------------------------- |
+| CLAUDE.md         | Root directory                              |
+| Custom Skills     | `.claude/skills/`                           |
+| Agents            | `.claude/agents/`                           |
+| MCP Config        | `.mcp.json`, `.claude/settings.json`        |
+| Session Logs      | `.claude/skills/tdd-feature/SESSION_LOG.md` |
+| Worktree Evidence | `WORKTREE_EVIDENCE.md`                      |
+| Tests             | `src/**/*.test.ts`, `e2e/*.spec.ts`         |
+| PRD               | `project_memory/bloom_prd.md`               |
+
+---
+
+_Last Updated: April 18, 2026_

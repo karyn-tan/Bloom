@@ -80,7 +80,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     care,
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error: updateError } = await (supabase as any)
     .from('scans')
     .update({ flowers })
@@ -96,7 +95,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 
   // 7. Also update the bouquet name to match corrected flower name
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (supabase as any)
     .from('bouquets')
     .update({ name: common_name })

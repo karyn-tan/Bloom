@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data, error: insertError } = await (supabase as any)
     .from('bouquets')
     .insert({

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from './route';
+import type { NextRequest } from 'next/server';
 
 const mockResetPasswordForEmail = vi.fn();
 
@@ -20,7 +21,7 @@ describe('POST /api/auth/forgot-password', () => {
     const request = new Request('http://localhost/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify({}),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -33,7 +34,7 @@ describe('POST /api/auth/forgot-password', () => {
     const request = new Request('http://localhost/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify({ email: 'not-an-email' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -48,7 +49,7 @@ describe('POST /api/auth/forgot-password', () => {
     const request = new Request('http://localhost/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify({ email: 'user@example.com' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(200);
@@ -66,7 +67,7 @@ describe('POST /api/auth/forgot-password', () => {
     const request = new Request('http://localhost/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify({ email: 'unknown@example.com' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(200);
@@ -78,7 +79,7 @@ describe('POST /api/auth/forgot-password', () => {
     const request = new Request('http://localhost/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify({ email: 'user@example.com' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);

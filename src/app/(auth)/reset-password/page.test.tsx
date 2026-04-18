@@ -73,9 +73,13 @@ describe('ResetPasswordPage', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /set new password/i }));
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/login');
-    });
+    // Wait for the 2000ms setTimeout delay
+    await waitFor(
+      () => {
+        expect(mockPush).toHaveBeenCalledWith('/login');
+      },
+      { timeout: 3000 },
+    );
   });
 
   it('shows error on invalid or expired link', async () => {

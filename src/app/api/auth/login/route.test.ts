@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from './route';
+import type { NextRequest } from 'next/server';
 
 // Mock Supabase client
 const mockSignInWithPassword = vi.fn();
@@ -22,7 +23,7 @@ describe('POST /api/auth/login', () => {
     const request = new Request('http://localhost/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email: 'invalid-email', password: 'password123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -35,7 +36,7 @@ describe('POST /api/auth/login', () => {
     const request = new Request('http://localhost/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email: 'user@example.com', password: 'short' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -56,7 +57,7 @@ describe('POST /api/auth/login', () => {
         email: 'user@example.com',
         password: 'wrongpassword',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(401);
@@ -86,7 +87,7 @@ describe('POST /api/auth/login', () => {
         email: 'user@example.com',
         password: 'password123',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(200);
@@ -105,7 +106,7 @@ describe('POST /api/auth/login', () => {
         email: 'user@example.com',
         password: 'password123',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);

@@ -18,7 +18,7 @@ describe('EmptyDashboard', () => {
   it('renders the scan CTA', () => {
     render(<EmptyDashboard />);
     expect(
-      screen.getByRole('link', { name: /scan your first bouquet/i }),
+      screen.getByRole('link', { name: /scan your first flower/i }),
     ).toBeTruthy();
   });
 

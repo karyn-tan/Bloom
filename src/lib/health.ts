@@ -1,5 +1,7 @@
 import type { HealthState } from '@/types/health';
 
+// Parallel development: feat/health-visualization branch
+// Developed simultaneously with feat/email-reminders branch
 const WATER_INTERVAL_DEFAULT = 2;
 
 /**
