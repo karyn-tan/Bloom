@@ -12,7 +12,9 @@ import { CareActionButtons } from '@/components/scan/CareActionButtons';
 import { RescanButton } from '@/components/scan/RescanButton';
 import { computeHealthState } from '@/lib/health';
 import { computeBouquetStatus } from '@/lib/dashboard';
+import { AdaptiveTipCard } from '@/components/AdaptiveTipCard';
 import type { Database } from '@/types/supabase';
+import type { CareLogStatus } from '@/lib/careLog';
 
 type ScanRow = Database['public']['Tables']['scans']['Row'];
 
@@ -217,6 +219,36 @@ export default async function ScanDetailPage({
       })
     : null;
 
+  // Fetch adaptive care tip (cached or newly generated)
+  let adaptiveTip: string | null = null;
+  let adaptiveTipStatus: CareLogStatus | null = null;
+  if (bouquet?.id) {
+    try {
+      const tipRes = await fetch(
+        new URL(
+          '/api/adaptive-tip',
+          process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+        ).href,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bouquet_id: bouquet.id }),
+          cache: 'no-store',
+        },
+      );
+      if (tipRes.ok) {
+        const tipData = (await tipRes.json()) as {
+          tip: string;
+          status: CareLogStatus;
+        };
+        adaptiveTip = tipData.tip;
+        adaptiveTipStatus = tipData.status;
+      }
+    } catch {
+      // Non-fatal: adaptive tip is best-effort
+    }
+  }
+
   const refreshDroplets = computeRefreshDroplets(latestWaterLoggedAt);
   const hydrationLabel =
     refreshDroplets === 3
@@ -363,7 +395,15 @@ export default async function ScanDetailPage({
           </div>
 
           {flower.care ? (
-            <CareTipSection care={flower.care} />
+            <>
+              <CareTipSection care={flower.care} />
+              {adaptiveTip && adaptiveTipStatus && (
+                <AdaptiveTipCard
+                  tip={adaptiveTip}
+                  status={adaptiveTipStatus}
+                />
+              )}
+            </>
           ) : (
             <div className="mt-4 p-4 bg-coral/10 border-[3px] border-border">
               <p className="font-black text-coral uppercase text-sm tracking-wider">
