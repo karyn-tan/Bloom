@@ -157,22 +157,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run E2E tests (skipped - requires env vars)
-        run: echo "E2E tests skipped - requires TEST_USER_EMAIL, TEST_USER_PASSWORD, TEST_SCAN_ID"
-        # npm run test:e2e
-        # Uncomment when env vars are configured in GitHub Secrets
+      - name: Run E2E tests
+        run: npm run test:e2e -- --pass-with-no-tests
         env:
           BASE_URL: http://localhost:3000
-          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
 
   summary:
     name: ✅ CI Summary

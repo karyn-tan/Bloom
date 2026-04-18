@@ -339,7 +339,6 @@ export default async function ScanDetailPage({
           </div>
         )}
 
-
         {/* Flower info */}
         <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#7CB97A] p-6 mb-8">
           <div className="flex items-start justify-between gap-3 mb-6">
@@ -373,7 +372,6 @@ export default async function ScanDetailPage({
             </div>
           )}
         </div>
-
       </div>
     </main>
   );
