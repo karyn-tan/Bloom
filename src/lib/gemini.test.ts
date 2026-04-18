@@ -8,7 +8,9 @@ import {
   generateCareTip,
   GeminiValidationError,
   assessFreshness,
+  generateAdaptiveTip,
 } from './gemini';
+import type { CareLogStatus } from './careLog';
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -232,5 +234,104 @@ describe('assessFreshness', () => {
     await expect(
       assessFreshness(Buffer.from('fake-image-data'), 'image/jpeg'),
     ).rejects.toThrow();
+  });
+});
+
+const validAdaptiveTipParams = {
+  speciesNames: ['Rose', 'Tulip'],
+  careCards: [validCareTip],
+  careLogSummary: 'Missed watering yesterday.',
+  status: 'missed_watering' as CareLogStatus,
+};
+
+describe('generateAdaptiveTip', () => {
+  it('returns a tip string on success', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"tip": "Your roses may be thirsty. Top up the water now."}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    const result = await generateAdaptiveTip(validAdaptiveTipParams);
+    expect(typeof result).toBe('string');
+    expect(result.length).toBeGreaterThan(10);
+  });
+
+  it('returns positive tip for all_good status', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"tip": "Your peonies are loving it — keep doing what you\'re doing!"}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    const result = await generateAdaptiveTip({
+      ...validAdaptiveTipParams,
+      status: 'all_good',
+    });
+    expect(typeof result).toBe('string');
+  });
+
+  it('throws on non-200 Gemini response', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 500,
+      text: () => Promise.resolve('Server error'),
+    });
+
+    await expect(generateAdaptiveTip(validAdaptiveTipParams)).rejects.toThrow(
+      'Gemini API error',
+    );
+  });
+
+  it('throws GeminiValidationError when response is not valid JSON', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: 'not valid json {{{' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(generateAdaptiveTip(validAdaptiveTipParams)).rejects.toThrow();
+  });
+
+  it('throws when tip field is missing from Gemini response', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: '{"not_tip": "something"}' }],
+              },
+            },
+          ],
+        }),
+    });
+
+    await expect(generateAdaptiveTip(validAdaptiveTipParams)).rejects.toThrow();
   });
 });
