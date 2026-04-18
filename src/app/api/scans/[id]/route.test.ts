@@ -105,7 +105,10 @@ describe('PATCH /api/scans/[id]', () => {
 
   it('returns 429 when rate limited', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    const rateLimitRes = new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429 });
+    const rateLimitRes = new Response(
+      JSON.stringify({ error: 'Too many requests' }),
+      { status: 429 },
+    );
     mockCheckRateLimit.mockResolvedValue(rateLimitRes);
     const res = await PATCH(makeRequest({ common_name: 'Rose' }), routeParams);
     expect(res.status).toBe(429);
@@ -132,7 +135,10 @@ describe('PATCH /api/scans/[id]', () => {
 
   it('returns 404 when scan not found', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    mockScanSingle.mockResolvedValue({ data: null, error: { message: 'not found' } });
+    mockScanSingle.mockResolvedValue({
+      data: null,
+      error: { message: 'not found' },
+    });
     const res = await PATCH(makeRequest({ common_name: 'Rose' }), routeParams);
     expect(res.status).toBe(404);
   });

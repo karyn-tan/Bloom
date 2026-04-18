@@ -38,20 +38,26 @@ describe('RescanButton', () => {
 
   it('shows error for invalid file type', async () => {
     render(<RescanButton />);
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
 
     const file = new File(['test'], 'test.gif', { type: 'image/gif' });
     Object.defineProperty(input, 'files', { value: [file] });
     fireEvent.change(input);
 
     await waitFor(() => {
-      expect(screen.getByText('Please upload a JPEG or PNG photo')).toBeTruthy();
+      expect(
+        screen.getByText('Please upload a JPEG or PNG photo'),
+      ).toBeTruthy();
     });
   });
 
   it('shows error for oversized file', async () => {
     render(<RescanButton />);
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
 
     const file = new File([new ArrayBuffer(11 * 1024 * 1024)], 'big.jpg', {
       type: 'image/jpeg',
@@ -70,7 +76,9 @@ describe('RescanButton', () => {
       json: () => Promise.resolve({ error: 'ID failed' }),
     });
     render(<RescanButton />);
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
 
     const file = new File(['test'], 'flower.jpg', { type: 'image/jpeg' });
     Object.defineProperty(input, 'files', { value: [file] });
@@ -83,7 +91,9 @@ describe('RescanButton', () => {
 
   it('includes existing_scan_id in form data for rescans', async () => {
     render(<RescanButton scanId="existing-scan" />);
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
 
     const file = new File(['test'], 'flower.jpg', { type: 'image/jpeg' });
     Object.defineProperty(input, 'files', { value: [file] });
@@ -103,7 +113,9 @@ describe('RescanButton', () => {
       json: () => Promise.resolve({ error: 'Oops' }),
     });
     render(<RescanButton />);
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
 
     const file = new File(['test'], 'flower.jpg', { type: 'image/jpeg' });
     Object.defineProperty(input, 'files', { value: [file] });

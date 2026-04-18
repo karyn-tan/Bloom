@@ -87,13 +87,16 @@ function makeFile(type = 'image/jpeg', size = 1024): Blob {
   const blob = new Blob([data], { type });
   // jsdom Blob lacks arrayBuffer(); polyfill it for route code
   if (!blob.arrayBuffer) {
-    (blob as Record<string, unknown>).arrayBuffer = () =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (blob as unknown as Record<string, any>).arrayBuffer = () =>
       Promise.resolve(data.buffer);
   }
   return blob;
 }
 
-function makeRequest(formDataEntries: Record<string, Blob | string | null> = {}) {
+function makeRequest(
+  formDataEntries: Record<string, Blob | string | null> = {},
+) {
   const fakeFormData = {
     get: (key: string) => formDataEntries[key] ?? null,
   };
@@ -103,7 +106,9 @@ function makeRequest(formDataEntries: Record<string, Blob | string | null> = {})
   return req;
 }
 
-function makeValidRequest(overrides: { type?: string; size?: number; existingScanId?: string } = {}) {
+function makeValidRequest(
+  overrides: { type?: string; size?: number; existingScanId?: string } = {},
+) {
   const file = makeFile(overrides.type ?? 'image/jpeg', overrides.size ?? 1024);
   const entries: Record<string, Blob | string | null> = { image: file };
   if (overrides.existingScanId) {
@@ -149,7 +154,10 @@ describe('POST /api/identify', () => {
 
   it('returns 429 when rate limited', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    const rateLimitRes = new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429 });
+    const rateLimitRes = new Response(
+      JSON.stringify({ error: 'Too many requests' }),
+      { status: 429 },
+    );
     mockCheckRateLimit.mockResolvedValue(rateLimitRes);
     const res = await POST(makeValidRequest());
     expect(res.status).toBe(429);
@@ -157,7 +165,9 @@ describe('POST /api/identify', () => {
 
   it('returns 400 for invalid form data', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    const req = { formData: vi.fn().mockRejectedValue(new Error('bad')) } as unknown as NextRequest;
+    const req = {
+      formData: vi.fn().mockRejectedValue(new Error('bad')),
+    } as unknown as NextRequest;
     const res = await POST(req);
     expect(res.status).toBe(400);
     const body = await res.json();
@@ -254,7 +264,9 @@ describe('POST /api/identify', () => {
   it('handles rescan by updating existing scan', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
     const res = await POST(
-      makeValidRequest({ existingScanId: '550e8400-e29b-41d4-a716-446655440000' }),
+      makeValidRequest({
+        existingScanId: '550e8400-e29b-41d4-a716-446655440000',
+      }),
     );
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -265,7 +277,9 @@ describe('POST /api/identify', () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
     mockScanUpdateFn.mockResolvedValue({ error: { message: 'update failed' } });
     const res = await POST(
-      makeValidRequest({ existingScanId: '550e8400-e29b-41d4-a716-446655440000' }),
+      makeValidRequest({
+        existingScanId: '550e8400-e29b-41d4-a716-446655440000',
+      }),
     );
     expect(res.status).toBe(500);
   });

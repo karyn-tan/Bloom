@@ -77,7 +77,8 @@ export function CorrectFlowerForm({ scanId, currentCommonName }: Props) {
           />
         </svg>
         <span className="text-xs font-bold text-muted">
-          Regenerating care tips for <span className="text-ink">{commonName}</span>…
+          Regenerating care tips for{' '}
+          <span className="text-ink">{commonName}</span>…
         </span>
       </div>
     );
@@ -100,7 +101,9 @@ export function CorrectFlowerForm({ scanId, currentCommonName }: Props) {
       <p className="text-xs text-muted">
         Care tips will be regenerated for this flower.
       </p>
-      {error ? <p className="text-xs text-accent-red font-bold">{error}</p> : null}
+      {error ? (
+        <p className="text-xs text-accent-red font-bold">{error}</p>
+      ) : null}
       <div className="flex gap-2">
         <button
           type="submit"

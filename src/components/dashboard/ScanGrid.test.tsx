@@ -35,9 +35,7 @@ describe('ScanGrid', () => {
 
   it('does not render lifespan badge when null', () => {
     render(
-      <ScanGrid
-        scans={[makeScan({ lifespanMin: null, lifespanMax: null })]}
-      />,
+      <ScanGrid scans={[makeScan({ lifespanMin: null, lifespanMax: null })]} />,
     );
     expect(screen.queryByText(/\d+–\d+d/)).toBeNull();
   });

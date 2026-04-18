@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
       .eq('user_id', userId)
       .returns<{ image_url: string }[]>()
       .single();
-    oldStoragePath = (existingScan as { image_url: string } | null)?.image_url ?? null;
+    oldStoragePath =
+      (existingScan as { image_url: string } | null)?.image_url ?? null;
   }
 
   const { error: uploadError } = await supabase.storage

@@ -76,7 +76,10 @@ describe('POST /api/care', () => {
 
   it('returns 429 when rate limited', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    const rateLimitRes = new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429 });
+    const rateLimitRes = new Response(
+      JSON.stringify({ error: 'Too many requests' }),
+      { status: 429 },
+    );
     mockCheckRateLimit.mockResolvedValue(rateLimitRes);
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(429);
@@ -90,7 +93,10 @@ describe('POST /api/care', () => {
 
   it('returns 404 when scan not found', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    mockScanSingle.mockResolvedValue({ data: null, error: { message: 'not found' } });
+    mockScanSingle.mockResolvedValue({
+      data: null,
+      error: { message: 'not found' },
+    });
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(404);
   });
@@ -99,7 +105,14 @@ describe('POST /api/care', () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
     mockScanSingle.mockResolvedValue({
       data: {
-        flowers: [{ scientific_name: 'Rosa', common_name: 'Rose', confidence: 0.9, care: null }],
+        flowers: [
+          {
+            scientific_name: 'Rosa',
+            common_name: 'Rose',
+            confidence: 0.9,
+            care: null,
+          },
+        ],
       },
       error: null,
     });
@@ -109,11 +122,21 @@ describe('POST /api/care', () => {
 
   it('returns cached care when already generated', async () => {
     mockGetAuthenticatedUserId.mockResolvedValue('user-1');
-    const cachedCare = { water: 'Cached', light: 'Cached', temperature: 'Cached', trim: 'Cached' };
+    const cachedCare = {
+      water: 'Cached',
+      light: 'Cached',
+      temperature: 'Cached',
+      trim: 'Cached',
+    };
     mockScanSingle.mockResolvedValue({
       data: {
         flowers: [
-          { scientific_name: 'Helianthus annuus', common_name: 'Sunflower', confidence: 0.9, care: cachedCare },
+          {
+            scientific_name: 'Helianthus annuus',
+            common_name: 'Sunflower',
+            confidence: 0.9,
+            care: cachedCare,
+          },
         ],
       },
       error: null,
@@ -130,7 +153,12 @@ describe('POST /api/care', () => {
     mockScanSingle.mockResolvedValue({
       data: {
         flowers: [
-          { scientific_name: 'Helianthus annuus', common_name: 'Sunflower', confidence: 0.9, care: null },
+          {
+            scientific_name: 'Helianthus annuus',
+            common_name: 'Sunflower',
+            confidence: 0.9,
+            care: null,
+          },
         ],
       },
       error: null,
@@ -139,7 +167,10 @@ describe('POST /api/care', () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.care.water).toBe('Change daily');
-    expect(mockGenerateCareTip).toHaveBeenCalledWith('Helianthus annuus', 'Sunflower');
+    expect(mockGenerateCareTip).toHaveBeenCalledWith(
+      'Helianthus annuus',
+      'Sunflower',
+    );
   });
 
   it('returns 502 when Gemini fails', async () => {
@@ -147,7 +178,12 @@ describe('POST /api/care', () => {
     mockScanSingle.mockResolvedValue({
       data: {
         flowers: [
-          { scientific_name: 'Helianthus annuus', common_name: 'Sunflower', confidence: 0.9, care: null },
+          {
+            scientific_name: 'Helianthus annuus',
+            common_name: 'Sunflower',
+            confidence: 0.9,
+            care: null,
+          },
         ],
       },
       error: null,
@@ -162,7 +198,12 @@ describe('POST /api/care', () => {
     mockScanSingle.mockResolvedValue({
       data: {
         flowers: [
-          { scientific_name: 'Helianthus annuus', common_name: 'Sunflower', confidence: 0.9, care: null },
+          {
+            scientific_name: 'Helianthus annuus',
+            common_name: 'Sunflower',
+            confidence: 0.9,
+            care: null,
+          },
         ],
       },
       error: null,

@@ -158,55 +158,55 @@ Running 5 tests using 4 workers
 
 ## Test Files Summary
 
-| Test File | Tests | Category |
-|-----------|-------|----------|
-| `src/lib/health.test.ts` | 36 | Unit — health state computation (hearts, droplets, status) |
-| `src/lib/gemini.test.ts` | 16 | Unit — Gemini response parsing, Zod validation |
-| `src/app/api/identify/route.test.ts` | 15 | Integration — flower identification API (auth, validation, PlantNet, Gemini, storage, rescan) |
-| `src/lib/careLog.test.ts` | 11 | Unit — care log analysis (missed watering, missed trim, all good, no data) |
-| `src/lib/dashboard.test.ts` | 9 | Unit — bouquet status computation, age, countdown |
-| `src/app/api/adaptive-tip/route.test.ts` | 9 | Integration — adaptive tip API (auth, caching, Gemini prompt, errors) |
-| `src/app/api/care-log/route.test.ts` | 9 | Integration — care log API (auth, rate limit, IDOR, DB insert) |
-| `src/app/api/care/route.test.ts` | 9 | Integration — care tip API (auth, cache hit/miss, Gemini errors) |
-| `src/app/api/scans/[id]/route.test.ts` | 9 | Integration — scan correction API (auth, validation, Gemini regen, bouquet sync) |
-| `src/middleware.test.ts` | 9 | Integration — auth middleware redirects |
-| `src/app/api/bouquets/route.test.ts` | 8 | Integration — bouquet creation API (auth, rate limit, validation) |
-| `src/app/api/bouquets/[id]/route.test.ts` | 7 | Integration — bouquet deletion API (auth, IDOR, storage cleanup) |
-| `src/components/scan/RescanButton.test.tsx` | 8 | Component — file validation, API errors, rescan with scanId, dismiss |
-| `src/components/dashboard/BouquetTile.test.tsx` | 8 | Component — rendering, delete flow, past peak badge |
-| `src/components/dashboard/SaveBouquetForm.test.tsx` | 8 | Component — form submission, validation, loading state |
-| `src/lib/config.test.ts` | 8 | Unit — environment variable validation (Supabase, PlantNet, Gemini, Upstash) |
-| `src/app/(auth)/login/page.test.tsx` | 7 | Component — login page rendering, form interaction |
-| `src/app/(auth)/signup/page.test.tsx` | 7 | Component — signup page rendering, form interaction |
-| `src/components/dashboard/ProfileDropdown.test.tsx` | 7 | Component — dropdown rendering, interactions |
-| `src/components/AdaptiveTipCard.test.tsx` | 7 | Component — tip rendering (corrective, positive, onboarding) |
-| `src/components/dashboard/ScanGrid.test.tsx` | 7 | Component — scan tile rendering, links, lifespan badges |
-| `src/components/scan/CorrectFlowerForm.test.tsx` | 6 | Component — open/close, submit, error display, spinner |
-| `src/app/api/auth/signup/route.test.ts` | 6 | Integration — signup API (validation, Supabase auth, errors) |
-| `src/lib/auth.test.ts` | 6 | Unit — getAuthenticatedUserId utility |
-| `src/components/scan/CareActionButtons.test.tsx` | 6 | Component — water/trim button interactions |
-| `src/app/(auth)/forgot-password/page.test.tsx` | 5 | Component — forgot password page |
-| `src/app/(auth)/reset-password/page.test.tsx` | 5 | Component — reset password page |
-| `src/app/api/auth/login/route.test.ts` | 5 | Integration — login API |
-| `src/app/api/auth/reset-password/route.test.ts` | 5 | Integration — reset password API |
-| `src/app/api/auth/forgot-password/route.test.ts` | 5 | Integration — forgot password API |
-| `src/components/scan/ImageUploader.test.tsx` | 5 | Component — image upload validation |
-| `src/lib/flowers.test.ts` | 5 | Unit — flower name utilities |
-| `src/lib/plantnet.test.ts` | 4 | Unit — PlantNet response parsing |
-| `src/components/scan/FlowerCard.test.tsx` | 4 | Component — flower card rendering |
-| `src/components/auth/GoogleSignInButton.test.tsx` | 4 | Component — OAuth button |
-| `src/components/dashboard/EmptyDashboard.test.tsx` | 4 | Component — empty state rendering |
-| `src/app/api/auth/callback/route.test.ts` | 3 | Integration — OAuth callback |
-| `src/app/api/auth/logout/route.test.ts` | 3 | Integration — logout API |
-| `src/components/dashboard/Navbar.test.tsx` | 3 | Component — navigation bar |
-| `src/components/dashboard/HowItWorks.test.tsx` | 3 | Component — onboarding section |
-| `src/components/dashboard/SeasonalTeaser.test.tsx` | 3 | Component — seasonal recommendation teaser |
-| `src/components/scan/ConfidenceBadge.test.tsx` | 3 | Component — confidence score badge |
-| `src/lib/ratelimit.test.ts` | 2 | Unit — rate limit key construction |
-| `src/app/dashboard/page.test.tsx` | 2 | Component — dashboard page |
-| `src/components/dashboard/LogoutButton.test.tsx` | 2 | Component — logout button |
-| `src/components/dashboard/WelcomeHeader.test.tsx` | 2 | Component — welcome header |
-| `src/components/dashboard/ScanCTA.test.tsx` | 2 | Component — scan call-to-action |
-| `src/components/icons/HeartIcon.test.tsx` | 2 | Component — heart icon filled/empty |
-| `src/components/icons/DropletIcon.test.tsx` | 2 | Component — droplet icon filled/empty |
-| `e2e/adaptive-care-tips.spec.ts` | 5 | E2E — adaptive tip flows (Playwright) |
+| Test File                                           | Tests | Category                                                                                      |
+| --------------------------------------------------- | ----- | --------------------------------------------------------------------------------------------- |
+| `src/lib/health.test.ts`                            | 36    | Unit — health state computation (hearts, droplets, status)                                    |
+| `src/lib/gemini.test.ts`                            | 16    | Unit — Gemini response parsing, Zod validation                                                |
+| `src/app/api/identify/route.test.ts`                | 15    | Integration — flower identification API (auth, validation, PlantNet, Gemini, storage, rescan) |
+| `src/lib/careLog.test.ts`                           | 11    | Unit — care log analysis (missed watering, missed trim, all good, no data)                    |
+| `src/lib/dashboard.test.ts`                         | 9     | Unit — bouquet status computation, age, countdown                                             |
+| `src/app/api/adaptive-tip/route.test.ts`            | 9     | Integration — adaptive tip API (auth, caching, Gemini prompt, errors)                         |
+| `src/app/api/care-log/route.test.ts`                | 9     | Integration — care log API (auth, rate limit, IDOR, DB insert)                                |
+| `src/app/api/care/route.test.ts`                    | 9     | Integration — care tip API (auth, cache hit/miss, Gemini errors)                              |
+| `src/app/api/scans/[id]/route.test.ts`              | 9     | Integration — scan correction API (auth, validation, Gemini regen, bouquet sync)              |
+| `src/middleware.test.ts`                            | 9     | Integration — auth middleware redirects                                                       |
+| `src/app/api/bouquets/route.test.ts`                | 8     | Integration — bouquet creation API (auth, rate limit, validation)                             |
+| `src/app/api/bouquets/[id]/route.test.ts`           | 7     | Integration — bouquet deletion API (auth, IDOR, storage cleanup)                              |
+| `src/components/scan/RescanButton.test.tsx`         | 8     | Component — file validation, API errors, rescan with scanId, dismiss                          |
+| `src/components/dashboard/BouquetTile.test.tsx`     | 8     | Component — rendering, delete flow, past peak badge                                           |
+| `src/components/dashboard/SaveBouquetForm.test.tsx` | 8     | Component — form submission, validation, loading state                                        |
+| `src/lib/config.test.ts`                            | 8     | Unit — environment variable validation (Supabase, PlantNet, Gemini, Upstash)                  |
+| `src/app/(auth)/login/page.test.tsx`                | 7     | Component — login page rendering, form interaction                                            |
+| `src/app/(auth)/signup/page.test.tsx`               | 7     | Component — signup page rendering, form interaction                                           |
+| `src/components/dashboard/ProfileDropdown.test.tsx` | 7     | Component — dropdown rendering, interactions                                                  |
+| `src/components/AdaptiveTipCard.test.tsx`           | 7     | Component — tip rendering (corrective, positive, onboarding)                                  |
+| `src/components/dashboard/ScanGrid.test.tsx`        | 7     | Component — scan tile rendering, links, lifespan badges                                       |
+| `src/components/scan/CorrectFlowerForm.test.tsx`    | 6     | Component — open/close, submit, error display, spinner                                        |
+| `src/app/api/auth/signup/route.test.ts`             | 6     | Integration — signup API (validation, Supabase auth, errors)                                  |
+| `src/lib/auth.test.ts`                              | 6     | Unit — getAuthenticatedUserId utility                                                         |
+| `src/components/scan/CareActionButtons.test.tsx`    | 6     | Component — water/trim button interactions                                                    |
+| `src/app/(auth)/forgot-password/page.test.tsx`      | 5     | Component — forgot password page                                                              |
+| `src/app/(auth)/reset-password/page.test.tsx`       | 5     | Component — reset password page                                                               |
+| `src/app/api/auth/login/route.test.ts`              | 5     | Integration — login API                                                                       |
+| `src/app/api/auth/reset-password/route.test.ts`     | 5     | Integration — reset password API                                                              |
+| `src/app/api/auth/forgot-password/route.test.ts`    | 5     | Integration — forgot password API                                                             |
+| `src/components/scan/ImageUploader.test.tsx`        | 5     | Component — image upload validation                                                           |
+| `src/lib/flowers.test.ts`                           | 5     | Unit — flower name utilities                                                                  |
+| `src/lib/plantnet.test.ts`                          | 4     | Unit — PlantNet response parsing                                                              |
+| `src/components/scan/FlowerCard.test.tsx`           | 4     | Component — flower card rendering                                                             |
+| `src/components/auth/GoogleSignInButton.test.tsx`   | 4     | Component — OAuth button                                                                      |
+| `src/components/dashboard/EmptyDashboard.test.tsx`  | 4     | Component — empty state rendering                                                             |
+| `src/app/api/auth/callback/route.test.ts`           | 3     | Integration — OAuth callback                                                                  |
+| `src/app/api/auth/logout/route.test.ts`             | 3     | Integration — logout API                                                                      |
+| `src/components/dashboard/Navbar.test.tsx`          | 3     | Component — navigation bar                                                                    |
+| `src/components/dashboard/HowItWorks.test.tsx`      | 3     | Component — onboarding section                                                                |
+| `src/components/dashboard/SeasonalTeaser.test.tsx`  | 3     | Component — seasonal recommendation teaser                                                    |
+| `src/components/scan/ConfidenceBadge.test.tsx`      | 3     | Component — confidence score badge                                                            |
+| `src/lib/ratelimit.test.ts`                         | 2     | Unit — rate limit key construction                                                            |
+| `src/app/dashboard/page.test.tsx`                   | 2     | Component — dashboard page                                                                    |
+| `src/components/dashboard/LogoutButton.test.tsx`    | 2     | Component — logout button                                                                     |
+| `src/components/dashboard/WelcomeHeader.test.tsx`   | 2     | Component — welcome header                                                                    |
+| `src/components/dashboard/ScanCTA.test.tsx`         | 2     | Component — scan call-to-action                                                               |
+| `src/components/icons/HeartIcon.test.tsx`           | 2     | Component — heart icon filled/empty                                                           |
+| `src/components/icons/DropletIcon.test.tsx`         | 2     | Component — droplet icon filled/empty                                                         |
+| `e2e/adaptive-care-tips.spec.ts`                    | 5     | E2E — adaptive tip flows (Playwright)                                                         |
