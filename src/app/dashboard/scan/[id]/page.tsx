@@ -6,7 +6,7 @@ import { CareTipSection } from '@/components/scan/CareTipSection';
 import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
 import { HeartIcon } from '@/components/icons/HeartIcon';
 import { DropletIcon } from '@/components/icons/DropletIcon';
-import { careTipSchema } from '@/lib/gemini';
+import { careTipSchema, generateCareTip } from '@/lib/gemini';
 import { CorrectFlowerForm } from '@/components/scan/CorrectFlowerForm';
 import { CareActionButtons } from '@/components/scan/CareActionButtons';
 import { RescanButton } from '@/components/scan/RescanButton';
@@ -194,7 +194,31 @@ export default async function ScanDetailPage({
   if (!flowersArray.success || flowersArray.data.length === 0) {
     notFound();
   }
-  const flower = flowersArray.data[0];
+  let flower = flowersArray.data[0];
+
+  // Auto-generate care tips if missing (Gemini was not called at scan time)
+  if (!flower.care) {
+    try {
+      const generated = await generateCareTip(
+        flower.scientific_name,
+        flower.common_name,
+      );
+      // Cache in DB for future loads
+      const updatedFlowers = flowersArray.data.map((f, i) =>
+        i === 0 ? { ...f, care: generated } : f,
+      );
+      const { error: updateError } = await (supabase as any)
+        .from('scans')
+        .update({ flowers: updatedFlowers })
+        .eq('id', params.id)
+        .eq('user_id', user.id);
+      if (updateError)
+        console.error('[scan-page] care tip cache error:', updateError.message);
+      flower = { ...flower, care: generated };
+    } catch (err) {
+      console.error('[scan-page] generateCareTip failed:', err);
+    }
+  }
 
   // Compute health state from real bouquet and care log data
   const lifespanMin = flower.care?.lifespan_days.min ?? null;
