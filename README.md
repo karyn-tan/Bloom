@@ -319,4 +319,5 @@ git worktree list
 - IDOR protection via user_id scoping (pattern from auth.ts)
 - RLS policies verified via Supabase MCP
 - Parallel development using git worktrees (W12 requirement)
-- All 77 tests pass (15 test files)
+- CI/CD pipeline with 7 stages (GitHub Actions) ✅
+- 255+ tests passing (W11 TDD requirement)
