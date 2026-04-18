@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+// Set env vars before importing the module
+process.env.UPSTASH_REDIS_REST_URL = 'https://fake.upstash.io';
+process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
+
 const mockLimit = vi.fn();
 
 vi.mock('@upstash/ratelimit', () => {
@@ -14,13 +18,6 @@ vi.mock('@upstash/ratelimit', () => {
 
 vi.mock('@upstash/redis', () => ({
   Redis: vi.fn(),
-}));
-
-vi.mock('@/lib/config', () => ({
-  getUpstashEnv: () => ({
-    UPSTASH_REDIS_REST_URL: 'https://fake.upstash.io',
-    UPSTASH_REDIS_REST_TOKEN: 'fake-token',
-  }),
 }));
 
 import { checkRateLimit } from './ratelimit';

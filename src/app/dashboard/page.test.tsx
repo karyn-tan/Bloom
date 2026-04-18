@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 vi.mock('@/lib/dashboard', () => ({
   getUserDashboardState: vi.fn(),
+  getUserBouquets: vi.fn(),
 }));
 
 vi.mock('next/navigation', () => ({
@@ -36,7 +37,7 @@ describe('DashboardPage', () => {
 
     expect(screen.getByText(/welcome to bloom/i)).toBeTruthy();
     expect(
-      screen.getByRole('link', { name: /scan your first bouquet/i }),
+      screen.getByRole('link', { name: /scan your first flower/i }),
     ).toBeTruthy();
   });
 
