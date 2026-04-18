@@ -44,7 +44,7 @@ function makeRequest(body: unknown) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  });
+  }) as unknown as NextRequest;
 }
 
 describe('POST /api/care-log', () => {
