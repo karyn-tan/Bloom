@@ -253,7 +253,11 @@ describe('generateAdaptiveTip', () => {
           candidates: [
             {
               content: {
-                parts: [{ text: '{"tip": "Your roses may be thirsty. Top up the water now."}' }],
+                parts: [
+                  {
+                    text: '{"tip": "Your roses may be thirsty. Top up the water now."}',
+                  },
+                ],
               },
             },
           ],
@@ -273,7 +277,11 @@ describe('generateAdaptiveTip', () => {
           candidates: [
             {
               content: {
-                parts: [{ text: '{"tip": "Your peonies are loving it — keep doing what you\'re doing!"}' }],
+                parts: [
+                  {
+                    text: '{"tip": "Your peonies are loving it — keep doing what you\'re doing!"}',
+                  },
+                ],
               },
             },
           ],

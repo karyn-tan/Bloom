@@ -173,8 +173,7 @@ export async function generateAdaptiveTip(
 
   const careCardSummary = careCards
     .map(
-      (c) =>
-        `${c.common_name}: water — ${c.care.water}; trim — ${c.care.trim}`,
+      (c) => `${c.common_name}: water — ${c.care.water}; trim — ${c.care.trim}`,
     )
     .join('\n');
 
