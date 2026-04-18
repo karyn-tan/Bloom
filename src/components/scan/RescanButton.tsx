@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 const MAX_SIZE_MB = 10;
 const ACCEPTED = ['image/jpeg', 'image/png'];
 
-type Props = { compact?: boolean };
+type Props = { compact?: boolean; scanId?: string };
 
-export function RescanButton({ compact = false }: Props) {
+export function RescanButton({ compact = false, scanId }: Props) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,7 @@ export function RescanButton({ compact = false }: Props) {
     try {
       const form = new FormData();
       form.append('image', file);
+      if (scanId) form.append('existing_scan_id', scanId);
 
       const res = await fetch('/api/identify', { method: 'POST', body: form });
       const data = await res.json();
@@ -39,7 +40,8 @@ export function RescanButton({ compact = false }: Props) {
         return;
       }
 
-      router.push(`/dashboard/scan/${data.scan_id}?new=1`);
+      router.refresh();
+      router.push(`/dashboard/scan/${data.scan_id}`);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {

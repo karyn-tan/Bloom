@@ -30,6 +30,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid form data' }, { status: 400 });
   }
 
+  const existingScanId = formData.get('existing_scan_id');
+  const existingScanIdStr =
+    typeof existingScanId === 'string' ? existingScanId : null;
+
   const file = formData.get('image');
   if (!file || !(file instanceof Blob)) {
     return NextResponse.json({ error: 'No image provided' }, { status: 400 });
@@ -50,7 +54,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 4. Upload to Supabase Storage
-  const scanId = crypto.randomUUID();
+  const scanId = existingScanIdStr ?? crypto.randomUUID();
   const buffer = Buffer.from(await file.arrayBuffer());
   const storagePath = `${userId}/${scanId}.jpg`;
 
@@ -132,41 +136,62 @@ export async function POST(request: NextRequest) {
     },
   ];
 
-  const scanInsertPayload: ScansInsert = {
-    id: scanId,
-    user_id: userId,
-    image_url: storagePath,
-    flowers,
-  };
-  const { error: insertError } = (await supabase
-    .from('scans')
-    .insert(scanInsertPayload as never)) as unknown as {
-    error: { message: string } | null;
-  };
+  if (existingScanIdStr) {
+    // Rescan: update the existing scan's image and flowers, preserve bouquet/care log
+    const { error: updateError } = await (supabase as any)
+      .from('scans')
+      .update({ image_url: storagePath, flowers })
+      .eq('id', existingScanIdStr)
+      .eq('user_id', userId);
 
-  if (insertError) {
-    console.error('Scan insert failed:', insertError.message);
-    await supabase.storage.from('flower-images').remove([storagePath]);
-    return NextResponse.json({ error: 'Failed to save scan' }, { status: 500 });
-  }
+    if (updateError) {
+      console.error('Scan update failed:', updateError.message);
+      await supabase.storage.from('flower-images').remove([storagePath]);
+      return NextResponse.json(
+        { error: 'Failed to update scan' },
+        { status: 500 },
+      );
+    }
+  } else {
+    // New scan: insert record and auto-create bouquet
+    const scanInsertPayload: ScansInsert = {
+      id: scanId,
+      user_id: userId,
+      image_url: storagePath,
+      flowers,
+    };
+    const { error: insertError } = (await supabase
+      .from('scans')
+      .insert(scanInsertPayload as never)) as unknown as {
+      error: { message: string } | null;
+    };
 
-  // Auto-create a bouquet for this scan using the flower's common name
-  const bouquetName = topFlower.common_name;
-  const bouquetInsertPayload: BouquetsInsert = {
-    scan_id: scanId,
-    user_id: userId,
-    name: bouquetName,
-    reminder_opt_in: false,
-  };
-  const { error: bouquetInsertError } = (await supabase
-    .from('bouquets')
-    .insert(bouquetInsertPayload as never)) as unknown as {
-    error: { message: string } | null;
-  };
+    if (insertError) {
+      console.error('Scan insert failed:', insertError.message);
+      await supabase.storage.from('flower-images').remove([storagePath]);
+      return NextResponse.json(
+        { error: 'Failed to save scan' },
+        { status: 500 },
+      );
+    }
 
-  if (bouquetInsertError) {
-    console.error('Bouquet auto-create failed:', bouquetInsertError.message);
-    // Non-fatal: scan is saved, bouquet just wasn't auto-created
+    // Auto-create a bouquet for this scan using the flower's common name
+    const bouquetInsertPayload: BouquetsInsert = {
+      scan_id: scanId,
+      user_id: userId,
+      name: topFlower.common_name,
+      reminder_opt_in: false,
+    };
+    const { error: bouquetInsertError } = (await supabase
+      .from('bouquets')
+      .insert(bouquetInsertPayload as never)) as unknown as {
+      error: { message: string } | null;
+    };
+
+    if (bouquetInsertError) {
+      console.error('Bouquet auto-create failed:', bouquetInsertError.message);
+      // Non-fatal: scan is saved, bouquet just wasn't auto-created
+    }
   }
 
   return NextResponse.json({

@@ -331,7 +331,7 @@ export default async function ScanDetailPage({
             </div>
           )}
           <div className="absolute top-3 right-3">
-            <RescanButton compact />
+            <RescanButton compact scanId={params.id} />
           </div>
         </div>
 
