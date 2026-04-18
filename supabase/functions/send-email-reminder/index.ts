@@ -1,6 +1,9 @@
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
+// Parallel development: feat/email-reminders branch
+// Developed simultaneously with feat/health-visualization branch
+
 interface ReminderEmailPayload {
   to: string;
   bouquetName: string;
