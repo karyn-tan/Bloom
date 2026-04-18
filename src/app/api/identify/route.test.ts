@@ -87,9 +87,9 @@ function makeFile(type = 'image/jpeg', size = 1024): Blob {
   const blob = new Blob([data], { type });
   // jsdom Blob lacks arrayBuffer(); polyfill it for route code
   if (!blob.arrayBuffer) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (blob as unknown as Record<string, any>).arrayBuffer = () =>
-      Promise.resolve(data.buffer);
+    (
+      blob as unknown as { arrayBuffer: () => Promise<ArrayBufferLike> }
+    ).arrayBuffer = () => Promise.resolve(data.buffer);
   }
   return blob;
 }
