@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 
 const {
   mockGetAuthenticatedUserId,
@@ -64,7 +65,7 @@ import { DELETE } from './route';
 function makeRequest() {
   return new Request('http://localhost/api/bouquets/bouq-1', {
     method: 'DELETE',
-  });
+  }) as unknown as NextRequest;
 }
 
 describe('DELETE /api/bouquets/[id]', () => {
