@@ -49,6 +49,36 @@ export function RescanButton({ compact = false }: Props) {
 
   return (
     <div>
+      {/* Full-page loading overlay shown while scanning */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg/90 border-[3px] border-border">
+          <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_var(--color-border)] px-8 py-6 flex flex-col items-center gap-3">
+            <svg
+              className="w-10 h-10 text-accent-teal animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="3"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              />
+            </svg>
+            <p className="text-base font-black uppercase tracking-wider text-ink">
+              Identifying your flowers…
+            </p>
+            <p className="text-sm text-muted">This may take a few seconds</p>
+          </div>
+        </div>
+      )}
       <input
         ref={inputRef}
         type="file"
@@ -86,7 +116,7 @@ export function RescanButton({ compact = false }: Props) {
             />
           </svg>
           <span className="text-xs font-black uppercase tracking-wider text-ink">
-            {loading ? '...' : 'Rescan'}
+            Rescan
           </span>
         </button>
       ) : (
