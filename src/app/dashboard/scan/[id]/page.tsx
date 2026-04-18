@@ -409,7 +409,6 @@ export default async function ScanDetailPage({
                 <CorrectFlowerForm
                   scanId={scan.id}
                   currentCommonName={flower.common_name}
-                  currentScientificName={flower.scientific_name}
                 />
               </div>
             </div>
