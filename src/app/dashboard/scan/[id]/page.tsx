@@ -398,10 +398,7 @@ export default async function ScanDetailPage({
             <>
               <CareTipSection care={flower.care} />
               {adaptiveTip && adaptiveTipStatus && (
-                <AdaptiveTipCard
-                  tip={adaptiveTip}
-                  status={adaptiveTipStatus}
-                />
+                <AdaptiveTipCard tip={adaptiveTip} status={adaptiveTipStatus} />
               )}
             </>
           ) : (
