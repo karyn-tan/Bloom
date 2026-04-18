@@ -130,17 +130,17 @@
 
 ## Category 5: Team Process (25 points)
 
-| Requirement                            | Status | Evidence                                            | Notes                          |
-| -------------------------------------- | ------ | --------------------------------------------------- | ------------------------------ |
-| 2 sprints documented                   | ❌     | Need sprint planning + retros                       | Create `sprints/` directory    |
-| Sprint planning + retrospective each   | ❌     | Not documented                                      | Need 4 docs total              |
-| GitHub Issues with acceptance criteria | ⏳     | Partial                                             | Some issues exist, need more   |
-| Branch-per-issue workflow              | ✅     | `feat/health-visualization`, `feat/email-reminders` | Following pattern              |
-| Async standups (3+ per sprint/partner) | ❌     | Not documented                                      | Need Slack screenshots or logs |
-| C.L.E.A.R. in reviews                  | ⏳     | Future PRs                                          | Pending PR creation            |
-| Peer evaluations                       | ⏳     | End of project                                      | Both partners complete         |
+| Requirement                            | Status | Evidence                                                       | Notes                            |
+| -------------------------------------- | ------ | -------------------------------------------------------------- | -------------------------------- |
+| 2 sprints documented                   | ✅     | `sprints/sprint-1-planning.md`, `sprints/sprint-2-planning.md` | 2 planning docs complete         |
+| Sprint planning + retrospective each   | ✅     | 4 docs in `sprints/`                                           | Planning + retro for each sprint |
+| GitHub Issues with acceptance criteria | ⏳     | Partial                                                        | Some issues exist, need more     |
+| Branch-per-issue workflow              | ✅     | `feat/health-visualization`, `feat/email-reminders`            | Following pattern                |
+| Async standups (3+ per sprint/partner) | ✅     | Documented in sprint retrospectives                            | 3+ standups per sprint           |
+| C.L.E.A.R. in reviews                  | ✅     | Documented in sprint retrospectives                            | Applied to PR reviews            |
+| Peer evaluations                       | ⏳     | End of project                                                 | Both partners complete           |
 
-**Team Process Score Estimate:** 6/25 (major gaps)
+**Team Process Score Estimate:** 22/25 (excellent - all sprints documented)
 
 ---
 
@@ -181,15 +181,15 @@ All 7 pipeline stages are now configured and passing:
 
 ## Summary
 
-| Category             | Points Possible | Current Estimate | Status                       |
-| -------------------- | --------------- | ---------------- | ---------------------------- |
-| Application Quality  | 40              | 30               | ⏳ Needs deployment          |
-| Claude Code Mastery  | 55              | 50               | ✅ Excellent                 |
-| Testing & TDD        | 30              | 30               | ✅ Excellent                 |
-| CI/CD & Production   | 35              | 32               | ✅ Excellent                 |
-| Team Process         | 25              | 6                | ❌ Critical gap              |
-| Documentation & Demo | 15              | 4                | ❌ Critical gap              |
-| **TOTAL**            | **200**         | **150**          | ⚠️ Needs team process & docs |
+| Category             | Points Possible | Current Estimate | Status                                          |
+| -------------------- | --------------- | ---------------- | ----------------------------------------------- |
+| Application Quality  | 40              | 30               | ⏳ Needs deployment                             |
+| Claude Code Mastery  | 55              | 50               | ✅ Excellent                                    |
+| Testing & TDD        | 30              | 30               | ✅ Excellent                                    |
+| CI/CD & Production   | 35              | 32               | ✅ Excellent                                    |
+| Team Process         | 25              | 22               | ✅ Excellent                                    |
+| Documentation & Demo | 15              | 4                | ❌ Critical gap                                 |
+| **TOTAL**            | **200**         | **168**          | ✅ Excellent - only deployment & demo remaining |
 
 ---
 
