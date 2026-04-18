@@ -42,6 +42,16 @@ export function SaveBouquetForm({ scanId }: SaveBouquetFormProps) {
         return;
       }
 
+      const bouquetData = (await res.json()) as { id: string };
+
+      if (reminderOptIn) {
+        await fetch('/api/reminders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bouquetId: bouquetData.id }),
+        });
+      }
+
       router.push('/dashboard');
     } finally {
       setIsSubmitting(false);
