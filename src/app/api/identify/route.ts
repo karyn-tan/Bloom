@@ -176,6 +176,13 @@ export async function POST(request: NextRequest) {
       await supabase.storage.from('flower-images').remove([oldStoragePath]);
     }
 
+    // Sync bouquet name to match the newly identified flower
+    await (supabase as any)
+      .from('bouquets')
+      .update({ name: topFlower.common_name })
+      .eq('scan_id', existingScanIdStr)
+      .eq('user_id', userId);
+
     // Invalidate all pages that show this scan's data
     revalidatePath(`/dashboard/scan/${existingScanIdStr}`);
     revalidatePath('/dashboard');

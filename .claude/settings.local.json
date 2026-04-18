@@ -49,9 +49,12 @@
       "Bash(git fetch:*)",
       "Bash(git rm:*)",
       "Bash(xargs ls:*)",
-      "Bash(grep -E \"\\\\.\\(tsx?|md\\)$\")"
+      "Bash(grep -E \"\\\\.\\(tsx?|md\\)$\")",
+      "Bash(grep -E \"\\\\.\\(sql|ts|js\\)$\")"
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["supabase"]
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
 }

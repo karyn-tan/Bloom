@@ -54,7 +54,7 @@ export function BouquetTile({ bouquet }: BouquetTileProps) {
 
         <div className="p-4 flex flex-col gap-2 flex-1">
           <h3 className="font-black text-ink text-base uppercase tracking-wide leading-tight">
-            {bouquet.name}
+            {bouquet.flowerName}
           </h3>
 
           <p className="text-sm text-muted font-medium">
