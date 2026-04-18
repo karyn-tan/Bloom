@@ -128,3 +128,83 @@ The `[RED]` commit contains only the failing test. The `[GREEN]` commit contains
 - Don't store `HealthState` in the database — always derive it from the care log and `added_at` at render time
 - Don't call Gemini for an adaptive tip if a cached tip for today already exists
 - Don't use gradients, blurred shadows, `border-radius` > 4px, or pure `#ffffff`/`#000000`
+
+---
+
+## Security Gates (CI/CD Pipeline)
+
+The following security gates are enforced in the CI/CD pipeline:
+
+### 1. Pre-commit Secrets Detection (Gitleaks)
+
+- **Tool:** Gitleaks via GitHub Actions
+- **File:** `.github/workflows/security.yml`
+- **Trigger:** Every push and PR
+- **Purpose:** Detect committed secrets, API keys, credentials
+
+### 2. Dependency Scanning (npm audit)
+
+- **Tool:** npm audit
+- **Trigger:** Every push and PR
+- **Level:** Moderate and above
+- **File:** `.github/workflows/ci.yml` (security-audit job)
+
+### 3. SAST Analysis (CodeQL)
+
+- **Tool:** GitHub CodeQL
+- **Languages:** TypeScript, JavaScript
+- **Trigger:** Push to main/develop, weekly schedule
+- **File:** `.github/workflows/security.yml`
+
+### 4. Security-focused Sub-agent
+
+- **Agent:** `security-reviewer` in `.claude/agents/`
+- **Purpose:** Review code for security issues
+- **Checks:** IDOR prevention, RLS policies, API key exposure
+
+### 5. OWASP Top 10 Awareness
+
+This project addresses the following OWASP Top 10 (2021):
+
+| Rank | Risk                         | Mitigation                                     |
+| ---- | ---------------------------- | ---------------------------------------------- |
+| A01  | Broken Access Control        | RLS policies, user_id scoping, IDOR prevention |
+| A02  | Cryptographic Failures       | Supabase Auth for session management           |
+| A03  | Injection                    | Zod validation on all API inputs               |
+| A05  | Security Misconfiguration    | Environment validation, no debug in prod       |
+| A07  | Identification/Auth Failures | Rate limiting, secure session handling         |
+| A09  | Security Logging/Monitoring  | Error logging, audit trail in care_log         |
+
+### Security Acceptance Criteria (Definition of Done)
+
+- [ ] All new API routes have rate limiting
+- [ ] All DB queries include user_id scoping
+- [ ] No hardcoded secrets or API keys
+- [ ] RLS policies enabled for new tables
+- [ ] Zod validation on external API responses
+- [ ] Error messages don't leak sensitive info
+- [ ] Security-reviewer agent approval (optional)
+
+---
+
+## CI/CD Pipeline
+
+### Stages
+
+| Stage             | Command                                | Workflow                                |
+| ----------------- | -------------------------------------- | --------------------------------------- |
+| 1. Lint           | `npm run lint && npm run format:check` | `.github/workflows/ci.yml`              |
+| 2. Type Check     | `npm run typecheck`                    | `.github/workflows/ci.yml`              |
+| 3. Unit Tests     | `npm run test:ci`                      | `.github/workflows/ci.yml`              |
+| 4. E2E Tests      | `npm run test:e2e`                     | `.github/workflows/ci.yml`              |
+| 5. Security Audit | `npm audit`                            | `.github/workflows/security.yml`        |
+| 6. AI PR Review   | C.L.E.A.R. framework                   | `.github/workflows/pr-review.yml`       |
+| 7. Build          | `npm run build`                        | `.github/workflows/ci.yml`              |
+| 8. Deploy         | Vercel                                 | Manual (configured in Vercel dashboard) |
+
+### Branch Protection
+
+- All PRs must pass CI checks before merging
+- Required status checks: `lint`, `typecheck`, `unit-tests`, `build`
+- Security scanning runs on all PRs
+- AI review comments applied using C.L.E.A.R. framework
