@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 import { POST } from './route';
 
 // Mock Supabase client
@@ -21,7 +22,7 @@ describe('POST /api/auth/signup', () => {
     const request = new Request('http://localhost/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ password: 'password123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -34,7 +35,7 @@ describe('POST /api/auth/signup', () => {
     const request = new Request('http://localhost/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ email: 'invalid-email', password: 'password123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -47,7 +48,7 @@ describe('POST /api/auth/signup', () => {
     const request = new Request('http://localhost/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ email: 'user@example.com', password: 'short' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -71,7 +72,7 @@ describe('POST /api/auth/signup', () => {
         email: 'existing@example.com',
         password: 'password123',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(409);
@@ -101,7 +102,7 @@ describe('POST /api/auth/signup', () => {
         email: 'user@example.com',
         password: 'password123',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(201);
@@ -120,7 +121,7 @@ describe('POST /api/auth/signup', () => {
         email: 'user@example.com',
         password: 'password123',
       }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);
