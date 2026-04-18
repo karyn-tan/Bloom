@@ -265,6 +265,52 @@ claude mcp list
 
 ---
 
+## Part 4: Parallel Development with Git Worktrees (W12)
+
+**Evidence:** `WORKTREE_EVIDENCE.md` + screenshots in `screenshots/worktree/`
+
+### Features Developed in Parallel
+
+| Feature              | Branch                      | Worktree                 | Commits                   |
+| -------------------- | --------------------------- | ------------------------ | ------------------------- |
+| Health Visualization | `feat/health-visualization` | `Bloom/`                 | ce03485, 7bec2a0, 56dc3ca |
+| Email Reminders      | `feat/email-reminders`      | `Bloom-email-reminders/` | a932508, 6df924f, dce5b1c |
+
+### Parallel Development Evidence
+
+```
+* 52808a4 docs: update WORKTREE_EVIDENCE... (health-visualization)
+* 56dc3ca docs: add parallel development note... (health-visualization)
+* 7bec2a0 refactor(health): add parallel... (health-visualization)
+* ce03485 docs(health): add parallel... (health-visualization)
+| * dce5b1c docs: add parallel development... (email-reminders)
+| * 6df924f refactor(reminders): add parallel... (email-reminders)
+| * a932508 docs(reminders): add... (email-reminders)
+|/ ← Both branches diverged from shared base
+* 2bc3db1 feat: add Supabase MCP configuration (SHARED BASE)
+```
+
+### GitHub Branches
+
+- **Health:** `https://github.com/karyn-tan/Bloom/tree/feat/health-visualization`
+- **Email:** `https://github.com/karyn-tan/Bloom/tree/feat/email-reminders`
+- **Network Graph:** `https://github.com/karyn-tan/Bloom/network`
+
+### Worktree Commands Used
+
+```bash
+# Create worktree for parallel development
+git worktree add ../Bloom-email-reminders feat/email-reminders
+
+# Verify worktrees
+git worktree list
+# Output:
+# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom [feat/health-visualization]
+# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom-email-reminders [feat/email-reminders]
+```
+
+---
+
 ## Notes
 
 - All code follows project conventions from `CLAUDE.md`
@@ -272,4 +318,5 @@ claude mcp list
 - Proper error handling (500 for unexpected errors)
 - IDOR protection via user_id scoping (pattern from auth.ts)
 - RLS policies verified via Supabase MCP
+- Parallel development using git worktrees (W12 requirement)
 - All 77 tests pass (15 test files)
