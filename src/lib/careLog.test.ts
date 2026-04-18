@@ -17,10 +17,7 @@ describe('classifyCareLog', () => {
   });
 
   it('returns no_data when all entries are older than 7 days', () => {
-    const entries: CareLogEntry[] = [
-      daysAgo('water', 8),
-      daysAgo('trim', 10),
-    ];
+    const entries: CareLogEntry[] = [daysAgo('water', 8), daysAgo('trim', 10)];
     expect(classifyCareLog(entries, 2, NOW)).toBe('no_data');
   });
 
@@ -46,26 +43,17 @@ describe('classifyCareLog', () => {
   });
 
   it('returns missed_trim when watering is fine but last trim was more than 7 days ago', () => {
-    const entries: CareLogEntry[] = [
-      daysAgo('water', 1),
-      daysAgo('trim', 8),
-    ];
+    const entries: CareLogEntry[] = [daysAgo('water', 1), daysAgo('trim', 8)];
     expect(classifyCareLog(entries, 2, NOW)).toBe('missed_trim');
   });
 
   it('returns all_good when both water and trim logged in last 3 days', () => {
-    const entries: CareLogEntry[] = [
-      daysAgo('water', 1),
-      daysAgo('trim', 2),
-    ];
+    const entries: CareLogEntry[] = [daysAgo('water', 1), daysAgo('trim', 2)];
     expect(classifyCareLog(entries, 2, NOW)).toBe('all_good');
   });
 
   it('returns all_good when refresh (not water) is recent and trim is recent', () => {
-    const entries: CareLogEntry[] = [
-      daysAgo('refresh', 1),
-      daysAgo('trim', 1),
-    ];
+    const entries: CareLogEntry[] = [daysAgo('refresh', 1), daysAgo('trim', 1)];
     expect(classifyCareLog(entries, 2, NOW)).toBe('all_good');
   });
 
@@ -77,10 +65,7 @@ describe('classifyCareLog', () => {
 
   it('uses default watering interval of 2 when not specified', () => {
     // last water was 1 day ago with interval=2 → still on schedule → check trim
-    const entries: CareLogEntry[] = [
-      daysAgo('water', 1),
-      daysAgo('trim', 2),
-    ];
+    const entries: CareLogEntry[] = [daysAgo('water', 1), daysAgo('trim', 2)];
     expect(classifyCareLog(entries, 2, NOW)).toBe('all_good');
   });
 });

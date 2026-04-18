@@ -3,7 +3,11 @@ export type CareLogEntry = {
   logged_at: string;
 };
 
-export type CareLogStatus = 'no_data' | 'missed_watering' | 'missed_trim' | 'all_good';
+export type CareLogStatus =
+  | 'no_data'
+  | 'missed_watering'
+  | 'missed_trim'
+  | 'all_good';
 
 const WINDOW_DAYS = 7;
 const ALL_GOOD_DAYS = 3;
@@ -22,9 +26,7 @@ export function classifyCareLog(
 ): CareLogStatus {
   const windowStart = new Date(now.getTime() - WINDOW_DAYS * MS_PER_DAY);
 
-  const recent = entries.filter(
-    (e) => new Date(e.logged_at) >= windowStart,
-  );
+  const recent = entries.filter((e) => new Date(e.logged_at) >= windowStart);
 
   if (recent.length === 0) return 'no_data';
 
