@@ -1,299 +1,272 @@
 # Bloom - Cut Flower Care Tracker
 
 **Students:** Hemang Murugan | Feng Hua Tan  
-**Project:** Production Application with Claude Code Mastery  
-**Total Score:** 171/200 points ✅
+**Course:** CS 4530/4531 - Software Engineering  
+**Project:** Production Application with Claude Code Mastery
 
 ---
 
-## Architecture Overview
+## Architecture
 
 ```mermaid
 flowchart TB
-    subgraph User["👤 User Layer"]
-        Browser["Browser (Next.js App)"]
+    subgraph User["User Layer"]
+        Browser["Browser"]
     end
 
-    subgraph Frontend["🎨 Frontend (Next.js 14)"]
+    subgraph Frontend["Frontend (Next.js 14)"]
         Components["React Components"]
         Hooks["Custom Hooks"]
-        Icons["SVG Icons"]
     end
 
-    subgraph API["🔌 API Layer (App Router)"]
+    subgraph API["API Layer"]
         AuthRoutes["/api/auth/*"]
         ScanRoutes["/api/scan/*"]
         CareRoutes["/api/care-*"]
         ReminderRoutes["/api/reminders"]
     end
 
-    subgraph Backend["⚙️ Backend Services"]
-        Supabase[("Supabase\nPostgreSQL + Auth + Storage")]
-        PlantNet[("PlantNet API\nFlower Identification")]
-        Gemini[("Gemini API\nCare Tips + Adaptive")]
-        Resend[("Resend API\nEmail Reminders")]
-        Upstash[("Upstash Redis\nRate Limiting")]
+    subgraph Backend["Backend Services"]
+        Supabase[("Supabase\nAuth + DB + Storage")]
+        PlantNet[("PlantNet API")]
+        Gemini[("Gemini API")]
+        Resend[("Resend API")]
+        Upstash[("Upstash Redis")]
     end
 
-    subgraph CI_CD["🚀 CI/CD (GitHub Actions)"]
-        Lint["Lint & Format"]
+    subgraph CI_CD["CI/CD (GitHub Actions)"]
+        Lint["Lint"]
         TypeCheck["Type Check"]
-        Tests["Unit + Integration Tests"]
-        Security["Security Audit"]
+        Tests["Tests"]
+        Security["Security"]
         Build["Build"]
-        E2E["E2E Tests"]
     end
 
     Browser --> Components
     Components --> Hooks
     Hooks --> API
-
     AuthRoutes --> Supabase
     ScanRoutes --> Supabase
     ScanRoutes --> PlantNet
     CareRoutes --> Gemini
-    CareRoutes --> Supabase
     ReminderRoutes --> Resend
-
     API --> Upstash
-
     CI_CD --> Frontend
-    CI_CD --> API
 ```
 
 ---
 
-## 🎯 Project Score Summary
+## Grading Checklist
 
-| Category                 | Points  | Score   | Status                     |
-| ------------------------ | ------- | ------- | -------------------------- |
-| **Application Quality**  | 40      | 30      | ⏳ Needs Vercel deployment |
-| **Claude Code Mastery**  | 55      | 50      | ✅ Complete                |
-| **Testing & TDD**        | 30      | 30      | ✅ Complete                |
-| **CI/CD & Production**   | 35      | 32      | ✅ Complete                |
-| **Team Process**         | 25      | 22      | ✅ Complete                |
-| **Documentation & Demo** | 15      | 5       | ⏳ Blog/video pending      |
-| **TOTAL**                | **200** | **171** | ✅ **Excellent**           |
+### Category 1: Application Quality
 
----
+- [x] Production-ready application (CI/CD passing)
+- [x] 2+ user roles (Maya - casual, Priya - hobbyist)
+- [x] Real use case (flower care identification - new idea)
+- [x] Portfolio quality (15 MVP features, neo-brutalist design)
+- [ ] Deployed on Vercel (requires manual setup)
 
-## 📁 Evidence Location Map
-
-| Requirement                      | Evidence Location                                | Week    |
-| -------------------------------- | ------------------------------------------------ | ------- |
-| **CLAUDE.md & Memory**           | [`CLAUDE.md`](CLAUDE.md)                         | W10     |
-| **Custom Skills (2+)**           | [`.claude/skills/`](.claude/skills/)             | W12     |
-| **Hooks (2+)**                   | [`.claude/settings.json`](.claude/settings.json) | W12     |
-| **MCP Servers (3)**              | [`.mcp.json`](.mcp.json) + settings              | W12     |
-| **Agents (2)**                   | [`.claude/agents/`](.claude/agents/)             | W12-W13 |
-| **Parallel Development**         | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)   | W12     |
-| **Writer/Reviewer + C.L.E.A.R.** | [`sprints/`](sprints/) PR reviews                | W12     |
-| **TDD (3+ features)**            | Git log: `git log --grep="RED\|GREEN"`           | W11     |
-| **255+ Tests**                   | `npm test` → 255+ passing                        | W11     |
-| **70%+ Coverage**                | `npm run test:ci` → 70.74%                       | W11     |
-| **CI/CD Pipeline**               | [`.github/workflows/`](.github/workflows/)       | W14     |
-| **Security Gates (5)**           | `.github/workflows/security.yml`                 | W14     |
-| **2 Sprints**                    | [`sprints/`](sprints/) (4 docs)                  | Team    |
-| **GitHub Issues**                | [`ISSUES.md`](ISSUES.md) (12 issues)             | Team    |
-| **Complete Checklist**           | [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md) | -       |
+**Evidence:** See `PROJECT3_CHECKLIST.md` for full details
 
 ---
 
-## 🏗️ Tech Stack
+### Category 2: Claude Code Mastery
 
-| Layer              | Technology                     |
-| ------------------ | ------------------------------ |
-| **Framework**      | Next.js 14 (App Router)        |
-| **Language**       | TypeScript (strict mode)       |
-| **Styling**        | Tailwind CSS                   |
-| **Auth + DB**      | Supabase (Auth, Postgres, RLS) |
-| **AI/ML**          | Gemini 1.5-flash (care tips)   |
-| **Identification** | PlantNet API                   |
-| **Email**          | Resend                         |
-| **Rate Limiting**  | Upstash Redis                  |
-| **Testing**        | Vitest + Playwright            |
-| **CI/CD**          | GitHub Actions                 |
+#### W10: CLAUDE.md & Memory
+
+- [x] Comprehensive CLAUDE.md with conventions
+- [x] @imports for modular organization (`@project_memory/bloom_prd.md`)
+- [x] Auto-memory usage (session persistence)
+- [x] CLAUDE.md evolution visible in git history
+- [x] Architecture decisions documented (8 decisions)
+- [x] Testing strategy documented (TDD workflow)
+
+**Evidence:** [`CLAUDE.md`](CLAUDE.md)
+
+#### W12: Custom Skills (minimum 2)
+
+- [x] Skill 1: `tdd-feature` - TDD workflow with RED/GREEN/REFACTOR
+- [x] Skill 2: `create-pr` - PR creation with C.L.E.A.R.
+- [x] Skill v1→v2 iteration (auto-detection, session logging)
+- [x] Evidence: 3 tasks in SESSION_LOG.md
+
+**Evidence:** [`.claude/skills/`](.claude/skills/)
+
+#### W12: Hooks (minimum 2)
+
+- [x] PreToolUse hook (blocks protected files)
+- [x] PostToolUse hook (auto-runs tests on edit)
+- [x] Quality-enforcement hook (tests must pass)
+
+**Evidence:** [`.claude/settings.json`](.claude/settings.json)
+
+#### W12: MCP Servers (minimum 1)
+
+- [x] Supabase MCP configured (HTTP)
+- [x] Playwright MCP configured (command)
+- [x] GitHub MCP configured (command)
+- [x] Configuration shared via `.mcp.json`
+
+**Evidence:** [`.mcp.json`](.mcp.json), [`.claude/settings.json`](.claude/settings.json), [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)
+
+#### W12-W13: Agents (minimum 1)
+
+- [x] Agent 1: `test-writer` - Generates test cases
+- [x] Agent 2: `security-reviewer` - Security-focused reviews
+- [x] Evidence in session logs
+
+**Evidence:** [`.claude/agents/`](.claude/agents/)
+
+#### W12: Parallel Development
+
+- [x] Worktree usage evidence documented
+- [x] 2+ features in parallel (health-visualization + email-reminders)
+- [x] Interleaved commits visible in git history
+- [x] Shared base commit (2bc3db1)
+
+**Evidence:** [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)
+
+#### W12: Writer/Reviewer Pattern + C.L.E.A.R.
+
+- [x] 2+ PRs using writer/reviewer pattern
+- [x] C.L.E.A.R. framework applied (Context, Logic, Evidence, Architecture, Risk)
+- [x] AI disclosure metadata in PRs
+
+**Evidence:** Sprint retrospectives in [`sprints/`](sprints/)
 
 ---
 
-## 🚀 Quick Start
+### Category 3: Testing & TDD (W11)
+
+- [x] TDD red-green-refactor pattern (3+ features)
+- [x] Failing tests committed before implementation ([RED] in git log)
+- [x] Unit + integration tests (255+ tests, 40+ files)
+- [x] E2E tests (Playwright configured)
+- [x] 70%+ test coverage (70.74% lines, 87.32% branch)
+
+**Verify:** `npm run test:ci`
+
+**Evidence:** Git log: `git log --grep="RED\|GREEN\|refactor"`, `src/**/*.test.ts`
+
+---
+
+### Category 4: CI/CD & Production (W14)
+
+#### CI/CD Pipeline (8 stages)
+
+- [x] Lint (ESLint + Prettier)
+- [x] Type checking (tsc --noEmit)
+- [x] Unit and integration tests
+- [x] Security scan (npm audit)
+- [x] AI PR review (C.L.E.A.R. framework)
+- [x] Build (Next.js production)
+- [x] E2E tests (Playwright)
+- [x] Production deploy (configured, needs manual Vercel setup)
+
+**Evidence:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+
+#### Security Gates (4+ required)
+
+- [x] Pre-commit secrets detection (Gitleaks)
+- [x] Dependency scanning (npm audit in CI)
+- [x] SAST tool (CodeQL)
+- [x] Security acceptance criteria (in CLAUDE.md)
+- [x] OWASP Top 10 awareness (in CLAUDE.md)
+
+**Evidence:** [`.github/workflows/security.yml`](.github/workflows/security.yml), [`CLAUDE.md`](CLAUDE.md)
+
+---
+
+### Category 5: Team Process
+
+- [x] 2 sprints documented (planning + retrospective each)
+- [x] Sprint planning with acceptance criteria
+- [x] Sprint retrospectives with metrics
+- [x] GitHub Issues with acceptance criteria ([`ISSUES.md`](ISSUES.md) - 12 issues)
+- [x] Branch-per-issue workflow (`feat/health-visualization`, `feat/email-reminders`)
+- [x] Async standups (3+ per sprint, documented in retros)
+- [x] C.L.E.A.R. framework in reviews
+- [ ] Peer evaluations (end of project)
+
+**Evidence:** [`sprints/`](sprints/) (4 files), [`ISSUES.md`](ISSUES.md)
+
+---
+
+### Category 6: Documentation & Demo
+
+- [x] Clear README with Mermaid diagram (this file)
+- [x] Comprehensive PROJECT3_CHECKLIST.md
+- [x] Individual reflections (500 words each)
+  - [x] Hemang: [`REFLECTION-hemang.md`](REFLECTION-hemang.md)
+  - [x] Feng Hua: [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)
+- [ ] Published blog post (Medium/dev.to)
+- [ ] 5-10 min video demo
+
+---
+
+## Quick Verification
 
 ```bash
-# Install dependencies
-npm install
-
-# Run dev server
-npm run dev
-
-# Run tests
-npm test
-
-# Run tests with coverage
+# Run tests (255+ passing, 70%+ coverage)
 npm run test:ci
 
-# Check types
-npm run typecheck
-
-# Lint and format
-npm run lint
-npm run format
-```
-
----
-
-## ✅ Verification Commands
-
-```bash
-# 1. Verify CI/CD (GitHub Actions)
-gh run list --limit 5
-
-# 2. Verify Tests (255+ passing, 70%+ coverage)
-npm run test:ci
-
-# 3. Verify TDD Pattern
-# Should show commits with [RED] and [GREEN]
+# Verify TDD pattern
 git log --oneline --all --grep="RED\|GREEN\|refactor" -15
 
-# 4. Verify Parallel Development (Worktrees)
+# Check worktrees
 git worktree list
-# Expected: Bloom/ [feat/health-visualization]
-#           Bloom-email-reminders/ [feat/email-reminders]
 
-# 5. Verify Skills
-ls -la .claude/skills/
+# Verify skills
+ls .claude/skills/
 
-# 6. Verify MCP
+# Check MCP
 cat .mcp.json
 
-# 7. Verify Sprints
-ls -la sprints/
-
-# 8. Verify Issues
-cat ISSUES.md | grep -c "Issue #"
-# Expected: 12
+# View sprint documents
+ls sprints/
 ```
 
 ---
 
-## 📊 Grading Rubric Alignment
+## Evidence Map
 
-### Category 1: Application Quality (40 pts) → 30/40
-
-| Requirement        | Evidence                                 | Status |
-| ------------------ | ---------------------------------------- | ------ |
-| Production-ready   | CI/CD passing, tests green               | ✅     |
-| 2+ user roles      | Maya (casual), Priya (hobbyist) personas | ✅     |
-| Real use case      | Flower care identification - new idea    | ✅     |
-| Portfolio quality  | Neo-brutalist design, 15 MVP features    | ✅     |
-| Deployed on Vercel | ⏳ Manual configuration needed           | -      |
-
-### Category 2: Claude Code Mastery (55 pts) → 50/55
-
-| Requirement                      | Evidence                                                              | Status |
-| -------------------------------- | --------------------------------------------------------------------- | ------ |
-| CLAUDE.md with @imports          | [`CLAUDE.md`](CLAUDE.md) + `@project_memory/`                         | ✅     |
-| Auto-memory usage                | Session persistence across tasks                                      | ✅     |
-| CLAUDE.md evolution              | Git history shows 10+ updates                                         | ✅     |
-| **Custom Skills (2+)**           | [`.claude/skills/`](.claude/skills/)                                  | ✅     |
-| **Hooks (2+)**                   | `.claude/settings.json` PreToolUse + PostToolUse                      | ✅     |
-| **MCP (1+)**                     | [`.mcp.json`](.mcp.json) - Supabase, Playwright, GitHub               | ✅     |
-| **Agents (1+)**                  | [`.claude/agents/`](.claude/agents/) - test-writer, security-reviewer | ✅     |
-| **Parallel Development**         | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)                        | ✅     |
-| **Writer/Reviewer + C.L.E.A.R.** | Sprint retros + PR documentation                                      | ✅     |
-
-### Category 3: Testing & TDD (30 pts) → 30/30
-
-| Requirement               | Evidence                                              | Status |
-| ------------------------- | ----------------------------------------------------- | ------ |
-| TDD pattern (3+ features) | Health, Reminders, Adaptive Tips - all show RED→GREEN | ✅     |
-| Failing tests before impl | [RED] commits in git log                              | ✅     |
-| Unit + integration        | 40+ test files, 255+ tests                            | ✅     |
-| E2E tests                 | `e2e/` - Playwright configured                        | ✅     |
-| 70%+ coverage             | 70.74% lines, 87.32% branch                           | ✅     |
-
-### Category 4: CI/CD & Production (35 pts) → 32/35
-
-| Requirement              | Evidence                           | Status |
-| ------------------------ | ---------------------------------- | ------ |
-| Lint (ESLint + Prettier) | `.github/workflows/ci.yml` Stage 1 | ✅     |
-| Type checking            | `tsc --noEmit` Stage 2             | ✅     |
-| Unit + integration tests | Vitest Stage 3                     | ✅     |
-| E2E tests                | Playwright Stage 6                 | ✅     |
-| Security scan            | npm audit + CodeQL Stage 4         | ✅     |
-| AI PR review             | `pr-review.yml` with C.L.E.A.R.    | ✅     |
-| Preview deploy (Vercel)  | ⏳ Requires manual setup           | -      |
-| Production deploy        | ⏳ Requires manual setup           | -      |
-| **Security Gates (4+)**  | 5/5 gates - see below              | ✅     |
-
-**Security Gates:**
-
-1. ✅ Pre-commit secrets (Gitleaks)
-2. ✅ Dependency scanning (npm audit)
-3. ✅ SAST (CodeQL)
-4. ✅ Security acceptance criteria (CLAUDE.md)
-5. ✅ OWASP Top 10 awareness (CLAUDE.md)
-
-### Category 5: Team Process (25 pts) → 22/25
-
-| Requirement             | Evidence                                            | Status |
-| ----------------------- | --------------------------------------------------- | ------ |
-| 2 sprints documented    | [`sprints/`](sprints/) - 4 docs total               | ✅     |
-| Sprint planning + retro | Each sprint has both docs                           | ✅     |
-| GitHub Issues           | [`ISSUES.md`](ISSUES.md) - 12 issues with AC        | ✅     |
-| Branch-per-issue        | `feat/health-visualization`, `feat/email-reminders` | ✅     |
-| Async standups          | 3+ per sprint documented in retros                  | ✅     |
-| C.L.E.A.R. reviews      | Documented in sprint retrospectives                 | ✅     |
-| Peer evaluations        | ⏳ End of project                                   | -      |
-
-### Category 6: Documentation & Demo (15 pts) → 5/15
-
-| Requirement                 | Evidence                          | Status |
-| --------------------------- | --------------------------------- | ------ |
-| README with Mermaid diagram | This file                         | ✅     |
-| Technical blog post         | ⏳ Medium/dev.to                  | -      |
-| Video demo (5-10 min)       | ⏳ Showcase app + Claude workflow | -      |
-| 500-word reflections        | ⏳ One per partner                | -      |
+| Requirement       | Location                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| CLAUDE.md         | [`CLAUDE.md`](CLAUDE.md)                                                                         |
+| Custom Skills     | [`.claude/skills/`](.claude/skills/)                                                             |
+| Hooks & MCP       | [`.claude/settings.json`](.claude/settings.json), [`.mcp.json`](.mcp.json)                       |
+| Agents            | [`.claude/agents/`](.claude/agents/)                                                             |
+| Worktree Evidence | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)                                                   |
+| Sprint Docs       | [`sprints/`](sprints/)                                                                           |
+| GitHub Issues     | [`ISSUES.md`](ISSUES.md)                                                                         |
+| CI/CD Workflows   | [`.github/workflows/`](.github/workflows/)                                                       |
+| Tests             | `src/**/*.test.ts`                                                                               |
+| Reflections       | [`REFLECTION-hemang.md`](REFLECTION-hemang.md), [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md) |
+| Full Checklist    | [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md)                                                 |
 
 ---
 
-## 🏆 Completed Features
+## Tech Stack
 
-| Feature                  | US    | Status | TDD Pattern      |
-| ------------------------ | ----- | ------ | ---------------- |
-| Email/Password Auth      | US-1  | ✅     | ✅ [RED]→[GREEN] |
-| Google OAuth             | US-2  | ✅     | ✅ [RED]→[GREEN] |
-| Logout                   | US-3  | ✅     | ✅ [RED]→[GREEN] |
-| Photo Upload             | US-4  | ✅     | ✅ [RED]→[GREEN] |
-| Flower Identification    | US-5  | ✅     | ✅ [RED]→[GREEN] |
-| Manual Correction        | US-6  | ✅     | -                |
-| Care Tips                | US-7  | ✅     | -                |
-| Lifespan Estimates       | US-8  | ✅     | -                |
-| Fun Facts                | US-9  | ✅     | -                |
-| Multi-Bouquet Tracking   | US-10 | ✅     | ✅ [RED]→[GREEN] |
-| Scan History             | US-11 | ✅     | -                |
-| Email Reminders          | US-12 | ✅     | ✅ [RED]→[GREEN] |
-| Seasonal Recommendations | US-13 | ✅     | -                |
-| Health Visualization     | US-14 | ✅     | ✅ [RED]→[GREEN] |
-| Adaptive Care Tips       | US-15 | ✅     | ✅ [RED]→[GREEN] |
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript (strict mode)
+- **Auth + DB:** Supabase (Auth, PostgreSQL, RLS)
+- **AI:** Gemini 1.5-flash (care tips), PlantNet (identification)
+- **Email:** Resend
+- **Rate Limiting:** Upstash Redis
+- **Testing:** Vitest + Playwright
+- **CI/CD:** GitHub Actions
 
 ---
 
-## 📝 Additional Documentation
+## Getting Started
 
-- **PRD:** [`project_memory/bloom_prd.md`](project_memory/bloom_prd.md)
-- **User Interviews:** [`project_memory/bloom_mom_tests.md`](project_memory/bloom_mom_tests.md)
-- **Session Logs:** [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md)
-- **MCP Demo:** [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)
-- **HW5 Retrospective:** [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)
-
----
-
-## 🎓 Course Information
-
-**Course:** CS 4530/4531 - Software Engineering  
-**Assignment:** Project 3 - Production Application with Claude Code Mastery  
-**Weight:** 19% of final grade | 200 points  
-**Technologies:** Next.js, TypeScript, Supabase, Claude Code, GitHub Actions
+```bash
+npm install
+npm run dev
+npm test
+npm run test:ci
+```
 
 ---
 
