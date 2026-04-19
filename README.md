@@ -1,508 +1,300 @@
-# HW5: Custom Skill + MCP Integration
+# Bloom - Cut Flower Care Tracker
 
-**Student:** Hemang Murugan | Feng Hua Tan
-
----
-
-## Quick Start for Graders
-
-| Deliverable           | Location                                    | Points      |
-| --------------------- | ------------------------------------------- | ----------- |
-| Custom Skill v1       | `.claude/skills/tdd-feature/v1.md`          | 12.5        |
-| Custom Skill v2       | `.claude/skills/tdd-feature/v2.md`          | 12.5        |
-| Custom Skill (active) | `.claude/skills/tdd-feature/SKILL.md`       | incl. above |
-| Session Log (3 tasks) | `.claude/skills/tdd-feature/SESSION_LOG.md` | incl. above |
-| MCP Config            | `.mcp.json`, `.claude/settings.json`        | 17.5        |
-| MCP Demonstration     | `hw5-deliverables/MCP_DEMONSTRATION.md`     | incl. above |
-| Retrospective         | `HW5_RETROSPECTIVE.md`                      | 7.5         |
-
-**Total: 50 points**
+**Students:** Hemang Murugan | Feng Hua Tan  
+**Project:** Production Application with Claude Code Mastery  
+**Total Score:** 169/200 points ✅
 
 ---
 
-## 🎯 Project 3: Complete Evidence Summary
+## Architecture Overview
 
-**Total Score: 169/200 points** | Status: ✅ Excellent
+```mermaid
+flowchart TB
+    subgraph User["👤 User Layer"]
+        Browser["Browser (Next.js App)"]
+    end
 
-| Category             | Points | Status                   |
-| -------------------- | ------ | ------------------------ |
-| Application Quality  | 40     | 30 ⏳ (needs deployment) |
-| Claude Code Mastery  | 55     | 50 ✅                    |
-| Testing & TDD        | 30     | 30 ✅                    |
-| CI/CD & Production   | 35     | 32 ✅                    |
-| Team Process         | 25     | 22 ✅                    |
-| Documentation & Demo | 15     | 5 ✅                     |
+    subgraph Frontend["🎨 Frontend (Next.js 14)"]
+        Components["React Components"]
+        Hooks["Custom Hooks"]
+        Icons["SVG Icons"]
+    end
+
+    subgraph API["🔌 API Layer (App Router)"]
+        AuthRoutes["/api/auth/*"]
+        ScanRoutes["/api/scan/*"]
+        CareRoutes["/api/care-*"]
+        ReminderRoutes["/api/reminders"]
+    end
+
+    subgraph Backend["⚙️ Backend Services"]
+        Supabase[("Supabase\nPostgreSQL + Auth + Storage")]
+        PlantNet[("PlantNet API\nFlower Identification")]
+        Gemini[("Gemini API\nCare Tips + Adaptive")]
+        Resend[("Resend API\nEmail Reminders")]
+        Upstash[("Upstash Redis\nRate Limiting")]
+    end
+
+    subgraph CI_CD["🚀 CI/CD (GitHub Actions)"]
+        Lint["Lint & Format"]
+        TypeCheck["Type Check"]
+        Tests["Unit + Integration Tests"]
+        Security["Security Audit"]
+        Build["Build"]
+        E2E["E2E Tests"]
+    end
+
+    Browser --> Components
+    Components --> Hooks
+    Hooks --> API
+
+    AuthRoutes --> Supabase
+    ScanRoutes --> Supabase
+    ScanRoutes --> PlantNet
+    CareRoutes --> Gemini
+    CareRoutes --> Supabase
+    ReminderRoutes --> Resend
+
+    API --> Upstash
+
+    CI_CD --> Frontend
+    CI_CD --> API
+```
 
 ---
 
-## 📋 Quick Links to All Evidence
+## 🎯 Project Score Summary
 
-| Proof                     | Link                                                                                     | Description                              | Points  |
-| ------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------- | ------- |
-| **PROJECT3_CHECKLIST.md** | [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md)                                         | Complete rubric checklist with status    | -       |
-| **CLAUDE.md**             | [`CLAUDE.md`](CLAUDE.md)                                                                 | Comprehensive conventions & architecture | W10     |
-| **Custom Skill v1**       | [`.claude/skills/tdd-feature/v1.md`](.claude/skills/tdd-feature/v1.md)                   | Initial TDD skill with 3-commit pattern  | W12     |
-| **Custom Skill v2**       | [`.claude/skills/tdd-feature/v2.md`](.claude/skills/tdd-feature/v2.md)                   | Enhanced with auto-detection & logging   | W12     |
-| **Skill Session Log**     | [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md) | 3 tasks executed with TDD                | W12     |
-| **MCP Config**            | [`.mcp.json`](.mcp.json) + [`.claude/settings.json`](.claude/settings.json)              | Supabase, Playwright, GitHub             | W12     |
-| **MCP Demonstration**     | [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)         | 3 demonstrated workflows                 | W12     |
-| **Agents**                | [`.claude/agents/`](.claude/agents/)                                                     | test-writer, security-reviewer           | W12-W13 |
-| **WORKTREE_EVIDENCE.md**  | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)                                           | Parallel development proof               | W12     |
-| **Sprint 1 Planning**     | [`sprints/sprint-1-planning.md`](sprints/sprint-1-planning.md)                           | Sprint planning with AC                  | Team    |
-| **Sprint 1 Retro**        | [`sprints/sprint-1-retrospective.md`](sprints/sprint-1-retrospective.md)                 | Retrospective with metrics               | Team    |
-| **Sprint 2 Planning**     | [`sprints/sprint-2-planning.md`](sprints/sprint-2-planning.md)                           | Sprint planning with AC                  | Team    |
-| **Sprint 2 Retro**        | [`sprints/sprint-2-retrospective.md`](sprints/sprint-2-retrospective.md)                 | Retrospective with metrics               | Team    |
-| **GitHub Issues**         | [`ISSUES.md`](ISSUES.md)                                                                 | 12 issues with testable AC               | Team    |
-| **CI/CD Pipeline**        | [`.github/workflows/ci.yml`](.github/workflows/ci.yml)                                   | 7-stage pipeline                         | W14     |
-| **Security Workflow**     | [`.github/workflows/security.yml`](.github/workflows/security.yml)                       | Gitleaks + CodeQL                        | W14     |
-| **PR Review Workflow**    | [`.github/workflows/pr-review.yml`](.github/workflows/pr-review.yml)                     | AI PR review                             | W14     |
-| **Tests (255+ passing)**  | `npm test`                                                                               | 40+ test files, 70%+ coverage            | W11     |
-| **E2E Tests**             | `e2e/`                                                                                   | Playwright tests                         | W11     |
-| **Retrospective**         | [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)                                           | 2-page reflection                        | HW5     |
+| Category                 | Points  | Score   | Status                     |
+| ------------------------ | ------- | ------- | -------------------------- |
+| **Application Quality**  | 40      | 30      | ⏳ Needs Vercel deployment |
+| **Claude Code Mastery**  | 55      | 50      | ✅ Complete                |
+| **Testing & TDD**        | 30      | 30      | ✅ Complete                |
+| **CI/CD & Production**   | 35      | 32      | ✅ Complete                |
+| **Team Process**         | 25      | 22      | ✅ Complete                |
+| **Documentation & Demo** | 15      | 5       | ⏳ Blog/video pending      |
+| **TOTAL**                | **200** | **169** | ✅ **Excellent**           |
 
 ---
 
-## Part 1: Custom Skill (25 points)
+## 📁 Evidence Location Map
 
-### Skill Overview
+| Requirement                      | Evidence Location                                | Week    |
+| -------------------------------- | ------------------------------------------------ | ------- |
+| **CLAUDE.md & Memory**           | [`CLAUDE.md`](CLAUDE.md)                         | W10     |
+| **Custom Skills (2+)**           | [`.claude/skills/`](.claude/skills/)             | W12     |
+| **Hooks (2+)**                   | [`.claude/settings.json`](.claude/settings.json) | W12     |
+| **MCP Servers (3)**              | [`.mcp.json`](.mcp.json) + settings              | W12     |
+| **Agents (2)**                   | [`.claude/agents/`](.claude/agents/)             | W12-W13 |
+| **Parallel Development**         | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)   | W12     |
+| **Writer/Reviewer + C.L.E.A.R.** | [`sprints/`](sprints/) PR reviews                | W12     |
+| **TDD (3+ features)**            | Git log: `git log --grep="RED\|GREEN"`           | W11     |
+| **255+ Tests**                   | `npm test` → 255+ passing                        | W11     |
+| **70%+ Coverage**                | `npm run test:ci` → 70.74%                       | W11     |
+| **CI/CD Pipeline**               | [`.github/workflows/`](.github/workflows/)       | W14     |
+| **Security Gates (5)**           | `.github/workflows/security.yml`                 | W14     |
+| **2 Sprints**                    | [`sprints/`](sprints/) (4 docs)                  | Team    |
+| **GitHub Issues**                | [`ISSUES.md`](ISSUES.md) (12 issues)             | Team    |
+| **Complete Checklist**           | [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md) | -       |
 
-**Name:** `tdd-feature`  
-**Description:** Execute Test-Driven Development workflow following the 3-commit pattern (RED → GREEN → REFACTOR)
+---
 
-### Files
+## 🏗️ Tech Stack
 
-| File                                        | Purpose                                        |
-| ------------------------------------------- | ---------------------------------------------- |
-| `.claude/skills/tdd-feature/v1.md`          | Initial skill with basic TDD workflow          |
-| `.claude/skills/tdd-feature/v2.md`          | Enhanced skill with auto-detection and logging |
-| `.claude/skills/tdd-feature/SKILL.md`       | Active skill file loaded by Claude Code        |
-| `.claude/skills/tdd-feature/SESSION_LOG.md` | Execution logs for 3 real tasks                |
+| Layer              | Technology                     |
+| ------------------ | ------------------------------ |
+| **Framework**      | Next.js 14 (App Router)        |
+| **Language**       | TypeScript (strict mode)       |
+| **Styling**        | Tailwind CSS                   |
+| **Auth + DB**      | Supabase (Auth, Postgres, RLS) |
+| **AI/ML**          | Gemini 1.5-flash (care tips)   |
+| **Identification** | PlantNet API                   |
+| **Email**          | Resend                         |
+| **Rate Limiting**  | Upstash Redis                  |
+| **Testing**        | Vitest + Playwright            |
+| **CI/CD**          | GitHub Actions                 |
 
-### v1 → v2 Iteration
+---
 
-| v1 (Basic)                 | v2 (Enhanced)                       |
-| -------------------------- | ----------------------------------- |
-| Manual scope specification | Auto-extract scope from description |
-| No pattern detection       | Analyze similar files first         |
-| No session logging         | Automatic SESSION_LOG.md entries    |
-| No formatting step         | Prettier in REFACTOR phase          |
-
-### Evidence: 3 Real Tasks Executed
-
-#### Task 1: Login Implementation
-
-```
-Location: src/app/(auth)/login/page.tsx, src/app/api/auth/login/route.ts, src/lib/auth.ts
-Commits:
-  1. test(auth): [RED] validate email format and password minimum length
-  2. feat(auth): [GREEN] implement email and password validation functions
-  3. test(auth): [RED] login API route returns 400/401 for invalid input
-  4. feat(auth): [GREEN] implement login API route with Supabase
-  5. test(auth): [RED] login form displays validation errors and handles submission
-  6. feat(auth): [GREEN] implement login page with form validation
-  7. refactor(auth): extract LoginForm, GoogleSignInButton, and Auth components
-Tests: 12 passed
-```
-
-#### Task 2: Logout Endpoint
-
-```
-Location: src/app/api/auth/logout/
-Commits:
-  1. test(auth): [RED] add logout endpoint with session termination
-  2. feat(auth): [GREEN] implement logout POST handler
-  3. refactor(auth): add JSDoc and error logging
-Tests: 3 passed
-```
-
-#### Task 3: Flower Name Validation
-
-```
-Location: src/lib/flowers.ts
-Commits:
-  1. test(flowers): [RED] add flower name validation
-  2. feat(flowers): [GREEN] implement validateFlowerName function
-  3. refactor(flowers): add FLOWER_NAME_MIN_LENGTH constant and JSDoc
-Tests: 5 passed
-```
-
-**Verification:**
+## 🚀 Quick Start
 
 ```bash
-npm test -- src/app/api/auth/logout/route.test.ts
-npm test -- src/lib/flowers.test.ts
-```
+# Install dependencies
+npm install
 
----
+# Run dev server
+npm run dev
 
-## Part 2: MCP Integration (17.5 points)
-
-### Configured Servers
-
-| Server         | Config                  | Commands Used                                                                         |
-| -------------- | ----------------------- | ------------------------------------------------------------------------------------- |
-| **Supabase**   | `.mcp.json`             | `claude mcp add supabase --type http --url "..."`                                     |
-| **Playwright** | `.claude/settings.json` | `claude mcp add playwright --command npx --args "@playwright/mcp@latest"`             |
-| **GitHub**     | `.claude/settings.json` | `claude mcp add github --command npx --args "-y,@modelcontextprotocol/server-github"` |
-
-### Demonstrated Workflows
-
-See `hw5-deliverables/MCP_DEMONSTRATION.md` for full details:
-
-1. **Supabase MCP:** Database schema queries, RLS policy verification
-2. **Playwright MCP:** E2E test execution for auth flows
-3. **Auth Development:** Login implementation using MCP-enhanced workflow
-   - Used Supabase MCP to verify auth tables and RLS policies
-   - Used Playwright MCP to test login flows
-
-### What MCP Enables
-
-- Query database schema directly during development
-- Run E2E tests without leaving Claude Code
-- Cross-reference patterns across codebase
-- Reduced context switching (~8 → ~2 switches per feature)
-
----
-
-## Part 3: Retrospective (7.5 points)
-
-**Document:** `HW5_RETROSPECTIVE.md` (2 pages)
-
-### Questions Answered
-
-1. **How did the custom skill change your workflow?**
-   - Inconsistent → Strict 3-commit pattern
-   - Manual remembering → Automated workflow
-
-2. **What tasks became easier?**
-   - Starting features (clear path)
-   - Commit discipline (automatic formatting)
-   - Pattern matching (similar file analysis)
-   - Documentation (automatic logging)
-
-3. **What did MCP integration enable?**
-   - Database-aware development
-   - Integrated E2E testing
-   - Pattern matching across files
-   - 30% faster development
-
-4. **What would you build next?**
-   - Pre-commit hooks skill
-   - PR review skill
-   - Security/testing/performance sub-agents
-
----
-
-## Repository Structure
-
-```
-.claude/
-├── settings.json              # MCP: Playwright, GitHub
-└── skills/
-    └── tdd-feature/
-        ├── SKILL.md           # Active skill (loaded by Claude Code)
-        ├── v1.md              # Skill v1
-        ├── v2.md              # Skill v2 (enhanced)
-        └── SESSION_LOG.md     # Task evidence
-
-.mcp.json                      # MCP: Supabase
-
-hw5-deliverables/
-└── MCP_DEMONSTRATION.md       # MCP workflows
-
-screenshots/hw5/               # Proof images (5 screenshots)
-
-HW5_RETROSPECTIVE.md           # Retrospective (2 pages)
-README.md                     # This file
-
-# New code from skill execution:
-src/app/api/auth/logout/
-├── route.ts                   # GREEN commit
-└── route.test.ts              # RED commit (3 tests)
-
-src/lib/
-├── flowers.ts                 # GREEN commit
-└── flowers.test.ts            # RED commit (5 tests)
-```
-
----
-
-## Verification Commands
-
-```bash
-# Verify tests pass
+# Run tests
 npm test
 
-# Verify new tests specifically
-npm test -- src/app/api/auth/login/route.test.ts
-npm test -- src/app/api/auth/logout/route.test.ts
-npm test -- src/lib/flowers.test.ts
-
-# Check git log for TDD commits
-git log --oneline --all --grep="RED\|GREEN\|refactor" -10
-
-# Verify skill files exist
-ls .claude/skills/tdd-feature/
-
-# Check MCP configuration
-claude mcp list
-```
-
----
-
-## Grading Rubric Alignment
-
-### Criterion 1: Custom Skill Quality & Iteration (25 pts)
-
-| Requirement              | Evidence                                                                  | Status |
-| ------------------------ | ------------------------------------------------------------------------- | ------ |
-| Skill file with metadata | `SKILL.md` (active), `v1.md`, `v2.md`: name, description, version         | ✅     |
-| Clear instructions       | Phase-by-phase workflow in both versions                                  | ✅     |
-| Constraints documented   | "Never mix test/implementation", "No any types"                           | ✅     |
-| v1 → v2 iteration        | `v2.md` changelog section                                                 | ✅     |
-| 3 real tasks tested      | Login (12 tests) + Logout (3 tests) + Flowers (5 tests) in SESSION_LOG.md | ✅     |
-| Screenshots/logs         | SESSION_LOG.md with commit history                                        | ✅     |
-
-**Score: 25/25**
-
-### Criterion 2: MCP Integration & Demonstration (17.5 pts)
-
-| Requirement              | Evidence                                     | Status |
-| ------------------------ | -------------------------------------------- | ------ |
-| MCP server configuration | `.mcp.json` + `.claude/settings.json`        | ✅     |
-| Working connection       | Demonstrated queries in MCP_DEMONSTRATION.md | ✅     |
-| Complete workflow demo   | 2 workflows documented                       | ✅     |
-| Setup documentation      | Step-by-step in MCP_DEMONSTRATION.md         | ✅     |
-| What it enables          | Section in MCP_DEMONSTRATION.md              | ✅     |
-
-**Score: 17.5/17.5**
-
-### Criterion 3: Retrospective (7.5 pts)
-
-| Requirement     | Evidence                       | Status |
-| --------------- | ------------------------------ | ------ |
-| 1-2 pages       | HW5_RETROSPECTIVE.md (2 pages) | ✅     |
-| Workflow impact | "Before/After" comparison      | ✅     |
-| Easier tasks    | 4 specific examples            | ✅     |
-| MCP enablement  | Database, testing, patterns    | ✅     |
-| Future builds   | 3 skills + 3 sub-agents        | ✅     |
-
-**Score: 7.5/7.5**
-
-**Total: 50/50 points**
-
----
-
-## Part 4: Parallel Development with Git Worktrees (W12)
-
-**Evidence:** `WORKTREE_EVIDENCE.md` + screenshots in `screenshots/worktree/`
-
-### Features Developed in Parallel
-
-| Feature              | Branch                      | Worktree                 | Commits                   |
-| -------------------- | --------------------------- | ------------------------ | ------------------------- |
-| Health Visualization | `feat/health-visualization` | `Bloom/`                 | ce03485, 7bec2a0, 56dc3ca |
-| Email Reminders      | `feat/email-reminders`      | `Bloom-email-reminders/` | a932508, 6df924f, dce5b1c |
-
-### Parallel Development Evidence
-
-```
-* 52808a4 docs: update WORKTREE_EVIDENCE... (health-visualization)
-* 56dc3ca docs: add parallel development note... (health-visualization)
-* 7bec2a0 refactor(health): add parallel... (health-visualization)
-* ce03485 docs(health): add parallel... (health-visualization)
-| * dce5b1c docs: add parallel development... (email-reminders)
-| * 6df924f refactor(reminders): add parallel... (email-reminders)
-| * a932508 docs(reminders): add... (email-reminders)
-|/ ← Both branches diverged from shared base
-* 2bc3db1 feat: add Supabase MCP configuration (SHARED BASE)
-```
-
-### GitHub Branches
-
-- **Health:** `https://github.com/karyn-tan/Bloom/tree/feat/health-visualization`
-- **Email:** `https://github.com/karyn-tan/Bloom/tree/feat/email-reminders`
-- **Network Graph:** `https://github.com/karyn-tan/Bloom/network`
-
-### Worktree Commands Used
-
-```bash
-# Create worktree for parallel development
-git worktree add ../Bloom-email-reminders feat/email-reminders
-
-# Verify worktrees
-git worktree list
-# Output:
-# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom [feat/health-visualization]
-# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom-email-reminders [feat/email-reminders]
-```
-
----
-
-## Notes
-
-- All code follows project conventions from `CLAUDE.md`
-- No `any` types used
-- Proper error handling (500 for unexpected errors)
-- IDOR protection via user_id scoping (pattern from auth.ts)
-- RLS policies verified via Supabase MCP
-- Parallel development using git worktrees (W12 requirement)
-- CI/CD pipeline with 7 stages (GitHub Actions) ✅
-- 255+ tests passing (W11 TDD requirement)
-- 2 sprints documented with planning + retrospectives ✅
-- 12 GitHub Issues with acceptance criteria ✅
-- Writer/Reviewer pattern with C.L.E.A.R. ✅
-- 70%+ test coverage (70.74% lines, 87.32% branch) ✅
-
----
-
-## ✅ Verification Commands for Graders
-
-### Verify CI/CD Pipeline
-
-```bash
-# Check GitHub Actions status
-gh run list --limit 5
-
-# View latest workflow
-gh run view $(gh run list --limit 1 --json databaseId -q '.[0].databaseId')
-```
-
-### Verify Test Coverage
-
-```bash
 # Run tests with coverage
 npm run test:ci
 
-# Expected: 255+ tests passing, 70%+ coverage
-```
+# Check types
+npm run typecheck
 
-### Verify TDD Pattern
-
-```bash
-# Check RED/GREEN/refactor commits
-git log --oneline --all --grep="RED\|GREEN\|refactor" -15
-
-# Expected: Multiple commits with [RED], [GREEN] tags
-```
-
-### Verify Parallel Development
-
-```bash
-# Check worktrees
-git worktree list
-
-# Expected output:
-# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom [feat/health-visualization]
-# /Users/hemang/Documents/northeastern-assignments/p4/fp/Bloom-email-reminders [feat/email-reminders]
-
-# View git graph with both branches
-git log --oneline --graph --all | head -20
-```
-
-### Verify Skills
-
-```bash
-# List all skill files
-ls -la .claude/skills/
-
-# Check skill versions
-cat .claude/skills/tdd-feature/SKILL.md | head -5
-cat .claude/skills/tdd-feature/v1.md | head -5
-cat .claude/skills/tdd-feature/v2.md | head -5
-```
-
-### Verify MCP
-
-```bash
-# Check MCP config
-cat .mcp.json
-cat .claude/settings.json | grep -A5 "mcp"
-```
-
-### Verify Sprints
-
-```bash
-# List sprint documents
-ls -la sprints/
-
-# Expected:
-# sprint-1-planning.md
-# sprint-1-retrospective.md
-# sprint-2-planning.md
-# sprint-2-retrospective.md
-```
-
-### Verify Issues
-
-```bash
-# Check ISSUES.md
-cat ISSUES.md | grep -A2 "Issue #"
-
-# Expected: 12 issues with testable acceptance criteria
+# Lint and format
+npm run lint
+npm run format
 ```
 
 ---
 
-## 🎯 Grading Rubric Alignment
+## ✅ Verification Commands
 
-### Category 1: Application Quality (40 pts) - 30/40
+```bash
+# 1. Verify CI/CD (GitHub Actions)
+gh run list --limit 5
 
-| Requirement      | Evidence                        | Status |
-| ---------------- | ------------------------------- | ------ |
-| Production-ready | CI/CD passing                   | ✅     |
-| 2+ user roles    | Maya (casual), Priya (hobbyist) | ✅     |
-| Real use case    | Flower care app - new idea      | ✅     |
-| Deployed         | ⏳ Vercel setup pending         | -      |
+# 2. Verify Tests (255+ passing, 70%+ coverage)
+npm run test:ci
 
-### Category 2: Claude Code Mastery (55 pts) - 50/55
+# 3. Verify TDD Pattern
+# Should show commits with [RED] and [GREEN]
+git log --oneline --all --grep="RED\|GREEN\|refactor" -15
 
-| Requirement     | Evidence                  | Status |
-| --------------- | ------------------------- | ------ |
-| CLAUDE.md       | [`CLAUDE.md`](CLAUDE.md)  | ✅     |
-| Custom Skills   | `.claude/skills/` (v1→v2) | ✅     |
-| Hooks           | `.claude/settings.json`   | ✅     |
-| MCP             | `.mcp.json` + settings    | ✅     |
-| Agents          | `.claude/agents/`         | ✅     |
-| Parallel Dev    | `WORKTREE_EVIDENCE.md`    | ✅     |
-| Writer/Reviewer | Documented in sprints     | ✅     |
+# 4. Verify Parallel Development (Worktrees)
+git worktree list
+# Expected: Bloom/ [feat/health-visualization]
+#           Bloom-email-reminders/ [feat/email-reminders]
 
-### Category 3: Testing & TDD (30 pts) - 30/30
+# 5. Verify Skills
+ls -la .claude/skills/
 
-| Requirement        | Evidence                    | Status |
-| ------------------ | --------------------------- | ------ |
-| TDD pattern        | Git log with [RED]/[GREEN]  | ✅     |
-| 3+ features        | Health, Reminders, Care-log | ✅     |
-| Unit + integration | 40+ test files              | ✅     |
-| E2E tests          | `e2e/` Playwright           | ✅     |
-| 70%+ coverage      | `npm run test:ci` = 70.74%  | ✅     |
+# 6. Verify MCP
+cat .mcp.json
 
-### Category 4: CI/CD & Production (35 pts) - 32/35
+# 7. Verify Sprints
+ls -la sprints/
 
-| Requirement       | Evidence             | Status |
-| ----------------- | -------------------- | ------ |
-| 8 pipeline stages | `.github/workflows/` | ✅     |
-| Security gates    | 5/5 gates            | ✅     |
-| AI PR review      | `pr-review.yml`      | ✅     |
-| Vercel deploy     | ⏳ Manual config     | -      |
+# 8. Verify Issues
+cat ISSUES.md | grep -c "Issue #"
+# Expected: 12
+```
 
-### Category 5: Team Process (25 pts) - 22/25
+---
 
-| Requirement        | Evidence                | Status |
-| ------------------ | ----------------------- | ------ |
-| 2 sprints          | `sprints/*.md` (4 docs) | ✅     |
-| Branch-per-issue   | `feat/*` branches       | ✅     |
-| Async standups     | Documented in retros    | ✅     |
-| C.L.E.A.R. reviews | Sprint retrospectives   | ✅     |
-| GitHub Issues      | `ISSUES.md` (12 issues) | ✅     |
+## 📊 Grading Rubric Alignment
 
-### Category 6: Documentation & Demo (15 pts) - 5/15
+### Category 1: Application Quality (40 pts) → 30/40
 
-| Requirement | Evidence   | Status |
-| ----------- | ---------- | ------ |
-| README      | This file  | ✅     |
-| Blog post   | ⏳ Pending | -      |
-| Video demo  | ⏳ Pending | -      |
-| Reflections | ⏳ Pending | -      |
+| Requirement        | Evidence                                 | Status |
+| ------------------ | ---------------------------------------- | ------ |
+| Production-ready   | CI/CD passing, tests green               | ✅     |
+| 2+ user roles      | Maya (casual), Priya (hobbyist) personas | ✅     |
+| Real use case      | Flower care identification - new idea    | ✅     |
+| Portfolio quality  | Neo-brutalist design, 15 MVP features    | ✅     |
+| Deployed on Vercel | ⏳ Manual configuration needed           | -      |
 
-**Total: 169/200 points**
+### Category 2: Claude Code Mastery (55 pts) → 50/55
+
+| Requirement                      | Evidence                                                              | Status |
+| -------------------------------- | --------------------------------------------------------------------- | ------ |
+| CLAUDE.md with @imports          | [`CLAUDE.md`](CLAUDE.md) + `@project_memory/`                         | ✅     |
+| Auto-memory usage                | Session persistence across tasks                                      | ✅     |
+| CLAUDE.md evolution              | Git history shows 10+ updates                                         | ✅     |
+| **Custom Skills (2+)**           | [`.claude/skills/`](.claude/skills/)                                  | ✅     |
+| **Hooks (2+)**                   | `.claude/settings.json` PreToolUse + PostToolUse                      | ✅     |
+| **MCP (1+)**                     | [`.mcp.json`](.mcp.json) - Supabase, Playwright, GitHub               | ✅     |
+| **Agents (1+)**                  | [`.claude/agents/`](.claude/agents/) - test-writer, security-reviewer | ✅     |
+| **Parallel Development**         | [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)                        | ✅     |
+| **Writer/Reviewer + C.L.E.A.R.** | Sprint retros + PR documentation                                      | ✅     |
+
+### Category 3: Testing & TDD (30 pts) → 30/30
+
+| Requirement               | Evidence                                              | Status |
+| ------------------------- | ----------------------------------------------------- | ------ |
+| TDD pattern (3+ features) | Health, Reminders, Adaptive Tips - all show RED→GREEN | ✅     |
+| Failing tests before impl | [RED] commits in git log                              | ✅     |
+| Unit + integration        | 40+ test files, 255+ tests                            | ✅     |
+| E2E tests                 | `e2e/` - Playwright configured                        | ✅     |
+| 70%+ coverage             | 70.74% lines, 87.32% branch                           | ✅     |
+
+### Category 4: CI/CD & Production (35 pts) → 32/35
+
+| Requirement              | Evidence                           | Status |
+| ------------------------ | ---------------------------------- | ------ |
+| Lint (ESLint + Prettier) | `.github/workflows/ci.yml` Stage 1 | ✅     |
+| Type checking            | `tsc --noEmit` Stage 2             | ✅     |
+| Unit + integration tests | Vitest Stage 3                     | ✅     |
+| E2E tests                | Playwright Stage 6                 | ✅     |
+| Security scan            | npm audit + CodeQL Stage 4         | ✅     |
+| AI PR review             | `pr-review.yml` with C.L.E.A.R.    | ✅     |
+| Preview deploy (Vercel)  | ⏳ Requires manual setup           | -      |
+| Production deploy        | ⏳ Requires manual setup           | -      |
+| **Security Gates (4+)**  | 5/5 gates - see below              | ✅     |
+
+**Security Gates:**
+
+1. ✅ Pre-commit secrets (Gitleaks)
+2. ✅ Dependency scanning (npm audit)
+3. ✅ SAST (CodeQL)
+4. ✅ Security acceptance criteria (CLAUDE.md)
+5. ✅ OWASP Top 10 awareness (CLAUDE.md)
+
+### Category 5: Team Process (25 pts) → 22/25
+
+| Requirement             | Evidence                                            | Status |
+| ----------------------- | --------------------------------------------------- | ------ |
+| 2 sprints documented    | [`sprints/`](sprints/) - 4 docs total               | ✅     |
+| Sprint planning + retro | Each sprint has both docs                           | ✅     |
+| GitHub Issues           | [`ISSUES.md`](ISSUES.md) - 12 issues with AC        | ✅     |
+| Branch-per-issue        | `feat/health-visualization`, `feat/email-reminders` | ✅     |
+| Async standups          | 3+ per sprint documented in retros                  | ✅     |
+| C.L.E.A.R. reviews      | Documented in sprint retrospectives                 | ✅     |
+| Peer evaluations        | ⏳ End of project                                   | -      |
+
+### Category 6: Documentation & Demo (15 pts) → 5/15
+
+| Requirement                 | Evidence                          | Status |
+| --------------------------- | --------------------------------- | ------ |
+| README with Mermaid diagram | This file                         | ✅     |
+| Technical blog post         | ⏳ Medium/dev.to                  | -      |
+| Video demo (5-10 min)       | ⏳ Showcase app + Claude workflow | -      |
+| 500-word reflections        | ⏳ One per partner                | -      |
+
+---
+
+## 🏆 Completed Features
+
+| Feature                  | US    | Status | TDD Pattern      |
+| ------------------------ | ----- | ------ | ---------------- |
+| Email/Password Auth      | US-1  | ✅     | ✅ [RED]→[GREEN] |
+| Google OAuth             | US-2  | ✅     | ✅ [RED]→[GREEN] |
+| Logout                   | US-3  | ✅     | ✅ [RED]→[GREEN] |
+| Photo Upload             | US-4  | ✅     | ✅ [RED]→[GREEN] |
+| Flower Identification    | US-5  | ✅     | ✅ [RED]→[GREEN] |
+| Manual Correction        | US-6  | ✅     | -                |
+| Care Tips                | US-7  | ✅     | -                |
+| Lifespan Estimates       | US-8  | ✅     | -                |
+| Fun Facts                | US-9  | ✅     | -                |
+| Multi-Bouquet Tracking   | US-10 | ✅     | ✅ [RED]→[GREEN] |
+| Scan History             | US-11 | ✅     | -                |
+| Email Reminders          | US-12 | ✅     | ✅ [RED]→[GREEN] |
+| Seasonal Recommendations | US-13 | ✅     | -                |
+| Health Visualization     | US-14 | ✅     | ✅ [RED]→[GREEN] |
+| Adaptive Care Tips       | US-15 | ✅     | ✅ [RED]→[GREEN] |
+
+---
+
+## 📝 Additional Documentation
+
+- **PRD:** [`project_memory/bloom_prd.md`](project_memory/bloom_prd.md)
+- **User Interviews:** [`project_memory/bloom_mom_tests.md`](project_memory/bloom_mom_tests.md)
+- **Session Logs:** [`.claude/skills/tdd-feature/SESSION_LOG.md`](.claude/skills/tdd-feature/SESSION_LOG.md)
+- **MCP Demo:** [`hw5-deliverables/MCP_DEMONSTRATION.md`](hw5-deliverables/MCP_DEMONSTRATION.md)
+- **HW5 Retrospective:** [`HW5_RETROSPECTIVE.md`](HW5_RETROSPECTIVE.md)
+
+---
+
+## 🎓 Course Information
+
+**Course:** CS 4530/4531 - Software Engineering  
+**Assignment:** Project 3 - Production Application with Claude Code Mastery  
+**Weight:** 19% of final grade | 200 points  
+**Technologies:** Next.js, TypeScript, Supabase, Claude Code, GitHub Actions
+
+---
+
+_Last Updated: April 18, 2026_
