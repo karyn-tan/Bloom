@@ -181,15 +181,15 @@ All 7 pipeline stages are now configured and passing:
 
 ## Summary
 
-| Category             | Points Possible | Current Estimate | Status                                          |
-| -------------------- | --------------- | ---------------- | ----------------------------------------------- |
-| Application Quality  | 40              | 30               | ⏳ Needs deployment                             |
-| Claude Code Mastery  | 55              | 50               | ✅ Excellent                                    |
-| Testing & TDD        | 30              | 30               | ✅ Excellent                                    |
-| CI/CD & Production   | 35              | 32               | ✅ Excellent                                    |
-| Team Process         | 25              | 22               | ✅ Excellent                                    |
-| Documentation & Demo | 15              | 8                | ✅ Good - comprehensive docs                    |
-| **TOTAL**            | **200**         | **169**          | ✅ Excellent - only deployment & demo remaining |
+| Category             | Points Possible | Current Estimate | Status                                                |
+| -------------------- | --------------- | ---------------- | ----------------------------------------------------- |
+| Application Quality  | 40              | 30               | ⏳ Needs deployment                                   |
+| Claude Code Mastery  | 55              | 50               | ✅ Excellent                                          |
+| Testing & TDD        | 30              | 30               | ✅ Excellent                                          |
+| CI/CD & Production   | 35              | 32               | ✅ Excellent                                          |
+| Team Process         | 25              | 22               | ✅ Excellent                                          |
+| Documentation & Demo | 15              | 10               | ✅ Excellent - comprehensive docs + reflections       |
+| **TOTAL**            | **200**         | **171**          | ✅ Excellent - only deployment & blog/video remaining |
 
 ---
 

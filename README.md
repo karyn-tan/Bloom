@@ -2,7 +2,7 @@
 
 **Students:** Hemang Murugan | Feng Hua Tan  
 **Project:** Production Application with Claude Code Mastery  
-**Total Score:** 169/200 points ✅
+**Total Score:** 171/200 points ✅
 
 ---
 
@@ -73,7 +73,7 @@ flowchart TB
 | **CI/CD & Production**   | 35      | 32      | ✅ Complete                |
 | **Team Process**         | 25      | 22      | ✅ Complete                |
 | **Documentation & Demo** | 15      | 5       | ⏳ Blog/video pending      |
-| **TOTAL**                | **200** | **169** | ✅ **Excellent**           |
+| **TOTAL**                | **200** | **171** | ✅ **Excellent**           |
 
 ---
 
