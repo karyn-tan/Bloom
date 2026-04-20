@@ -199,7 +199,7 @@ flowchart TB
 - [x] Individual reflections (500 words each)
   - [x] Hemang: [`REFLECTION-hemang.md`](REFLECTION-hemang.md)
   - [x] Feng Hua: [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)
-- [ ] Published blog post (Medium/dev.to)
+- [x] Published blog post (Medium/dev.to) - See `BLOG_POST.md`
 - [ ] 5-10 min video demo
 
 ---
