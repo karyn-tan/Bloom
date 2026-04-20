@@ -10,14 +10,14 @@
 
 | Requirement                    | Status | Evidence                            | Notes                                           |
 | ------------------------------ | ------ | ----------------------------------- | ----------------------------------------------- |
-| Production-ready application   | ⏳     | Vercel URL                          | Need to deploy                                  |
+| Production-ready application   | ✅     | https://bloom-flowering.vercel.app  | Deployed and live                               |
 | Solves a real problem          | ✅     | PRD + User interviews               | Flower care identification gap                  |
 | 2+ user roles/feature areas    | ✅     | Maya (casual), Priya (hobbyist)     | Personas in PRD                                 |
 | Real-world use case (new idea) | ✅     | Bloom PRD                           | No existing solution combines PlantNet + Gemini |
 | Portfolio/interview-worthy     | ✅     | Neo-brutalist design, full features | Production quality UI                           |
-| Deployed on Vercel             | ⏳     | URL pending                         | Need final deployment                           |
+| Deployed on Vercel             | ✅     | https://bloom-flowering.vercel.app  | Live since April 20, 2026                       |
 
-**Score Estimate:** 30/40 (pending deployment)
+**Score Estimate:** 40/40 (deployed and operational)
 
 ---
 
@@ -102,17 +102,17 @@
 
 ## Category 4: CI/CD & Production (35 points)
 
-| Requirement                  | Status | Evidence                          | Notes                         |
-| ---------------------------- | ------ | --------------------------------- | ----------------------------- |
-| Lint (ESLint + Prettier)     | ✅     | `.github/workflows/ci.yml`        | Stage 1 in pipeline           |
-| Type checking (tsc --noEmit) | ✅     | `.github/workflows/ci.yml`        | Stage 2 in pipeline           |
-| Unit and integration tests   | ✅     | `.github/workflows/ci.yml`        | Stage 3 in pipeline           |
-| E2E tests (Playwright)       | ✅     | `.github/workflows/ci.yml`        | Stage 6 in pipeline           |
-| Security scan (npm audit)    | ✅     | `.github/workflows/security.yml`  | Dependency scanning           |
-| AI PR review                 | ✅     | `.github/workflows/pr-review.yml` | C.L.E.A.R. framework comments |
-| Preview deploy (Vercel)      | ⏳     | Manual configuration              | Vercel dashboard setup needed |
-| Production deploy on merge   | ⏳     | Manual configuration              | Vercel Git integration        |
-| Security gates (4+)          | ✅     | See below                         | All 5 gates implemented       |
+| Requirement                  | Status | Evidence                           | Notes                             |
+| ---------------------------- | ------ | ---------------------------------- | --------------------------------- |
+| Lint (ESLint + Prettier)     | ✅     | `.github/workflows/ci.yml`         | Stage 1 in pipeline               |
+| Type checking (tsc --noEmit) | ✅     | `.github/workflows/ci.yml`         | Stage 2 in pipeline               |
+| Unit and integration tests   | ✅     | `.github/workflows/ci.yml`         | Stage 3 in pipeline               |
+| E2E tests (Playwright)       | ✅     | `.github/workflows/ci.yml`         | Stage 6 in pipeline               |
+| Security scan (npm audit)    | ✅     | `.github/workflows/security.yml`   | Dependency scanning               |
+| AI PR review                 | ✅     | `.github/workflows/pr-review.yml`  | C.L.E.A.R. framework comments     |
+| Preview deploy (Vercel)      | ✅     | Automatic on PR                    | Vercel Git integration configured |
+| Production deploy on merge   | ✅     | https://bloom-flowering.vercel.app | Auto-deploy from main branch      |
+| Security gates (4+)          | ✅     | See below                          | All 5 gates implemented           |
 
 ### Security Gates Implemented
 
@@ -124,7 +124,7 @@
 | 4. Security acceptance criteria | ✅     | Documented in CLAUDE.md                     |
 | 5. OWASP Top 10 awareness       | ✅     | Documented in CLAUDE.md                     |
 
-**CI/CD Score Estimate:** 32/35 (missing only Vercel deployment which requires manual dashboard configuration)
+**CI/CD Score Estimate:** 35/35 (all stages operational including Vercel deployment)
 
 ---
 
@@ -138,7 +138,7 @@
 | Branch-per-issue workflow              | ✅     | `feat/health-visualization`, `feat/email-reminders`            | Following pattern                |
 | Async standups (3+ per sprint/partner) | ✅     | Documented in sprint retrospectives                            | 3+ standups per sprint           |
 | C.L.E.A.R. in reviews                  | ✅     | Documented in sprint retrospectives                            | Applied to PR reviews            |
-| Peer evaluations                       | ⏳     | End of project                                                 | Both partners complete           |
+| Peer evaluations                       | ⏳     | End of project                                                 | Pending completion               |
 
 **Team Process Score Estimate:** 22/25 (excellent - all sprints documented)
 
@@ -146,14 +146,14 @@
 
 ## Category 6: Documentation & Demo (15 points)
 
-| Requirement                       | Status | Evidence                     | Notes                      |
-| --------------------------------- | ------ | ---------------------------- | -------------------------- |
-| Clear README with Mermaid diagram | ⏳     | README exists, needs Mermaid | Add architecture diagram   |
-| Published blog post               | ❌     | Not started                  | Medium/dev.to post needed  |
-| 5-10 min video demo               | ❌     | Not recorded                 | Show app + Claude workflow |
-| 500-word reflections              | ❌     | Not written                  | One per partner            |
+| Requirement                       | Status | Evidence                                                                                                     | Notes                      |
+| --------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| Clear README with Mermaid diagram | ✅     | README.md with full architecture diagram                                                                     | Complete                   |
+| Published blog post               | ✅     | https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i | Published on dev.to        |
+| 5-10 min video demo               | ⏳     | Not recorded                                                                                                 | Show app + Claude workflow |
+| 500-word reflections              | ✅     | REFLECTION-hemang.md, REFLECTION-fenghua.md                                                                  | Both partners complete     |
 
-**Documentation Score Estimate:** 4/15 (README good, rest missing)
+**Documentation Score Estimate:** 12/15 (README, blog, reflections complete; video pending)
 
 ---
 
@@ -179,18 +179,6 @@ All 7 pipeline stages are now configured and passing:
 
 ---
 
-## Summary
-
-| Category             | Points Possible | Current Estimate | Status                                                |
-| -------------------- | --------------- | ---------------- | ----------------------------------------------------- |
-| Application Quality  | 40              | 30               | ⏳ Needs deployment                                   |
-| Claude Code Mastery  | 55              | 50               | ✅ Excellent                                          |
-| Testing & TDD        | 30              | 30               | ✅ Excellent                                          |
-| CI/CD & Production   | 35              | 32               | ✅ Excellent                                          |
-| Team Process         | 25              | 22               | ✅ Excellent                                          |
-| Documentation & Demo | 15              | 10               | ✅ Excellent - comprehensive docs + reflections       |
-| **TOTAL**            | **200**         | **171**          | ✅ Excellent - only deployment & blog/video remaining |
-
 ---
 
 ## Critical Actions Needed
@@ -207,18 +195,18 @@ All 7 pipeline stages are now configured and passing:
    - AI PR Review ✅
    - CI Summary ✅
 
-### Immediate (Next 48 hours):
+### ✅ COMPLETED:
 
-1. ❌ **Create 2 PRs with Writer/Reviewer pattern** - Use agents
-2. ❌ **Document 2 sprints** - Planning + retrospectives
-3. ⏳ **Deploy to Vercel** - Production URL required (manual config)
+1. ✅ **Create PRs with Writer/Reviewer pattern** - Sprint 1 & 2 complete
+2. ✅ **Document 2 sprints** - Planning + retrospectives (4 docs in `sprints/`)
+3. ✅ **Deploy to Vercel** - https://bloom-flowering.vercel.app live
+4. ✅ **Write technical blog post** - Published on dev.to
+5. ✅ **Write 500-word reflections** - Both partners complete
 
-### Week 1:
+### ⏳ PENDING:
 
-5. ❌ **Write technical blog post** - Medium/dev.to
-6. ❌ **Record video demo** - 5-10 minutes
-7. ❌ **Write 500-word reflections** - Both partners
-8. ⏳ **Complete peer evaluations** - End of project
+6. ⏳ **Record video demo** - 5-10 minutes (main remaining task)
+7. ⏳ **Complete peer evaluations** - End of project
 
 ### Verification Commands:
 
@@ -256,4 +244,4 @@ git branch -a
 
 ---
 
-_Last Updated: April 18, 2026_
+_Last Updated: April 20, 2026_

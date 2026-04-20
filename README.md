@@ -4,8 +4,10 @@
 **Course:** CS 4530/4531 - Software Engineering  
 **Project:** Production Application with Claude Code Mastery
 
-**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app)  
+**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app)
 **📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom)
+**📝 Blog Post:** [dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)
+**✅ Grading Checklist:** [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md) - Complete rubric with status for TAs
 
 ---
 
@@ -202,7 +204,7 @@ flowchart TB
 - [x] Individual reflections (500 words each)
   - [x] Hemang: [`REFLECTION-hemang.md`](REFLECTION-hemang.md)
   - [x] Feng Hua: [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)
-- [x] Published blog post (Medium/dev.to) - See `BLOG_POST.md`
+- [x] Published blog post (dev.to) - [Building Bloom: How AI-Assisted Development Changed My Workflow](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)
 - [ ] 5-10 min video demo
 
 ---
@@ -273,4 +275,4 @@ npm run test:ci
 
 ---
 
-_Last Updated: April 18, 2026_
+_Last Updated: April 20, 2026_
