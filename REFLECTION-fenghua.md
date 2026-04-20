@@ -2,8 +2,6 @@
 
 ## Project 3: Production Application with Claude Code Mastery
 
-**Word Count:** ~510 words
-
 ---
 
 ## Overview
