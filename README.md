@@ -4,6 +4,9 @@
 **Course:** CS 4530/4531 - Software Engineering  
 **Project:** Production Application with Claude Code Mastery
 
+**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app)  
+**📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom)
+
 ---
 
 ## Architecture
