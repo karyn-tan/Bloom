@@ -1,12 +1,14 @@
 # Bloom - Cut Flower Care Tracker
 
 **Students:** Hemang Murugan | Feng Hua Tan  
-**Course:** CS 4530/4531 - Software Engineering  
+**Course:** CS7180 - SpTp: AI Assisted Coding (Vibe Coding) 
 **Project:** Production Application with Claude Code Mastery
 
-**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app)
-**📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom)
-**📝 Blog Post:** [dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)
+**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app) 
+**📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom) 
+**📝 Blog Post #1:** [dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i) 
+**📝 Blog Post #2:** 
+[https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)
 **✅ Grading Checklist:** [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md) - Complete rubric with status for TAs
 
 ---
@@ -95,13 +97,13 @@ flowchart TB
 - [x] Skill v1→v2 iteration (auto-detection, session logging)
 - [x] Evidence: 3 tasks in SESSION_LOG.md
 
-**Evidence:** [`.claude/skills/`](.claude/skills/)
+**Evidence:** [`.claude/skills/`](.claude/skills/) and [`.claude/skills/tdd-feature`](.claude/skills/tdd-feature) for v1→v2 iteration and proof of usage in session log
 
 #### W12: Hooks (minimum 2)
 
-- [x] PreToolUse hook (blocks protected files)
-- [x] PostToolUse hook (auto-runs tests on edit)
-- [x] Quality-enforcement hook (tests must pass)
+- [x] Hook 1: PreToolUse hook (blocks Claude from touching protected files like .env files and any SQL migration files)
+- [x] Hook 2: PostToolUse hook (automatically runs the related test file whenever Claude edits a TypeScript file. So if Claude edits flowers.ts, it will immediately run flowers.test.ts and if the tests fail, it prints a warning and returns an error code to signal something broke)
+- [x] Quality-enforcement hook which is our Hook 2
 
 **Evidence:** [`.claude/settings.json`](.claude/settings.json)
 
@@ -116,11 +118,11 @@ flowchart TB
 
 #### W12-W13: Agents (minimum 1)
 
-- [x] Agent 1: `test-writer` - Generates test cases
-- [x] Agent 2: `security-reviewer` - Security-focused reviews
-- [x] Evidence in session logs
+- [x] Agent 1: `test-writer` (writes Vitest unit/integration tests and Playwright E2E tests following the project's TDD red-green-refactor workflow)
+- [x] Agent 2: `security-reviewer` (reviews code for security vulnerabilities in this Next.js + Supabase project)
+- [x] Evidence in PR#12 and PR#13
 
-**Evidence:** [`.claude/agents/`](.claude/agents/)
+**Evidence:** [`.claude/agents/`](.claude/agents/), [`PR#12`](https://github.com/karyn-tan/Bloom/pull/12) and [`PR#13`](https://github.com/karyn-tan/Bloom/pull/13)
 
 #### W12: Parallel Development
 
@@ -137,7 +139,7 @@ flowchart TB
 - [x] C.L.E.A.R. framework applied (Context, Logic, Evidence, Architecture, Risk)
 - [x] AI disclosure metadata in PRs
 
-**Evidence:** Sprint retrospectives in [`sprints/`](sprints/)
+**Evidence:** [`PR#12`](https://github.com/karyn-tan/Bloom/pull/12) and [`PR#13`](https://github.com/karyn-tan/Bloom/pull/13)
 
 ---
 
