@@ -64,7 +64,7 @@ flowchart TB
 - [x] 2+ user roles (Maya - casual, Priya - hobbyist)
 - [x] Real use case (flower care identification - new idea)
 - [x] Portfolio quality (15 MVP features, neo-brutalist design)
-- [ ] Deployed on Vercel (requires manual setup)
+- [x] Deployed on Vercel https://bloom-flowering.vercel.app
 
 **Evidence:** See `PROJECT3_CHECKLIST.md` for full details
 
