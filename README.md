@@ -1,14 +1,14 @@
 # Bloom - Cut Flower Care Tracker
 
 **Students:** Hemang Murugan | Feng Hua Tan  
-**Course:** CS7180 - SpTp: AI Assisted Coding (Vibe Coding) 
-**Project:** Production Application with Claude Code Mastery
+**Course:** CS7180 - SpTp: AI Assisted Coding (Vibe Coding)  
+**Project:** Production Application with Claude Code Mastery  
 
-**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app) 
-**📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom) 
-**📝 Blog Post #1:** [dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i) 
+**🌸 Live Site:** [https://bloom-flowering.vercel.app](https://bloom-flowering.vercel.app)  
+**📁 Repository:** [github.com/karyn-tan/Bloom](https://github.com/karyn-tan/Bloom)  
+**📝 Blog Post #1:** [dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)  
 **📝 Blog Post #2:** 
-[https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)
+[https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)  
 **✅ Grading Checklist:** [`PROJECT3_CHECKLIST.md`](PROJECT3_CHECKLIST.md) - Complete rubric with status for TAs
 
 ---
