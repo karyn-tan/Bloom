@@ -131,7 +131,7 @@ flowchart TB
 - [x] Interleaved commits visible in git history
 - [x] Shared base commit (2bc3db1)
 
-**Evidence:** [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md), [Worktree Screenshot](screenshots/project3/worktree.png)
+**Evidence:** [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)
 
 #### W12: Writer/Reviewer Pattern + C.L.E.A.R.
 
@@ -170,14 +170,14 @@ flowchart TB
 - [x] E2E tests (Playwright)
 - [x] Production deploy (configured, needs manual Vercel setup)
 
-**Evidence:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+**Evidence:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml), [`.github/workflows/pr-review.yml`](.github/workflows/pr-review.yml)
 
 #### Security Gates (4+ required)
 
-- [x] Pre-commit secrets detection (Gitleaks)
-- [x] Dependency scanning (npm audit in CI)
-- [x] SAST tool (CodeQL)
-- [x] Security acceptance criteria (in CLAUDE.md)
+- [x] Gate 1: Pre-commit secrets detection (Gitleaks)
+- [x] Gate 2: Dependency scanning (npm audit in CI)
+- [x] Gate 3: SAST tool (CodeQL)
+- [x] Gate 4: Security acceptance criteria (in CLAUDE.md)
 - [x] OWASP Top 10 awareness (in CLAUDE.md)
 
 **Evidence:** [`.github/workflows/security.yml`](.github/workflows/security.yml), [`CLAUDE.md`](CLAUDE.md)
