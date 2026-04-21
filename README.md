@@ -131,7 +131,7 @@ flowchart TB
 - [x] Interleaved commits visible in git history
 - [x] Shared base commit (2bc3db1)
 
-**Evidence:** [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md)
+**Evidence:** [`WORKTREE_EVIDENCE.md`](WORKTREE_EVIDENCE.md), [Worktree Screenshot](screenshots/project3/worktree.png)
 
 #### W12: Writer/Reviewer Pattern + C.L.E.A.R.
 
@@ -153,7 +153,7 @@ flowchart TB
 
 **Verify:** `npm run test:ci`
 
-**Evidence:** Git log: `git log --grep="RED\|GREEN\|refactor"`, `src/**/*.test.ts`
+**Evidence:** `git log --grep="RED\|GREEN\|refactor"` (see [TDD Proof 1](screenshots/project3/tdd-proof-1.png) and [TDD Proof 2](screenshots/project3/tdd-proof-2.png)) and `src/**/*.test.ts`
 
 ---
 
