@@ -209,6 +209,7 @@ flowchart TB
 - [x] Published blog post (dev.to) - [Building Bloom: How AI-Assisted Development Changed My Workflow](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)
 - [x] Published blog post (Medium) - [Building Bloom: How AI-Assisted Development Changed My Workflow](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)
 - [x] 5-10 min video demo - [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)
+- [x] Presentation slides - [View on Google Slides](https://docs.google.com/presentation/d/1AcI4UZwr-3qKK6JO_XSIB0ZX3sb0cJIfWBEGC7YJW1E/edit?slide=id.p#slide=id.p)
 
 ---
 
