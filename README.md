@@ -192,7 +192,7 @@ flowchart TB
 - [x] GitHub Issues with acceptance criteria ([`ISSUES.md`](ISSUES.md) - 12 issues)
 - [x] Branch-per-issue workflow (`feat/health-visualization`, `feat/email-reminders`)
 - [x] Async standups (3+ per sprint, documented in retros)
-- [x] C.L.E.A.R. framework in reviews
+- [x] C.L.E.A.R. framework in reviews ([PR #12](https://github.com/karyn-tan/Bloom/pull/12), [PR #13](https://github.com/karyn-tan/Bloom/pull/13))
 - [x] Peer evaluations (end of project)
 
 **Evidence:** [`sprints/`](sprints/) (4 files), [`ISSUES.md`](ISSUES.md), [`peer-evaluations.md`](peer-evaluations.md)
