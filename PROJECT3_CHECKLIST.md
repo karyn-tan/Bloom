@@ -151,7 +151,7 @@
 | Clear README with Mermaid diagram | ✅     | README.md with full architecture diagram                                                                     | Complete                   |
 | Published blog post               | ✅     | [dev.to](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i), [Medium](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1) | Published on dev.to + Medium |
 | 5-10 min video demo               | ✅     | [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)                                             | Complete                     |
-| 500-word reflections              | ✅     | REFLECTION-hemang.md, REFLECTION-fenghua.md                                                                  | Both partners complete     |
+| 500-word reflections              | ✅     | [`REFLECTION-hemang.md`](REFLECTION-hemang.md), [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)             | Both partners complete     |
 
 **Documentation Score Estimate:** 15/15 (all requirements met)
 
