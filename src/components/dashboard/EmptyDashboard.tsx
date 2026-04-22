@@ -65,7 +65,7 @@ const CalendarIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
 );
 
 /**
- * EmptyDashboard — onboarding view shown when the user has no scans or bouquets
+ * EmptyDashboard — onboarding view shown when the user has no scans or flowers
  */
 export function EmptyDashboard() {
   return (
@@ -88,7 +88,7 @@ export function EmptyDashboard() {
           </h1>
           <p className="text-lg text-muted font-medium max-w-lg">
             Let&apos;s help your flowers last longer. Upload a photo of your
-            bouquet and we&apos;ll tell you exactly what to do.
+            flower and we&apos;ll tell you exactly what to do.
           </p>
         </header>
 
@@ -105,14 +105,14 @@ export function EmptyDashboard() {
               {
                 number: '1',
                 title: 'Upload',
-                desc: 'Take a photo of your bouquet and upload it to Bloom.',
+                desc: 'Take a photo of your flower and upload it to Bloom.',
                 accent: 'bg-sky',
                 shadow: '#74C0FC',
               },
               {
                 number: '2',
                 title: 'Identify',
-                desc: 'We identify each flower in your bouquet using PlantNet.',
+                desc: 'We identify each flower in your flower using PlantNet.',
                 accent: 'bg-butter',
                 shadow: '#FFD966',
               },
@@ -157,7 +157,7 @@ export function EmptyDashboard() {
             className="group inline-flex items-center gap-3 bg-coral text-ink-light text-lg font-black px-10 py-5 border-[3px] border-border shadow-[5px_5px_0px_0px_#FFD966] hover:translate-x-[5px] hover:translate-y-[5px] hover:shadow-none transition-all uppercase tracking-wider"
           >
             <CameraIcon className="w-6 h-6" />
-            Scan Your First Bouquet
+            Scan Your First Flower
           </Link>
         </section>
 

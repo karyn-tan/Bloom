@@ -27,7 +27,7 @@ export function CareTipSection({ care }: CareTipSectionProps) {
       <div className="space-y-2">
         {CARE_ROWS.map(({ key, label }) => (
           <div key={key} className="flex gap-2">
-            <span className="text-xs font-extrabold text-muted uppercase tracking-wide min-w-[80px]">
+            <span className="text-xs font-extrabold text-muted uppercase tracking-wide min-w-[100px] shrink-0">
               {label}
             </span>
             <span className="text-sm text-ink">{care.care[key]}</span>

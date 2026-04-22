@@ -69,3 +69,29 @@
   - Added Prettier formatting step
   - Improved documentation with changelog
 - **Migration**: Logout and flower validation tasks used v1 patterns; v2 formalizes learnings
+
+## 2026-04-18 11:10 - F11 Adaptive Care Tips
+
+- **Scope**: careLog, health (gemini), adaptive-tip, AdaptiveTipCard
+- **Files created**:
+  - `src/lib/careLog.ts` + `careLog.test.ts`
+  - `src/lib/gemini.ts` (extended with `generateAdaptiveTip`)
+  - `src/app/api/adaptive-tip/route.ts` + `route.test.ts`
+  - `src/components/AdaptiveTipCard.tsx` + `AdaptiveTipCard.test.tsx`
+  - `e2e/adaptive-care-tips.spec.ts`
+  - `supabase/migrations/20260418_adaptive_tip_cache.sql`
+- **Commits** (12 total, 4 RED→GREEN→REFACTOR cycles):
+  1. `test(careLog): [RED] classifyCareLog classifies care log entries into status`
+  2. `feat(careLog): [GREEN] implement classifyCareLog with 7-day window`
+  3. `refactor(careLog): extract constants and format with prettier`
+  4. `test(health): [RED] generateAdaptiveTip returns string tip from Gemini`
+  5. `feat(health): [GREEN] add generateAdaptiveTip to gemini.ts`
+  6. `refactor(health): extract prompt builder function and format with prettier`
+  7. `test(adaptive-tip): [RED] POST /api/adaptive-tip auth, cache, IDOR, Gemini call`
+  8. `feat(adaptive-tip): [GREEN] implement POST /api/adaptive-tip with auth, cache, IDOR, Gemini`
+  9. `refactor(adaptive-tip): extract buildCareLogSummary helper and format with prettier`
+  10. `test(health): [RED] AdaptiveTipCard renders correct bg for each status`
+  11. `feat(health): [GREEN] implement AdaptiveTipCard component with status-based bg`
+  12. `feat(health): wire AdaptiveTipCard into scan detail page and add Playwright E2E tests`
+- **Test Results**: 255 unit/integration tests passed, 5 Playwright E2E tests passed
+- **Coverage (new files)**: careLog.ts 93.93%, gemini.ts 97.5%, adaptive-tip route 89.85%, AdaptiveTipCard 100%

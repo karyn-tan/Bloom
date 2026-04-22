@@ -86,7 +86,6 @@ export async function POST(request: NextRequest) {
   // 7. Update the flowers JSONB with the care tip
   flowers[flowerIndex].care = careTip;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error: updateError } = await (supabase as any)
     .from('scans')
     .update({ flowers })

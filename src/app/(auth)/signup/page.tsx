@@ -93,7 +93,7 @@ export default function SignupPage() {
               },
               {
                 icon: SparklesIcon,
-                text: 'Track bouquet health',
+                text: 'Track flower health',
                 color: 'bg-coral',
               },
             ].map((item, i) => (
@@ -120,7 +120,7 @@ export default function SignupPage() {
                 Create account
               </h2>
               <p className="mt-1 text-sm text-muted font-medium">
-                Start tracking your bouquets today
+                Start tracking your flowers today
               </p>
             </div>
 

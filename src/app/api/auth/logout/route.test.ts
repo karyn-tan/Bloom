@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 import { POST } from './route';
 
 // Mock Supabase client
@@ -22,7 +23,7 @@ describe('POST /api/auth/logout', () => {
 
     const request = new Request('http://localhost/api/auth/logout', {
       method: 'POST',
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(200);
@@ -36,7 +37,7 @@ describe('POST /api/auth/logout', () => {
 
     const request = new Request('http://localhost/api/auth/logout', {
       method: 'POST',
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);
@@ -50,7 +51,7 @@ describe('POST /api/auth/logout', () => {
 
     const request = new Request('http://localhost/api/auth/logout', {
       method: 'POST',
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);

@@ -140,12 +140,12 @@ export default function Home() {
 
               <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-ink leading-[0.9] mb-6 uppercase">
                 Make Your
-                <span className="block text-coral">Bouquets</span>
+                <span className="block text-coral">Flowers</span>
                 <span className="block">Last Longer</span>
               </h1>
 
               <p className="text-lg lg:text-xl text-muted max-w-lg mb-8 leading-relaxed font-medium">
-                Upload a photo of your bouquet. Our AI identifies every flower
+                Upload a photo of your flower. Our AI identifies every flower
                 and generates personalized care tips to keep them fresh longer.
               </p>
 
@@ -199,7 +199,7 @@ export default function Home() {
       <section className="px-6 py-10 bg-butter border-y-[3px] border-border">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: '10K+', label: "Bouquets ID'd" },
+            { value: '10K+', label: "Flowers ID'd" },
             { value: '50+', label: 'Flower Species' },
             { value: '14', label: 'Day Avg. Lifespan' },
             { value: '98%', label: 'Accuracy Rate' },
@@ -251,8 +251,8 @@ export default function Home() {
                   Snap a Photo
                 </h3>
                 <p className="text-muted leading-relaxed flex-grow font-medium">
-                  Take a picture of your bouquet and upload it. Our AI
-                  recognizes each flower species instantly.
+                  Take a picture of your flower and upload it. Our AI recognizes
+                  each flower species instantly.
                 </p>
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function Home() {
                   Track Progress
                 </h3>
                 <p className="text-muted leading-relaxed flex-grow font-medium">
-                  Monitor your bouquet&apos;s health with visual indicators. Get
+                  Monitor your flower&apos;s health with visual indicators. Get
                   reminders for care tasks.
                 </p>
               </div>
@@ -355,7 +355,7 @@ export default function Home() {
               </h2>
               <p className="text-lg text-muted mb-8 leading-relaxed font-medium">
                 Our unique heart and droplet system gives you an instant read on
-                your bouquet&apos;s condition. Watch your flowers thrive as you
+                your flower&apos;s condition. Watch your flowers thrive as you
                 follow personalized care recommendations.
               </p>
 
@@ -363,7 +363,7 @@ export default function Home() {
                 {[
                   {
                     icon: HeartIcon,
-                    text: 'Health hearts show overall bouquet vitality',
+                    text: 'Health hearts show overall flower vitality',
                     color: 'bg-coral',
                   },
                   {
@@ -417,7 +417,7 @@ export default function Home() {
 
           <p className="text-xl text-muted mb-10 max-w-2xl mx-auto font-medium">
             Join thousands of flower lovers who are extending the life of their
-            bouquets with AI-powered care tips.
+            flowers with AI-powered care tips.
           </p>
 
           <Link

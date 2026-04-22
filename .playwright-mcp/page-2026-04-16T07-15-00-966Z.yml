@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+    - generic [ref=e2]:
+        - navigation [ref=e3]:
+            - generic [ref=e4]:
+                - link "Bloom" [ref=e5] [cursor=pointer]:
+                    - /url: /dashboard
+                - button "Profile" [ref=e7] [cursor=pointer]:
+                    - img "Profile" [ref=e8]
+        - main [ref=e9]:
+            - generic [ref=e11]:
+                - link "Back to Dashboard" [ref=e12] [cursor=pointer]:
+                    - /url: /dashboard
+                    - img [ref=e13]
+                    - text: Back to Dashboard
+                - generic [ref=e15]:
+                    - img [ref=e16]
+                    - generic [ref=e18]: Successfully Identified
+                - generic [ref=e19]:
+                    - generic [ref=e20]:
+                        - generic [ref=e21]:
+                            - img [ref=e22]
+                            - img [ref=e24]
+                            - img [ref=e26]
+                        - generic [ref=e28]:
+                            - paragraph [ref=e29]: Health
+                            - paragraph [ref=e30]: Good
+                    - generic [ref=e31]:
+                        - generic [ref=e32]:
+                            - img [ref=e33]
+                            - img [ref=e35]
+                            - img [ref=e37]
+                            - img [ref=e39]
+                        - generic [ref=e41]:
+                            - paragraph [ref=e42]: Hydration
+                            - paragraph [ref=e43]: Well Watered
+                - generic [ref=e44]:
+                    - generic [ref=e45]:
+                        - generic [ref=e46]:
+                            - img [ref=e48]
+                            - generic [ref=e55]:
+                                - heading "Rose" [level=1] [ref=e56]
+                                - paragraph [ref=e57]: Rosa gallica
+                        - generic [ref=e58]: 90%
+                    - generic [ref=e59]:
+                        - paragraph [ref=e60]: Lasts 7–12 days in a vase
+                        - generic [ref=e61]:
+                            - generic [ref=e62]:
+                                - generic [ref=e63]: Water
+                                - generic [ref=e64]: Change water every 2 days
+                            - generic [ref=e65]:
+                                - generic [ref=e66]: Light
+                                - generic [ref=e67]: Keep in indirect light
+                            - generic [ref=e68]:
+                                - generic [ref=e69]: Temperature
+                                - generic [ref=e70]: Store in a cool spot away from heat
+                            - generic [ref=e71]:
+                                - generic [ref=e72]: Trim
+                                - generic [ref=e73]: Re-cut stems at an angle every 3 days
+                        - generic [ref=e74]:
+                            - paragraph [ref=e75]: Fun Facts
+                            - list [ref=e76]:
+                                - listitem [ref=e77]: • Roses have been cultivated for over 5,000 years
+                                - listitem [ref=e78]: • A single rose can have over 100 petals
+                - generic [ref=e79]:
+                    - heading "Save as Bouquet" [level=2] [ref=e80]
+                    - generic [ref=e81]:
+                        - generic [ref=e82]:
+                            - generic [ref=e83]: Bouquet name
+                            - textbox "Bouquet name" [ref=e84]: April 16, 2026
+                        - generic [ref=e85] [cursor=pointer]:
+                            - checkbox "Email me reminders every 2 days" [ref=e86]
+                            - generic [ref=e87]: Email me reminders every 2 days
+                        - button "Save Bouquet" [ref=e88] [cursor=pointer]
+                - generic [ref=e89]:
+                    - link "Scan Another Bouquet" [ref=e90] [cursor=pointer]:
+                        - /url: /scan
+                        - img [ref=e91]
+                        - text: Scan Another Bouquet
+                    - link "Back to Dashboard" [ref=e94] [cursor=pointer]:
+                        - /url: /dashboard
+                        - img [ref=e95]
+                        - text: Back to Dashboard
+    - alert [ref=e97]

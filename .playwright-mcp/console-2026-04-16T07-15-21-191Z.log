@@ -1,0 +1,861 @@
+[     964ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:38559
+[   33006ms] [WARNING] GoTrueClient@sb-zudwnujpkhwopvjnitmj-auth-token:1 (2.103.2) 2026-04-16T07:15:54.194Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key. @ https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.103.2/+esm:6
+[   70141ms] [WARNING] GoTrueClient@sb-zudwnujpkhwopvjnitmj-auth-token:2 (2.103.2) 2026-04-16T07:16:31.331Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key. @ https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.103.2/+esm:6
+[   94232ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[   94501ms] [LOG] [Fast Refresh] done in 270ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1777890ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1778293ms] [LOG] [Fast Refresh] done in 403ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1785954ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1786302ms] [LOG] [Fast Refresh] done in 348ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1794029ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1794164ms] [LOG] [Fast Refresh] done in 135ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1798907ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1799002ms] [LOG] [Fast Refresh] done in 95ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1806316ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1806413ms] [LOG] [Fast Refresh] done in 98ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1806441ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1806476ms] [ERROR] ./src/app/dashboard/scan/[id]/page.tsx
+Error: 
+  x the name `HeartIcon` is defined multiple times
+    ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:5:1]
+  5 | import { CareTipSection } from '@/components/scan/CareTipSection';
+  6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+  7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+  8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+    :          ^^^^|^^^^
+    :              `-- previous definition of `HeartIcon` here
+  9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+ 10 | import { careTipSchema } from '@/lib/gemini';
+ 11 | import type { Database } from '@/types/supabase';
+ 12 | 
+ 13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+ 14 | 
+ 15 | const flowerEntrySchema = z.object({
+ 16 |   scientific_name: z.string(),
+ 17 |   common_name: z.string(),
+ 18 |   confidence: z.number(),
+ 19 |   care: careTipSchema.nullable(),
+ 20 | });
+ 21 | 
+ 22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 23 |   <svg
+ 24 |     className={className}
+ 25 |     fill="none"
+ 26 |     stroke="currentColor"
+ 27 |     viewBox="0 0 24 24"
+ 28 |     strokeWidth={2.5}
+ 29 |   >
+ 30 |     <path
+ 31 |       strokeLinecap="round"
+ 32 |       strokeLinejoin="round"
+ 33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+ 34 |     />
+ 35 |   </svg>
+ 36 | );
+ 37 | 
+ 38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 39 |   <svg
+ 40 |     className={className}
+ 41 |     fill="none"
+ 42 |     stroke="currentColor"
+ 43 |     viewBox="0 0 24 24"
+ 44 |     strokeWidth={2.5}
+ 45 |   >
+ 46 |     <path
+ 47 |       strokeLinecap="round"
+ 48 |       strokeLinejoin="round"
+ 49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+ 50 |     />
+ 51 |     <path
+ 52 |       strokeLinecap="round"
+ 53 |       strokeLinejoin="round"
+ 54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+ 55 |     />
+ 56 |   </svg>
+ 57 | );
+ 58 | 
+ 59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 60 |   <svg
+ 61 |     className={className}
+ 62 |     fill="none"
+ 63 |     stroke="currentColor"
+ 64 |     viewBox="0 0 24 24"
+ 65 |     strokeWidth={2.5}
+ 66 |   >
+ 67 |     <path
+ 68 |       strokeLinecap="round"
+ 69 |       strokeLinejoin="round"
+ 70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+ 71 |     />
+ 72 |   </svg>
+ 73 | );
+ 74 | 
+ 75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 76 |   <svg
+ 77 |     className={className}
+ 78 |     fill="none"
+ 79 |     stroke="currentColor"
+ 80 |     viewBox="0 0 24 24"
+ 81 |     strokeWidth={2}
+ 82 |   >
+ 83 |     <path
+ 84 |       strokeLinecap="round"
+ 85 |       strokeLinejoin="round"
+ 86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+ 87 |     />
+ 88 |   </svg>
+ 89 | );
+ 90 | 
+ 91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+    :       ^^^^|^^^^
+    :           `-- `HeartIcon` redefined here
+ 92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+ 93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+ 94 |   </svg>
+    `----
+
+  x the name `DropletIcon` is defined multiple times
+     ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:6:1]
+   6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+   7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+   8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+   9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+     :          ^^^^^|^^^^^
+     :               `-- previous definition of `DropletIcon` here
+  10 | import { careTipSchema } from '@/lib/gemini';
+  11 | import type { Database } from '@/types/supabase';
+  12 | 
+  13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+  14 | 
+  15 | const flowerEntrySchema = z.object({
+  16 |   scientific_name: z.string(),
+  17 |   common_name: z.string(),
+  18 |   confidence: z.number(),
+  19 |   care: careTipSchema.nullable(),
+  20 | });
+  21 | 
+  22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  23 |   <svg
+  24 |     className={className}
+  25 |     fill="none"
+  26 |     stroke="currentColor"
+  27 |     viewBox="0 0 24 24"
+  28 |     strokeWidth={2.5}
+  29 |   >
+  30 |     <path
+  31 |       strokeLinecap="round"
+  32 |       strokeLinejoin="round"
+  33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+  34 |     />
+  35 |   </svg>
+  36 | );
+  37 | 
+  38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  39 |   <svg
+  40 |     className={className}
+  41 |     fill="none"
+  42 |     stroke="currentColor"
+  43 |     viewBox="0 0 24 24"
+  44 |     strokeWidth={2.5}
+  45 |   >
+  46 |     <path
+  47 |       strokeLinecap="round"
+  48 |       strokeLinejoin="round"
+  49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+  50 |     />
+  51 |     <path
+  52 |       strokeLinecap="round"
+  53 |       strokeLinejoin="round"
+  54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+  55 |     />
+  56 |   </svg>
+  57 | );
+  58 | 
+  59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  60 |   <svg
+  61 |     className={className}
+  62 |     fill="none"
+  63 |     stroke="currentColor"
+  64 |     viewBox="0 0 24 24"
+  65 |     strokeWidth={2.5}
+  66 |   >
+  67 |     <path
+  68 |       strokeLinecap="round"
+  69 |       strokeLinejoin="round"
+  70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+  71 |     />
+  72 |   </svg>
+  73 | );
+  74 | 
+  75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  76 |   <svg
+  77 |     className={className}
+  78 |     fill="none"
+  79 |     stroke="currentColor"
+  80 |     viewBox="0 0 24 24"
+  81 |     strokeWidth={2}
+  82 |   >
+  83 |     <path
+  84 |       strokeLinecap="round"
+  85 |       strokeLinejoin="round"
+  86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+  87 |     />
+  88 |   </svg>
+  89 | );
+  90 | 
+  91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+  94 |   </svg>
+  95 | );
+  96 | 
+  97 | const DropletIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+     :       ^^^^^|^^^^^
+     :            `-- `DropletIcon` redefined here
+  98 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  99 |     <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+ 100 |   </svg>
+     `----
+
+Import trace for requested module:
+./src/app/dashboard/scan/[id]/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1808344ms] [LOG] [Fast Refresh] done in 1904ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1809063ms] [LOG] [Fast Refresh] done in 2622ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1809158ms] [ERROR] ./src/app/dashboard/scan/[id]/page.tsx
+Error: 
+  x the name `HeartIcon` is defined multiple times
+    ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:5:1]
+  5 | import { CareTipSection } from '@/components/scan/CareTipSection';
+  6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+  7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+  8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+    :          ^^^^|^^^^
+    :              `-- previous definition of `HeartIcon` here
+  9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+ 10 | import { careTipSchema } from '@/lib/gemini';
+ 11 | import type { Database } from '@/types/supabase';
+ 12 | 
+ 13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+ 14 | 
+ 15 | const flowerEntrySchema = z.object({
+ 16 |   scientific_name: z.string(),
+ 17 |   common_name: z.string(),
+ 18 |   confidence: z.number(),
+ 19 |   care: careTipSchema.nullable(),
+ 20 | });
+ 21 | 
+ 22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 23 |   <svg
+ 24 |     className={className}
+ 25 |     fill="none"
+ 26 |     stroke="currentColor"
+ 27 |     viewBox="0 0 24 24"
+ 28 |     strokeWidth={2.5}
+ 29 |   >
+ 30 |     <path
+ 31 |       strokeLinecap="round"
+ 32 |       strokeLinejoin="round"
+ 33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+ 34 |     />
+ 35 |   </svg>
+ 36 | );
+ 37 | 
+ 38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 39 |   <svg
+ 40 |     className={className}
+ 41 |     fill="none"
+ 42 |     stroke="currentColor"
+ 43 |     viewBox="0 0 24 24"
+ 44 |     strokeWidth={2.5}
+ 45 |   >
+ 46 |     <path
+ 47 |       strokeLinecap="round"
+ 48 |       strokeLinejoin="round"
+ 49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+ 50 |     />
+ 51 |     <path
+ 52 |       strokeLinecap="round"
+ 53 |       strokeLinejoin="round"
+ 54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+ 55 |     />
+ 56 |   </svg>
+ 57 | );
+ 58 | 
+ 59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 60 |   <svg
+ 61 |     className={className}
+ 62 |     fill="none"
+ 63 |     stroke="currentColor"
+ 64 |     viewBox="0 0 24 24"
+ 65 |     strokeWidth={2.5}
+ 66 |   >
+ 67 |     <path
+ 68 |       strokeLinecap="round"
+ 69 |       strokeLinejoin="round"
+ 70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+ 71 |     />
+ 72 |   </svg>
+ 73 | );
+ 74 | 
+ 75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 76 |   <svg
+ 77 |     className={className}
+ 78 |     fill="none"
+ 79 |     stroke="currentColor"
+ 80 |     viewBox="0 0 24 24"
+ 81 |     strokeWidth={2}
+ 82 |   >
+ 83 |     <path
+ 84 |       strokeLinecap="round"
+ 85 |       strokeLinejoin="round"
+ 86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+ 87 |     />
+ 88 |   </svg>
+ 89 | );
+ 90 | 
+ 91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+    :       ^^^^|^^^^
+    :           `-- `HeartIcon` redefined here
+ 92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+ 93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+ 94 |   </svg>
+    `----
+
+  x the name `DropletIcon` is defined multiple times
+     ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:6:1]
+   6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+   7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+   8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+   9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+     :          ^^^^^|^^^^^
+     :               `-- previous definition of `DropletIcon` here
+  10 | import { careTipSchema } from '@/lib/gemini';
+  11 | import type { Database } from '@/types/supabase';
+  12 | 
+  13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+  14 | 
+  15 | const flowerEntrySchema = z.object({
+  16 |   scientific_name: z.string(),
+  17 |   common_name: z.string(),
+  18 |   confidence: z.number(),
+  19 |   care: careTipSchema.nullable(),
+  20 | });
+  21 | 
+  22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  23 |   <svg
+  24 |     className={className}
+  25 |     fill="none"
+  26 |     stroke="currentColor"
+  27 |     viewBox="0 0 24 24"
+  28 |     strokeWidth={2.5}
+  29 |   >
+  30 |     <path
+  31 |       strokeLinecap="round"
+  32 |       strokeLinejoin="round"
+  33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+  34 |     />
+  35 |   </svg>
+  36 | );
+  37 | 
+  38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  39 |   <svg
+  40 |     className={className}
+  41 |     fill="none"
+  42 |     stroke="currentColor"
+  43 |     viewBox="0 0 24 24"
+  44 |     strokeWidth={2.5}
+  45 |   >
+  46 |     <path
+  47 |       strokeLinecap="round"
+  48 |       strokeLinejoin="round"
+  49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+  50 |     />
+  51 |     <path
+  52 |       strokeLinecap="round"
+  53 |       strokeLinejoin="round"
+  54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+  55 |     />
+  56 |   </svg>
+  57 | );
+  58 | 
+  59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  60 |   <svg
+  61 |     className={className}
+  62 |     fill="none"
+  63 |     stroke="currentColor"
+  64 |     viewBox="0 0 24 24"
+  65 |     strokeWidth={2.5}
+  66 |   >
+  67 |     <path
+  68 |       strokeLinecap="round"
+  69 |       strokeLinejoin="round"
+  70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+  71 |     />
+  72 |   </svg>
+  73 | );
+  74 | 
+  75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  76 |   <svg
+  77 |     className={className}
+  78 |     fill="none"
+  79 |     stroke="currentColor"
+  80 |     viewBox="0 0 24 24"
+  81 |     strokeWidth={2}
+  82 |   >
+  83 |     <path
+  84 |       strokeLinecap="round"
+  85 |       strokeLinejoin="round"
+  86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+  87 |     />
+  88 |   </svg>
+  89 | );
+  90 | 
+  91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+  94 |   </svg>
+  95 | );
+  96 | 
+  97 | const DropletIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+     :       ^^^^^|^^^^^
+     :            `-- `DropletIcon` redefined here
+  98 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  99 |     <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+ 100 |   </svg>
+     `----
+
+Import trace for requested module:
+./src/app/dashboard/scan/[id]/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1809281ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=1jqx0:0
+[ 1809379ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=1jqx0:0
+[ 1809557ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=1jqx0:0
+[ 1809686ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard:0
+[ 1809946ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///./node_modules/react-dom/cjs/react-dom.development.js:29889
+[ 1809969ms] ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/next-swc-loader.js):
+Error: 
+  x the name `HeartIcon` is defined multiple times
+    ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:5:1]
+  5 | import { CareTipSection } from '@/components/scan/CareTipSection';
+  6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+  7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+  8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+    :          ^^^^|^^^^
+    :              `-- previous definition of `HeartIcon` here
+  9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+ 10 | import { careTipSchema } from '@/lib/gemini';
+ 11 | import type { Database } from '@/types/supabase';
+ 12 | 
+ 13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+ 14 | 
+ 15 | const flowerEntrySchema = z.object({
+ 16 |   scientific_name: z.string(),
+ 17 |   common_name: z.string(),
+ 18 |   confidence: z.number(),
+ 19 |   care: careTipSchema.nullable(),
+ 20 | });
+ 21 | 
+ 22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 23 |   <svg
+ 24 |     className={className}
+ 25 |     fill="none"
+ 26 |     stroke="currentColor"
+ 27 |     viewBox="0 0 24 24"
+ 28 |     strokeWidth={2.5}
+ 29 |   >
+ 30 |     <path
+ 31 |       strokeLinecap="round"
+ 32 |       strokeLinejoin="round"
+ 33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+ 34 |     />
+ 35 |   </svg>
+ 36 | );
+ 37 | 
+ 38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 39 |   <svg
+ 40 |     className={className}
+ 41 |     fill="none"
+ 42 |     stroke="currentColor"
+ 43 |     viewBox="0 0 24 24"
+ 44 |     strokeWidth={2.5}
+ 45 |   >
+ 46 |     <path
+ 47 |       strokeLinecap="round"
+ 48 |       strokeLinejoin="round"
+ 49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+ 50 |     />
+ 51 |     <path
+ 52 |       strokeLinecap="round"
+ 53 |       strokeLinejoin="round"
+ 54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+ 55 |     />
+ 56 |   </svg>
+ 57 | );
+ 58 | 
+ 59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 60 |   <svg
+ 61 |     className={className}
+ 62 |     fill="none"
+ 63 |     stroke="currentColor"
+ 64 |     viewBox="0 0 24 24"
+ 65 |     strokeWidth={2.5}
+ 66 |   >
+ 67 |     <path
+ 68 |       strokeLinecap="round"
+ 69 |       strokeLinejoin="round"
+ 70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+ 71 |     />
+ 72 |   </svg>
+ 73 | );
+ 74 | 
+ 75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 76 |   <svg
+ 77 |     className={className}
+ 78 |     fill="none"
+ 79 |     stroke="currentColor"
+ 80 |     viewBox="0 0 24 24"
+ 81 |     strokeWidth={2}
+ 82 |   >
+ 83 |     <path
+ 84 |       strokeLinecap="round"
+ 85 |       strokeLinejoin="round"
+ 86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+ 87 |     />
+ 88 |   </svg>
+ 89 | );
+ 90 | 
+ 91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+    :       ^^^^|^^^^
+    :           `-- `HeartIcon` redefined here
+ 92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+ 93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+ 94 |   </svg>
+    `----
+
+  x the name `DropletIcon` is defined multiple times
+     ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:6:1]
+   6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+   7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+   8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+   9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+     :          ^^^^^|^^^^^
+     :               `-- previous definition of `DropletIcon` here
+  10 | import { careTipSchema } from '@/lib/gemini';
+  11 | import type { Database } from '@/types/supabase';
+  12 | 
+  13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+  14 | 
+  15 | const flowerEntrySchema = z.object({
+  16 |   scientific_name: z.string(),
+  17 |   common_name: z.string(),
+  18 |   confidence: z.number(),
+  19 |   care: careTipSchema.nullable(),
+  20 | });
+  21 | 
+  22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  23 |   <svg
+  24 |     className={className}
+  25 |     fill="none"
+  26 |     stroke="currentColor"
+  27 |     viewBox="0 0 24 24"
+  28 |     strokeWidth={2.5}
+  29 |   >
+  30 |     <path
+  31 |       strokeLinecap="round"
+  32 |       strokeLinejoin="round"
+  33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+  34 |     />
+  35 |   </svg>
+  36 | );
+  37 | 
+  38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  39 |   <svg
+  40 |     className={className}
+  41 |     fill="none"
+  42 |     stroke="currentColor"
+  43 |     viewBox="0 0 24 24"
+  44 |     strokeWidth={2.5}
+  45 |   >
+  46 |     <path
+  47 |       strokeLinecap="round"
+  48 |       strokeLinejoin="round"
+  49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+  50 |     />
+  51 |     <path
+  52 |       strokeLinecap="round"
+  53 |       strokeLinejoin="round"
+  54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+  55 |     />
+  56 |   </svg>
+  57 | );
+  58 | 
+  59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  60 |   <svg
+  61 |     className={className}
+  62 |     fill="none"
+  63 |     stroke="currentColor"
+  64 |     viewBox="0 0 24 24"
+  65 |     strokeWidth={2.5}
+  66 |   >
+  67 |     <path
+  68 |       strokeLinecap="round"
+  69 |       strokeLinejoin="round"
+  70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+  71 |     />
+  72 |   </svg>
+  73 | );
+  74 | 
+  75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  76 |   <svg
+  77 |     className={className}
+  78 |     fill="none"
+  79 |     stroke="currentColor"
+  80 |     viewBox="0 0 24 24"
+  81 |     strokeWidth={2}
+  82 |   >
+  83 |     <path
+  84 |       strokeLinecap="round"
+  85 |       strokeLinejoin="round"
+  86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+  87 |     />
+  88 |   </svg>
+  89 | );
+  90 | 
+  91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+  94 |   </svg>
+  95 | );
+  96 | 
+  97 | const DropletIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+     :       ^^^^^|^^^^^
+     :            `-- `DropletIcon` redefined here
+  98 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  99 |     <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+ 100 |   </svg>
+     `----
+
+    at processResult (file:///Users/chocolate/Downloads/Bloom-1/node_modules/next/dist/compiled/webpack/bundle5.js:28:400590)
+    at <unknown> (file:///Users/chocolate/Downloads/Bloom-1/node_modules/next/dist/compiled/webpack/bundle5.js:28:402302)
+    at <unknown> (file:///Users/chocolate/Downloads/Bloom-1/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:8645)
+    at <unknown> (file:///Users/chocolate/Downloads/Bloom-1/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:5019)
+    at r.callback (file:///Users/chocolate/Downloads/Bloom-1/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:4039)
+[ 1809968ms] [LOG] [HMR] connected @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js:45
+[ 1809970ms] [ERROR] ./src/app/dashboard/scan/[id]/page.tsx
+Error: 
+  x the name `HeartIcon` is defined multiple times
+    ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:5:1]
+  5 | import { CareTipSection } from '@/components/scan/CareTipSection';
+  6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+  7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+  8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+    :          ^^^^|^^^^
+    :              `-- previous definition of `HeartIcon` here
+  9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+ 10 | import { careTipSchema } from '@/lib/gemini';
+ 11 | import type { Database } from '@/types/supabase';
+ 12 | 
+ 13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+ 14 | 
+ 15 | const flowerEntrySchema = z.object({
+ 16 |   scientific_name: z.string(),
+ 17 |   common_name: z.string(),
+ 18 |   confidence: z.number(),
+ 19 |   care: careTipSchema.nullable(),
+ 20 | });
+ 21 | 
+ 22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 23 |   <svg
+ 24 |     className={className}
+ 25 |     fill="none"
+ 26 |     stroke="currentColor"
+ 27 |     viewBox="0 0 24 24"
+ 28 |     strokeWidth={2.5}
+ 29 |   >
+ 30 |     <path
+ 31 |       strokeLinecap="round"
+ 32 |       strokeLinejoin="round"
+ 33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+ 34 |     />
+ 35 |   </svg>
+ 36 | );
+ 37 | 
+ 38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 39 |   <svg
+ 40 |     className={className}
+ 41 |     fill="none"
+ 42 |     stroke="currentColor"
+ 43 |     viewBox="0 0 24 24"
+ 44 |     strokeWidth={2.5}
+ 45 |   >
+ 46 |     <path
+ 47 |       strokeLinecap="round"
+ 48 |       strokeLinejoin="round"
+ 49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+ 50 |     />
+ 51 |     <path
+ 52 |       strokeLinecap="round"
+ 53 |       strokeLinejoin="round"
+ 54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+ 55 |     />
+ 56 |   </svg>
+ 57 | );
+ 58 | 
+ 59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 60 |   <svg
+ 61 |     className={className}
+ 62 |     fill="none"
+ 63 |     stroke="currentColor"
+ 64 |     viewBox="0 0 24 24"
+ 65 |     strokeWidth={2.5}
+ 66 |   >
+ 67 |     <path
+ 68 |       strokeLinecap="round"
+ 69 |       strokeLinejoin="round"
+ 70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+ 71 |     />
+ 72 |   </svg>
+ 73 | );
+ 74 | 
+ 75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+ 76 |   <svg
+ 77 |     className={className}
+ 78 |     fill="none"
+ 79 |     stroke="currentColor"
+ 80 |     viewBox="0 0 24 24"
+ 81 |     strokeWidth={2}
+ 82 |   >
+ 83 |     <path
+ 84 |       strokeLinecap="round"
+ 85 |       strokeLinejoin="round"
+ 86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+ 87 |     />
+ 88 |   </svg>
+ 89 | );
+ 90 | 
+ 91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+    :       ^^^^|^^^^
+    :           `-- `HeartIcon` redefined here
+ 92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+ 93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+ 94 |   </svg>
+    `----
+
+  x the name `DropletIcon` is defined multiple times
+     ,-[/Users/chocolate/Downloads/Bloom-1/src/app/dashboard/scan/[id]/page.tsx:6:1]
+   6 | import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
+   7 | import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
+   8 | import { HeartIcon } from '@/components/icons/HeartIcon';
+   9 | import { DropletIcon } from '@/components/icons/DropletIcon';
+     :          ^^^^^|^^^^^
+     :               `-- previous definition of `DropletIcon` here
+  10 | import { careTipSchema } from '@/lib/gemini';
+  11 | import type { Database } from '@/types/supabase';
+  12 | 
+  13 | type ScanRow = Database['public']['Tables']['scans']['Row'];
+  14 | 
+  15 | const flowerEntrySchema = z.object({
+  16 |   scientific_name: z.string(),
+  17 |   common_name: z.string(),
+  18 |   confidence: z.number(),
+  19 |   care: careTipSchema.nullable(),
+  20 | });
+  21 | 
+  22 | const ArrowLeftIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  23 |   <svg
+  24 |     className={className}
+  25 |     fill="none"
+  26 |     stroke="currentColor"
+  27 |     viewBox="0 0 24 24"
+  28 |     strokeWidth={2.5}
+  29 |   >
+  30 |     <path
+  31 |       strokeLinecap="round"
+  32 |       strokeLinejoin="round"
+  33 |       d="M10 19l-7-7m0 0l7-7m-7 7h18"
+  34 |     />
+  35 |   </svg>
+  36 | );
+  37 | 
+  38 | const CameraIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  39 |   <svg
+  40 |     className={className}
+  41 |     fill="none"
+  42 |     stroke="currentColor"
+  43 |     viewBox="0 0 24 24"
+  44 |     strokeWidth={2.5}
+  45 |   >
+  46 |     <path
+  47 |       strokeLinecap="round"
+  48 |       strokeLinejoin="round"
+  49 |       d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+  50 |     />
+  51 |     <path
+  52 |       strokeLinecap="round"
+  53 |       strokeLinejoin="round"
+  54 |       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+  55 |     />
+  56 |   </svg>
+  57 | );
+  58 | 
+  59 | const DashboardIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  60 |   <svg
+  61 |     className={className}
+  62 |     fill="none"
+  63 |     stroke="currentColor"
+  64 |     viewBox="0 0 24 24"
+  65 |     strokeWidth={2.5}
+  66 |   >
+  67 |     <path
+  68 |       strokeLinecap="round"
+  69 |       strokeLinejoin="round"
+  70 |       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+  71 |     />
+  72 |   </svg>
+  73 | );
+  74 | 
+  75 | const SparklesIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  76 |   <svg
+  77 |     className={className}
+  78 |     fill="none"
+  79 |     stroke="currentColor"
+  80 |     viewBox="0 0 24 24"
+  81 |     strokeWidth={2}
+  82 |   >
+  83 |     <path
+  84 |       strokeLinecap="round"
+  85 |       strokeLinejoin="round"
+  86 |       d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+  87 |     />
+  88 |   </svg>
+  89 | );
+  90 | 
+  91 | const HeartIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+  92 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  93 |     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+  94 |   </svg>
+  95 | );
+  96 | 
+  97 | const DropletIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
+     :       ^^^^^|^^^^^
+     :            `-- `DropletIcon` redefined here
+  98 |   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+  99 |     <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+ 100 |   </svg>
+     `---- @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1811900ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:221
+[ 1812357ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:221
+[ 1812847ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/webpack/52c6cbec612e8cbc.webpack.hot-update.json:0
+[ 1812847ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:349
+[ 1813577ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:38559
+[ 1826309ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1826446ms] [LOG] [Fast Refresh] done in 136ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 1826456ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1826711ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/webpack/2cf034c436af9841.webpack.hot-update.json:0
+[ 1827496ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:38559
+[ 1842975ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[ 1843247ms] [LOG] [Fast Refresh] done in 272ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[ 2050715ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/login:0
+[ 2057714ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://accounts.google.com/v3/signin/identifier?opparams=%253Fredirect_to%253Dhttp%25253A%25252F%25252Flocalhost%25253A3000%25252Fapi%25252Fauth%25252Fcallback&dsh=S-1220937546%3A1776325778297641&client_id=935345434938-0cp9s8fioqvqal7aell65vth8ohgbk0h.apps.googleusercontent.com&o2v=2&redirect_uri=https%3A%2F%2Fzudwnujpkhwopvjnitmj.supabase.co%2Fauth%2Fv1%2Fcallback&response_type=code&scope=email+profile&service=lso&state=9e40fb34-5983-40d3-a496-4a9636a2f3f3&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hANWZg7xwEc8qtC5tN5JOaKaE6egrxERhpspaSNYaVMD6i9ju9iQG9qsIVf772mQbF0DCY8l-5DkFKLnlg94teR0KIvDOsNEml1C-QCLB91keLbIezPNBQiV23wq6xCoMJN0hIBJBhq-TJbY3wjWuEvctAn2GrHY6uHOZkujPMMTdLnv5Pz_u7XJRSWp3cmW0rkFVQYstuNEsei18Tff1lRiqmFusN16cs_Rb55V_SGS5aN9pxTuF8XcHnYr0KnyfSWio7h56KrIkpWHKkUkXEnwGXtHYaVo_PFrSukgGU4gX84MKECgbK7cU-5QsjEOl1HB9g7mGuFOlKhdOnevpIaw_D-4HoPi6sCZ7NW6tYfAmI8FdOKZ5msu7jg0zRtkpR95Xpz3kb9lJrII6G8y8f558OX-ZbbdblPxnNPXMyaKvHskBmMVDF5-yYg0Gs-3xDz0A5wwpktmHcaNOvMjHoo93KqL4XEKHJLqRdTn5NXZzgi0rSQ%26flowName%3DGeneralOAuthFlow%26as%3DS-1220937546%253A1776325778297641%26client_id%3D935345434938-0cp9s8fioqvqal7aell65vth8ohgbk0h.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fzudwnujpkhwopvjnitmj.supabase.co&rart=ANgoxceghBvVEJ2PsnJyo-MW-LWc8kPKxxZ01qb5SRcJMpkrsnP1yMIhqbDZeN7DhNOcNR4hivXSzSeXwZD1Jai92J0R9OSAZqQkD-WGNHAKnwVZZYA11Ss:0
+[ 2057719ms] [LOG] %c%s color: red; background: yellow; font-size: 24px; WARNING! @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.en_US.llpEXSAT6Ik.es5.O/am=Kf4GAABCEUgGwP___zcAIACCaOB6FoAmEBkAAAAAAAAAALBCAAAaAQ/d=1/excm=_b,_tp,identifierview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlH8LSMUF0eI7odQyiLK05jn7-7jWw/dti=1/m=_b,_tp:468
+[ 2057719ms] [LOG] %c%s font-size: 18px; Using this console may allow attackers to impersonate you and steal your information using an attack called Self-XSS.
+Do not enter or paste code that you do not understand. @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.en_US.llpEXSAT6Ik.es5.O/am=Kf4GAABCEUgGwP___zcAIACCaOB6FoAmEBkAAAAAAAAAALBCAAAaAQ/d=1/excm=_b,_tp,identifierview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlH8LSMUF0eI7odQyiLK05jn7-7jWw/dti=1/m=_b,_tp:468

@@ -5,7 +5,7 @@ import { ImageUploader } from './ImageUploader';
 describe('ImageUploader', () => {
   it('renders upload prompt', () => {
     render(<ImageUploader onSubmit={vi.fn()} isUploading={false} />);
-    expect(screen.getByText(/upload your bouquet photo/i)).toBeTruthy();
+    expect(screen.getByText(/upload your flower photo/i)).toBeTruthy();
   });
 
   it('shows error for invalid file type', () => {

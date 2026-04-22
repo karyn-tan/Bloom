@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 import { POST } from './route';
 
 const mockUpdateUser = vi.fn();
@@ -20,7 +21,7 @@ describe('POST /api/auth/reset-password', () => {
     const request = new Request('http://localhost/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({}),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -30,7 +31,7 @@ describe('POST /api/auth/reset-password', () => {
     const request = new Request('http://localhost/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ password: 'short' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(400);
@@ -48,7 +49,7 @@ describe('POST /api/auth/reset-password', () => {
     const request = new Request('http://localhost/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ password: 'newpassword123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(200);
@@ -66,7 +67,7 @@ describe('POST /api/auth/reset-password', () => {
     const request = new Request('http://localhost/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ password: 'newpassword123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(401);
@@ -81,7 +82,7 @@ describe('POST /api/auth/reset-password', () => {
     const request = new Request('http://localhost/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ password: 'newpassword123' }),
-    });
+    }) as unknown as NextRequest;
 
     const response = await POST(request);
     expect(response.status).toBe(500);

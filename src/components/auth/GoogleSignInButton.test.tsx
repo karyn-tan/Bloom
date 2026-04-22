@@ -19,18 +19,16 @@ describe('GoogleSignInButton', () => {
     mockSignInWithOAuth.mockResolvedValue({ data: {}, error: null });
   });
 
-  it('renders Continue with Google button', () => {
+  it('renders Google button', () => {
     render(<GoogleSignInButton />);
-    expect(
-      screen.getByRole('button', { name: /continue with google/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /google/i })).toBeInTheDocument();
   });
 
   it('calls supabase.auth.signInWithOAuth with provider google on click', async () => {
     render(<GoogleSignInButton />);
 
     const button = screen.getByRole('button', {
-      name: /continue with google/i,
+      name: /google/i,
     });
     fireEvent.click(button);
 
@@ -45,7 +43,7 @@ describe('GoogleSignInButton', () => {
     render(<GoogleSignInButton />);
 
     const button = screen.getByRole('button', {
-      name: /continue with google/i,
+      name: /google/i,
     });
     fireEvent.click(button);
 
@@ -69,7 +67,7 @@ describe('GoogleSignInButton', () => {
     render(<GoogleSignInButton />);
 
     const button = screen.getByRole('button', {
-      name: /continue with google/i,
+      name: /google/i,
     });
     fireEvent.click(button);
 

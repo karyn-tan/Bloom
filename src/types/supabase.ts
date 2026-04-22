@@ -19,6 +19,7 @@ export type Database = {
           bouquet_id: string;
           generated_date: string;
           id: string;
+          status: string;
           tip: string;
           user_id: string;
         };
@@ -26,6 +27,7 @@ export type Database = {
           bouquet_id: string;
           generated_date?: string;
           id?: string;
+          status: string;
           tip: string;
           user_id: string;
         };
@@ -33,6 +35,7 @@ export type Database = {
           bouquet_id?: string;
           generated_date?: string;
           id?: string;
+          status?: string;
           tip?: string;
           user_id?: string;
         };

@@ -4,11 +4,17 @@ import { z } from 'zod';
 import { createServerComponentClient } from '@/lib/supabase-server';
 import { CareTipSection } from '@/components/scan/CareTipSection';
 import { ConfidenceBadge } from '@/components/scan/ConfidenceBadge';
-import { SaveBouquetForm } from '@/components/dashboard/SaveBouquetForm';
 import { HeartIcon } from '@/components/icons/HeartIcon';
 import { DropletIcon } from '@/components/icons/DropletIcon';
-import { careTipSchema } from '@/lib/gemini';
+import { careTipSchema, generateCareTip } from '@/lib/gemini';
+import { CorrectFlowerForm } from '@/components/scan/CorrectFlowerForm';
+import { CareActionButtons } from '@/components/scan/CareActionButtons';
+import { RescanButton } from '@/components/scan/RescanButton';
+import { computeHealthState } from '@/lib/health';
+import { computeBouquetStatus } from '@/lib/dashboard';
+import { AdaptiveTipCard } from '@/components/AdaptiveTipCard';
 import type { Database } from '@/types/supabase';
+import type { CareLogStatus } from '@/lib/careLog';
 
 type ScanRow = Database['public']['Tables']['scans']['Row'];
 
@@ -16,6 +22,7 @@ const flowerEntrySchema = z.object({
   scientific_name: z.string(),
   common_name: z.string(),
   confidence: z.number(),
+  initial_droplets: z.number().int().min(1).max(5).optional(),
   care: careTipSchema.nullable(),
 });
 
@@ -99,6 +106,22 @@ const FlowerIcon = ({ className = 'w-6 h-6' }: { className?: string }) => (
   </svg>
 );
 
+function computeRefreshDroplets(lastRefreshAt: string | null): 1 | 2 | 3 {
+  if (!lastRefreshAt) return 1;
+  const daysSince = Math.floor(
+    (Date.now() - new Date(lastRefreshAt).getTime()) / 86_400_000,
+  );
+  if (daysSince <= 1) return 3;
+  if (daysSince <= 3) return 2;
+  return 1;
+}
+
+function refreshLabel(daysSince: number): string {
+  if (daysSince === 0) return 'today';
+  if (daysSince === 1) return '1 day ago';
+  return `${daysSince} days ago`;
+}
+
 export const metadata = {
   title: 'Scan Details - Bloom',
   description: 'View your identified flower and care tips',
@@ -106,9 +129,13 @@ export const metadata = {
 
 type PageProps = {
   params: { id: string };
+  searchParams: { new?: string };
 };
 
-export default async function ScanDetailPage({ params }: PageProps) {
+export default async function ScanDetailPage({
+  params,
+  searchParams,
+}: PageProps) {
   const supabase = createServerComponentClient();
 
   const {
@@ -132,12 +159,127 @@ export default async function ScanDetailPage({ params }: PageProps) {
 
   const scan = rawScan as ScanRow;
 
+  // Find bouquet linked to this scan
+  const bouquetResult = await supabase
+    .from('bouquets')
+    .select('id, added_at')
+    .eq('scan_id', params.id)
+    .eq('user_id', user.id)
+    .order('added_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const bouquet = bouquetResult.data as
+    | { id: string; added_at: string }
+    | null
+    | undefined;
+
+  // Get refresh logs for droplet computation and history display
+  let latestWaterLoggedAt: string | null = null;
+  let refreshCount = 0;
+  if (bouquet?.id) {
+    const refreshResult = await supabase
+      .from('care_log')
+      .select('logged_at')
+      .eq('bouquet_id', bouquet.id)
+      .eq('user_id', user.id)
+      .eq('action', 'refresh')
+      .order('logged_at', { ascending: false });
+    const refreshRows = (refreshResult.data ?? []) as { logged_at: string }[];
+    refreshCount = refreshRows.length;
+    latestWaterLoggedAt = refreshRows[0]?.logged_at ?? null;
+  }
+
   // Parse the first flower from JSONB
   const flowersArray = z.array(flowerEntrySchema).safeParse(scan.flowers);
   if (!flowersArray.success || flowersArray.data.length === 0) {
     notFound();
   }
-  const flower = flowersArray.data[0];
+  let flower = flowersArray.data[0];
+
+  // Auto-generate care tips if missing (Gemini was not called at scan time)
+  if (!flower.care) {
+    try {
+      const generated = await generateCareTip(
+        flower.scientific_name,
+        flower.common_name,
+      );
+      // Cache in DB for future loads
+      const updatedFlowers = flowersArray.data.map((f, i) =>
+        i === 0 ? { ...f, care: generated } : f,
+      );
+      const { error: updateError } = await (supabase as any)
+        .from('scans')
+        .update({ flowers: updatedFlowers })
+        .eq('id', params.id)
+        .eq('user_id', user.id);
+      if (updateError)
+        console.error('[scan-page] care tip cache error:', updateError.message);
+      flower = { ...flower, care: generated };
+    } catch (err) {
+      console.error('[scan-page] generateCareTip failed:', err);
+    }
+  }
+
+  // Compute health state from real bouquet and care log data
+  const lifespanMin = flower.care?.lifespan_days.min ?? null;
+  const addedAt = bouquet?.added_at ?? scan.created_at;
+  const { ageInDays } = computeBouquetStatus(addedAt, lifespanMin);
+
+  const daysSinceRefresh = latestWaterLoggedAt
+    ? Math.floor(
+        (Date.now() - new Date(latestWaterLoggedAt).getTime()) / 86_400_000,
+      )
+    : null;
+
+  const health = bouquet
+    ? computeHealthState({
+        ageInDays,
+        lifespanMin,
+        lastWateredAt: latestWaterLoggedAt,
+        bouquetAddedAt: bouquet.added_at,
+        waterText: flower.care?.care.water ?? '',
+        initialDroplets: flower.initial_droplets,
+        daysSinceRefresh,
+      })
+    : null;
+
+  // Fetch adaptive care tip (cached or newly generated)
+  let adaptiveTip: string | null = null;
+  let adaptiveTipStatus: CareLogStatus | null = null;
+  if (bouquet?.id) {
+    try {
+      const tipRes = await fetch(
+        new URL(
+          '/api/adaptive-tip',
+          process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+        ).href,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bouquet_id: bouquet.id }),
+          cache: 'no-store',
+        },
+      );
+      if (tipRes.ok) {
+        const tipData = (await tipRes.json()) as {
+          tip: string;
+          status: CareLogStatus;
+        };
+        adaptiveTip = tipData.tip;
+        adaptiveTipStatus = tipData.status;
+      }
+    } catch {
+      // Non-fatal: adaptive tip is best-effort
+    }
+  }
+
+  const refreshDroplets = computeRefreshDroplets(latestWaterLoggedAt);
+  const hydrationLabel =
+    refreshDroplets === 3
+      ? 'Well Watered'
+      : refreshDroplets === 2
+        ? 'Change Soon'
+        : 'Needs Refresh';
 
   // Generate signed URL for the image
   let imageUrl: string | null = null;
@@ -158,65 +300,100 @@ export default async function ScanDetailPage({ params }: PageProps) {
       <div className="w-full h-3 bg-mint" />
 
       <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Back link */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-muted hover:text-ink font-bold mb-8 transition-colors"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Back to Dashboard
-        </Link>
-
-        {/* Success badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border mb-6 shadow-[3px_3px_0px_0px_var(--color-border)]">
-          <SparklesIcon className="w-4 h-4 text-ink" />
-          <span className="text-xs font-black uppercase tracking-wider text-ink">
-            Successfully Identified
-          </span>
+        {/* Back link + success badge */}
+        <div className="flex items-center justify-between mb-8">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 text-muted hover:text-ink font-bold transition-colors"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            Back to Dashboard
+          </Link>
+          {searchParams.new === '1' && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage border-[3px] border-border shadow-[3px_3px_0px_0px_var(--color-border)]">
+              <SparklesIcon className="w-4 h-4 text-ink" />
+              <span className="text-xs font-black uppercase tracking-wider text-ink">
+                Successfully Identified
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Uploaded photo */}
-        {imageUrl && (
-          <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#FFD966] overflow-hidden mb-8">
-            <img
-              src={imageUrl}
-              alt={flower.common_name}
-              className="w-full max-h-72 object-cover"
-            />
+        {/* Uploaded photo + rescan button */}
+        <div className="relative mb-8">
+          {imageUrl && (
+            <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#FFD966] overflow-hidden aspect-square">
+              <img
+                src={imageUrl}
+                alt={flower.common_name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          <div className="absolute top-3 right-3">
+            <RescanButton compact scanId={params.id} />
           </div>
-        )}
+        </div>
 
-        {/* Health indicators — static 3/3 hearts and 4/5 droplets until health system (US-14) is built */}
+        {/* Health indicators — computed from real lifespan and care log data */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#FF6B6B] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <HeartIcon filled className="w-6 h-6" />
-              <HeartIcon filled className="w-6 h-6" />
-              <HeartIcon filled className="w-6 h-6" />
+              {[0, 1, 2].map((i) => (
+                <HeartIcon
+                  key={i}
+                  filled={i < (health?.hearts ?? 3)}
+                  className="w-6 h-6"
+                />
+              ))}
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">
                 Health
               </p>
-              <p className="font-black text-ink">Good</p>
+              <p className="font-black text-ink">
+                {health?.status === 'past_peak'
+                  ? 'Past Peak'
+                  : health?.status === 'struggling'
+                    ? 'Struggling'
+                    : 'Good'}
+              </p>
             </div>
           </div>
           <div className="bg-surface border-[3px] border-border shadow-[4px_4px_0px_0px_#74C0FC] p-4 flex items-center gap-4">
             <div className="flex gap-1">
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled className="w-5 h-5" />
-              <DropletIcon filled={false} className="w-5 h-5" />
+              {[0, 1, 2].map((i) => (
+                <DropletIcon
+                  key={i}
+                  filled={i < refreshDroplets}
+                  className="w-5 h-5"
+                />
+              ))}
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-muted">
                 Hydration
               </p>
-              <p className="font-black text-ink">Well Watered</p>
+              <p className="font-black text-ink">{hydrationLabel}</p>
+              {bouquet && (
+                <p className="text-xs text-muted mt-0.5">
+                  Refreshed {refreshCount}{' '}
+                  {refreshCount === 1 ? 'time' : 'times'}
+                  {daysSinceRefresh !== null
+                    ? ` · Last ${refreshLabel(daysSinceRefresh)}`
+                    : ''}
+                </p>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Care action buttons — only shown when bouquet exists */}
+        {bouquet && (
+          <div className="mb-4">
+            <CareActionButtons bouquetId={bouquet.id} />
+          </div>
+        )}
 
         {/* Flower info */}
         <div className="bg-surface border-[3px] border-border shadow-[6px_6px_0px_0px_#7CB97A] p-6 mb-8">
@@ -229,16 +406,24 @@ export default async function ScanDetailPage({ params }: PageProps) {
                 <h1 className="text-2xl font-black text-ink uppercase tracking-tight">
                   {flower.common_name}
                 </h1>
-                <p className="text-sm text-muted italic font-medium">
-                  {flower.scientific_name}
-                </p>
+                <CorrectFlowerForm
+                  scanId={scan.id}
+                  currentCommonName={flower.common_name}
+                />
               </div>
             </div>
-            <ConfidenceBadge confidence={flower.confidence} />
+            {searchParams.new === '1' && (
+              <ConfidenceBadge confidence={flower.confidence} />
+            )}
           </div>
 
           {flower.care ? (
-            <CareTipSection care={flower.care} />
+            <>
+              <CareTipSection care={flower.care} />
+              {adaptiveTip && adaptiveTipStatus && (
+                <AdaptiveTipCard tip={adaptiveTip} status={adaptiveTipStatus} />
+              )}
+            </>
           ) : (
             <div className="mt-4 p-4 bg-coral/10 border-[3px] border-border">
               <p className="font-black text-coral uppercase text-sm tracking-wider">
@@ -246,32 +431,6 @@ export default async function ScanDetailPage({ params }: PageProps) {
               </p>
             </div>
           )}
-        </div>
-
-        {/* Save as Bouquet */}
-        <section className="mb-8">
-          <h2 className="text-xl font-black text-ink uppercase tracking-tight mb-4">
-            Save as Bouquet
-          </h2>
-          <SaveBouquetForm scanId={scan.id} />
-        </section>
-
-        {/* Navigation */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            href="/scan"
-            className="inline-flex items-center justify-center gap-2 bg-coral text-ink-light font-black px-6 py-3 border-[3px] border-border shadow-[4px_4px_0px_0px_var(--color-border)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all text-sm uppercase tracking-wider"
-          >
-            <CameraIcon className="w-5 h-5" />
-            Scan Another Bouquet
-          </Link>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 bg-surface text-ink font-black px-6 py-3 border-[3px] border-border shadow-[4px_4px_0px_0px_var(--color-border)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all text-sm uppercase tracking-wider"
-          >
-            <DashboardIcon className="w-5 h-5" />
-            Back to Dashboard
-          </Link>
         </div>
       </div>
     </main>

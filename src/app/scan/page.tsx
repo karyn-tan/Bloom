@@ -149,7 +149,7 @@ export default function ScanPage() {
       }
 
       const data = (await res.json()) as { scan_id: string };
-      router.push(`/dashboard/scan/${data.scan_id}`);
+      router.push(`/dashboard/scan/${data.scan_id}?new=1`);
     } catch {
       setState({
         step: 'error',
@@ -182,7 +182,7 @@ export default function ScanPage() {
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-ink uppercase tracking-tight">
-            Scan Your Bouquet
+            Scan Your Flower
           </h1>
           <p className="text-muted mt-2 font-medium">
             Upload a clear photo and we&apos;ll identify your flowers instantly
@@ -293,11 +293,11 @@ export default function ScanPage() {
             <div className="flex items-center gap-2 mb-2">
               <CameraIcon className="w-4 h-4 text-sage" />
               <p className="font-black text-ink uppercase text-xs tracking-wider">
-                Single Bouquet
+                Single Flower
               </p>
             </div>
             <p className="text-sm text-muted font-medium">
-              Focus on one bouquet at a time
+              Focus on one flower at a time
             </p>
           </div>
           <div className="bg-surface border-[3px] border-border p-4 shadow-[4px_4px_0px_0px_#FF6B6B]">

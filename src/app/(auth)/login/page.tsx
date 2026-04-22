@@ -81,7 +81,7 @@ export default function LoginPage() {
                 Welcome back
               </h2>
               <p className="mt-1 text-sm text-muted font-medium">
-                Sign in to track your bouquets
+                Sign in to track your flowers
               </p>
             </div>
 

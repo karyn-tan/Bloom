@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 
 const {
   mockGetAuthenticatedUserId,
@@ -25,7 +26,9 @@ vi.mock('@/lib/supabase', () => ({
           select: () => ({
             eq: () => ({
               eq: () => ({
-                single: mockBouquetSingle,
+                returns: () => ({
+                  single: mockBouquetSingle,
+                }),
               }),
             }),
           }),
@@ -41,7 +44,9 @@ vi.mock('@/lib/supabase', () => ({
         select: () => ({
           eq: () => ({
             eq: () => ({
-              single: mockScanSingle,
+              returns: () => ({
+                single: mockScanSingle,
+              }),
             }),
           }),
         }),
@@ -64,7 +69,7 @@ import { DELETE } from './route';
 function makeRequest() {
   return new Request('http://localhost/api/bouquets/bouq-1', {
     method: 'DELETE',
-  });
+  }) as unknown as NextRequest;
 }
 
 describe('DELETE /api/bouquets/[id]', () => {

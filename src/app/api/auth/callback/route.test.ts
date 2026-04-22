@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { NextRequest } from 'next/server';
 import { GET } from './route';
 
 // Mock Supabase client
@@ -25,7 +26,7 @@ describe('GET /api/auth/callback', () => {
 
     const request = new Request(
       'http://localhost/api/auth/callback?code=valid-code',
-    );
+    ) as unknown as NextRequest;
 
     const response = await GET(request);
     expect(response.status).toBe(307);
@@ -42,7 +43,7 @@ describe('GET /api/auth/callback', () => {
 
     const request = new Request(
       'http://localhost/api/auth/callback?code=bad-code',
-    );
+    ) as unknown as NextRequest;
 
     const response = await GET(request);
     expect(response.status).toBe(307);
@@ -53,7 +54,9 @@ describe('GET /api/auth/callback', () => {
   });
 
   it('redirects to /login?error=auth when code param is missing', async () => {
-    const request = new Request('http://localhost/api/auth/callback');
+    const request = new Request(
+      'http://localhost/api/auth/callback',
+    ) as unknown as NextRequest;
 
     const response = await GET(request);
     expect(response.status).toBe(307);

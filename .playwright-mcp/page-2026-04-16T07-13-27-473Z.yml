@@ -1,0 +1,37 @@
+- generic [active] [ref=e1]:
+    - main [ref=e2]:
+        - generic [ref=e7]:
+            - generic [ref=e8]:
+                - img [ref=e10]
+                - generic [ref=e17]: Bloom
+            - heading "Keep your flowers alive" [level=1] [ref=e18]:
+                - text: Keep your
+                - generic [ref=e19]: flowers
+                - text: alive
+            - paragraph [ref=e20]: Upload a photo. Know what you have. Get care tips that actually work.
+        - generic [ref=e27]:
+            - generic [ref=e28]:
+                - heading "Welcome back" [level=2] [ref=e29]
+                - paragraph [ref=e30]: Sign in to track your bouquets
+            - generic [ref=e31]:
+                - generic [ref=e32]:
+                    - generic [ref=e33]: Email
+                    - textbox "Email" [ref=e34]:
+                        - /placeholder: you@example.com
+                - generic [ref=e35]:
+                    - generic [ref=e36]: Password
+                    - textbox "Password" [ref=e37]:
+                        - /placeholder: ••••••••
+                - link "Forgot password?" [ref=e39] [cursor=pointer]:
+                    - /url: /forgot-password
+                - button "Sign in" [ref=e40] [cursor=pointer]
+            - generic [ref=e41]:
+                - generic [ref=e44]: Or
+                - button "Google" [ref=e47] [cursor=pointer]:
+                    - img [ref=e48]
+                    - text: Google
+            - paragraph [ref=e53]:
+                - text: Don't have an account?
+                - link "Sign up" [ref=e54] [cursor=pointer]:
+                    - /url: /signup
+    - alert [ref=e60]

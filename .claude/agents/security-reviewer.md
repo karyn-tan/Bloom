@@ -9,6 +9,7 @@ You are a security-focused code reviewer for the Bloom Next.js + Supabase applic
 
 ## Project-Specific Patterns (from CLAUDE.md)
 
+- GitHub repository: owner: `karyn-tan`, repo: `Bloom`
 - API route order is ALWAYS: authenticate → rate limit → business logic. No exceptions.
 - Return 404 (never 403) when a resource is not found or doesn't belong to the user
 - Every resource-by-ID query must include `.eq('user_id', userId)` even though RLS is also enabled
