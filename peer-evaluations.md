@@ -1,6 +1,6 @@
 # Peer Evaluations
 
-## Hemang Evaluating Feng Hua
+## From Hemang, to Feng Hua
 
 Feng Hua carried a significant portion of this project and delivered consistently from start to finish. She was the one who set up the entire project foundation, including the CLAUDE.md configuration, the PRD document, the design token system, and the initial repository structure. From there, she moved straight into building the most technically demanding features in the codebase.
 
@@ -12,7 +12,7 @@ Beyond the code, she configured the Claude Code sub-agents, custom skills, and h
 
 Communication was straightforward and efficient. We coordinated over WhatsApp daily, divided work based on what made sense, and helped each other when one of us hit a wall. Feng Hua is technically sharp, disciplined in her process, and dependable. She delivered what she said she would deliver, on time, every time. I would work with her again without hesitation.
 
-## Feng Hua Evaluating Hemang
+## From Feng Hua, to Hemang
 
 I honestly feel so lucky to have been paired with Hemang for this project. From day one, he brought such a positive energy to everything we worked on, and it made the whole experience feel less like a class assignment and more like something we were genuinely excited to build together.
 
