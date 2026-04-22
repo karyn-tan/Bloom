@@ -137,10 +137,10 @@
 | GitHub Issues with acceptance criteria | ✅     | `ISSUES.md`                                                    | 12 issues with testable AC       |
 | Branch-per-issue workflow              | ✅     | `feat/health-visualization`, `feat/email-reminders`            | Following pattern                |
 | Async standups (3+ per sprint/partner) | ✅     | Documented in sprint retrospectives                            | 3+ standups per sprint           |
-| C.L.E.A.R. in reviews                  | ✅     | Documented in sprint retrospectives                            | Applied to PR reviews            |
-| Peer evaluations                       | ⏳     | End of project                                                 | Pending completion               |
+| C.L.E.A.R. in reviews                  | ✅     | [PR #12](https://github.com/karyn-tan/Bloom/pull/12), [PR #13](https://github.com/karyn-tan/Bloom/pull/13) | Applied to PR reviews            |
+| Peer evaluations                       | ✅     | [`peer-evaluations.md`](peer-evaluations.md)                   | Complete                         |
 
-**Team Process Score Estimate:** 22/25 (excellent - all sprints documented)
+**Team Process Score Estimate:** 25/25 (all requirements met)
 
 ---
 
@@ -149,11 +149,11 @@
 | Requirement                       | Status | Evidence                                                                                                     | Notes                      |
 | --------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ | -------------------------- |
 | Clear README with Mermaid diagram | ✅     | README.md with full architecture diagram                                                                     | Complete                   |
-| Published blog post               | ✅     | https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i | Published on dev.to        |
-| 5-10 min video demo               | ⏳     | Not recorded                                                                                                 | Show app + Claude workflow |
+| Published blog post               | ✅     | [dev.to](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i), [Medium](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1) | Published on dev.to + Medium |
+| 5-10 min video demo               | ✅     | [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)                                             | Complete                     |
 | 500-word reflections              | ✅     | REFLECTION-hemang.md, REFLECTION-fenghua.md                                                                  | Both partners complete     |
 
-**Documentation Score Estimate:** 12/15 (README, blog, reflections complete; video pending)
+**Documentation Score Estimate:** 15/15 (all requirements met)
 
 ---
 
@@ -203,10 +203,10 @@ All 7 pipeline stages are now configured and passing:
 4. ✅ **Write technical blog post** - Published on dev.to
 5. ✅ **Write 500-word reflections** - Both partners complete
 
-### ⏳ PENDING:
+### ✅ COMPLETED:
 
-6. ⏳ **Record video demo** - 5-10 minutes (main remaining task)
-7. ⏳ **Complete peer evaluations** - End of project
+6. ✅ **Record video demo** - [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)
+7. ✅ **Complete peer evaluations** - [`peer-evaluations.md`](peer-evaluations.md)
 
 ### Verification Commands:
 
@@ -244,4 +244,4 @@ git branch -a
 
 ---
 
-_Last Updated: April 20, 2026_
+_Last Updated: April 21, 2026_
