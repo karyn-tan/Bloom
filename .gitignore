@@ -29,3 +29,9 @@ npm-debug.log*
 
 # Conversation history (may contain sensitive terminal output)
 conversation_history/
+.playwright-mcp/console-2026-04-05T16-04-47-246Z.log
+.playwright-mcp/console-2026-04-05T16-05-36-943Z.log
+.playwright-mcp/page-2026-04-05T16-04-50-350Z.yml
+.playwright-mcp/page-2026-04-05T16-05-37-588Z.yml
+.playwright-mcp/page-2026-04-05T16-06-35-240Z.yml
+tsconfig.tsbuildinfo

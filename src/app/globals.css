@@ -1,3 +1,68 @@
+:root {
+  /* Light Neo-Brutalist Color Palette - Fresh & Cheerful */
+
+  /* Base Colors */
+  --color-bg: #fffbf5; /* Warm cream background */
+  --color-surface: #ffffff; /* Pure white cards */
+  --color-bg-alt: #fff5eb; /* Light peach sections */
+  --color-border: #1a1a2e; /* Deep navy/black borders */
+  --color-ink: #1a1a2e; /* Main text color */
+  --color-ink-light: #ffffff; /* White text for accents */
+  --color-muted: #6b6b7b; /* Muted text */
+
+  /* Cheerful Accent Colors */
+  --color-coral: #ff6b6b; /* Coral - energetic & warm */
+  --color-coral-dark: #e55a5a; /* Darker coral */
+  --color-sage: #7cb97a; /* Soft sage - natural & fresh */
+  --color-sage-dark: #6aa868; /* Darker sage */
+  --color-butter: #ffd966; /* Butter yellow - sunny & warm */
+  --color-butter-dark: #e8c45a; /* Darker butter */
+  --color-sky: #74c0fc; /* Soft sky blue - calm & airy */
+  --color-sky-dark: #5ba8e4; /* Darker sky */
+  --color-blush: #f4a8a8; /* Soft blush pink - gentle & floral */
+  --color-mint: #90d4c5; /* Mint green - refreshing */
+
+  /* Legacy mappings for backwards compatibility */
+  --color-accent-red: #ff6b6b;
+  --color-accent-gold: #ffd966;
+  --color-accent-teal: #74c0fc;
+  --color-accent-navy: #1a1a2e;
+
+  /* Electric color mappings (for backward compatibility) */
+  --color-pink: #ff6b6b;
+  --color-pink-dark: #e55a5a;
+  --color-yellow: #ffd966;
+  --color-yellow-dark: #e8c45a;
+  --color-cyan: #74c0fc;
+  --color-cyan-dark: #5ba8e4;
+  --color-lime: #7cb97a;
+  --color-purple: #90d4c5;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-coral);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-coral);
+  color: var(--color-ink-light);
+}

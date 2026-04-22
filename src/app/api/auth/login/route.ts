@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import { createClient } from '@/lib/supabase';
+import { credentialsSchema } from '@/lib/auth';
 
 /**
  * Login request body schema
  */
-const loginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
+const loginSchema = credentialsSchema;
 
 /**
  * POST handler for login endpoint
@@ -27,8 +24,9 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = result.data;
 
-    // Create Supabase client and authenticate
-    const supabase = createClient(request);
+    // Create a response object so the Supabase client can write session cookies
+    const response = NextResponse.json({ ok: true }, { status: 200 });
+    const supabase = createClient(request, response);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -42,14 +40,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Return user data and session on success
-    return NextResponse.json(
-      {
-        user: data.user,
-        session: data.session,
-      },
+    // Re-build the response with user data — cookies have already been set on
+    // the `response` object above by the Supabase client's setAll handler.
+    const successResponse = NextResponse.json(
+      { user: data.user, session: data.session },
       { status: 200 },
     );
+    // Copy session cookies to the final response
+    response.cookies.getAll().forEach(({ name, value, ...opts }) => {
+      successResponse.cookies.set(name, value, opts);
+    });
+    return successResponse;
   } catch (err) {
     // Handle unexpected errors
     console.error('Login error:', err);

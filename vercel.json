@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@next_public_supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@next_public_supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+    "UPSTASH_REDIS_REST_URL": "@upstash_redis_rest_url",
+    "UPSTASH_REDIS_REST_TOKEN": "@upstash_redis_rest_token",
+    "PLANTNET_API_KEY": "@plantnet_api_key",
+    "GEMINI_API_KEY": "@gemini_api_key",
+    "RESEND_API_KEY": "@resend_api_key"
+  },
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1"
+    }
+  },
+  "github": {
+    "enabled": true,
+    "silent": false,
+    "autoJobCancelation": true
+  }
+}

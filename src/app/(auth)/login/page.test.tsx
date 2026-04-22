@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from './page';
 
@@ -23,7 +23,9 @@ describe('LoginPage', () => {
 
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /sign in/i }),
+    ).toBeInTheDocument();
   });
 
   it('shows error for invalid email format', async () => {
@@ -141,7 +143,9 @@ describe('LoginPage', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/invalid email or password/i),
+      ).toBeInTheDocument();
     });
   });
 

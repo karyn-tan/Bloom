@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/iamtheretronerd/iamtheretronerd.github.io/refs/heads/main/config.json",
+  "mcp": {
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=zudwnujpkhwopvjnitmj",
+      "enabled": true
+    }
+  }
+}
