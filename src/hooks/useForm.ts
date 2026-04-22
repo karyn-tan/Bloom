@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent, FocusEvent } from 'react';
+import { useState, useCallback, useRef, ChangeEvent, FocusEvent } from 'react';
 
 /**
  * Form field validation function type
@@ -66,6 +66,11 @@ export function useForm<T extends Record<string, string>>(
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Ref to always access the latest fields state, avoiding stale closures
+  // in memoized callbacks like validateAll and handleSubmit.
+  const fieldsRef = useRef(fields);
+  fieldsRef.current = fields;
+
   /**
    * Validates a single field
    */
@@ -84,18 +89,19 @@ export function useForm<T extends Record<string, string>>(
    * Validates all fields
    */
   const validateAll = useCallback((): boolean => {
+    const currentFields = fieldsRef.current;
     let isValid = true;
-    const newFields = { ...fields };
+    const newFields = { ...currentFields };
 
-    (Object.keys(fields) as Array<keyof T>).forEach((key) => {
-      const error = validateField(key, fields[key].value);
-      newFields[key] = { ...fields[key], error, touched: true };
+    (Object.keys(currentFields) as Array<keyof T>).forEach((key) => {
+      const error = validateField(key, currentFields[key].value);
+      newFields[key] = { ...currentFields[key], error, touched: true };
       if (error) isValid = false;
     });
 
     setFields(newFields);
     return isValid;
-  }, [fields, validateField]);
+  }, [validateField]);
 
   /**
    * Handle input change
@@ -148,9 +154,10 @@ export function useForm<T extends Record<string, string>>(
 
       setIsSubmitting(true);
       try {
-        const values = (Object.keys(fields) as Array<keyof T>).reduce(
+        const currentFields = fieldsRef.current;
+        const values = (Object.keys(currentFields) as Array<keyof T>).reduce(
           (acc, key) => {
-            acc[key] = fields[key].value as T[keyof T];
+            acc[key] = currentFields[key].value as T[keyof T];
             return acc;
           },
           {} as T,
@@ -160,7 +167,7 @@ export function useForm<T extends Record<string, string>>(
         setIsSubmitting(false);
       }
     },
-    [fields, validateAll, onSubmit],
+    [validateAll, onSubmit],
   );
 
   /**
