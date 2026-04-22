@@ -185,28 +185,14 @@ All 7 pipeline stages are now configured and passing:
 
 ### ✅ COMPLETED:
 
-1. ✅ **GitHub Actions CI/CD** - 8 pipeline stages implemented and passing
-   - Lint & Format ✅
-   - Type Check ✅
-   - Unit & Integration Tests ✅ (255+ tests passing)
-   - Security Audit ✅
-   - Build ✅
-   - E2E Tests ✅ (configured with continue-on-error)
-   - AI PR Review ✅
-   - CI Summary ✅
-
-### ✅ COMPLETED:
-
-1. ✅ **Create PRs with Writer/Reviewer pattern** - Sprint 1 & 2 complete
-2. ✅ **Document 2 sprints** - Planning + retrospectives (4 docs in `sprints/`)
-3. ✅ **Deploy to Vercel** - https://bloom-flowering.vercel.app live
-4. ✅ **Write technical blog post** - Published on dev.to
-5. ✅ **Write 500-word reflections** - Both partners complete
-
-### ✅ COMPLETED:
-
-6. ✅ **Record video demo** - [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)
-7. ✅ **Complete peer evaluations** - [`peer-evaluations.md`](peer-evaluations.md)
+1. ✅ **GitHub Actions CI/CD** - 8 pipeline stages implemented and passing (Lint, Type Check, Unit/Integration Tests, Security Audit, Build, E2E Tests, AI PR Review, CI Summary)
+2. ✅ **Create PRs with Writer/Reviewer pattern** - Sprint 1 & 2 complete ([PR #12](https://github.com/karyn-tan/Bloom/pull/12), [PR #13](https://github.com/karyn-tan/Bloom/pull/13))
+3. ✅ **Document 2 sprints** - Planning + retrospectives (4 docs in `sprints/`)
+4. ✅ **Deploy to Vercel** - https://bloom-flowering.vercel.app live
+5. ✅ **Write technical blog post** - Published on [dev.to](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i) and [Medium](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)
+6. ✅ **Write 500-word reflections** - [`REFLECTION-hemang.md`](REFLECTION-hemang.md), [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)
+7. ✅ **Record video demo** - [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)
+8. ✅ **Complete peer evaluations** - [`peer-evaluations.md`](peer-evaluations.md)
 
 ### Verification Commands:
 
