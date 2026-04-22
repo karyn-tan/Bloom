@@ -193,9 +193,9 @@ flowchart TB
 - [x] Branch-per-issue workflow (`feat/health-visualization`, `feat/email-reminders`)
 - [x] Async standups (3+ per sprint, documented in retros)
 - [x] C.L.E.A.R. framework in reviews
-- [ ] Peer evaluations (end of project)
+- [x] Peer evaluations (end of project)
 
-**Evidence:** [`sprints/`](sprints/) (4 files), [`ISSUES.md`](ISSUES.md)
+**Evidence:** [`sprints/`](sprints/) (4 files), [`ISSUES.md`](ISSUES.md), [`peer-evaluations.md`](peer-evaluations.md)
 
 ---
 
