@@ -208,7 +208,7 @@ flowchart TB
   - [x] Feng Hua: [`REFLECTION-fenghua.md`](REFLECTION-fenghua.md)
 - [x] Published blog post (dev.to) - [Building Bloom: How AI-Assisted Development Changed My Workflow](https://dev.to/hemang_murugan_a9b77a329a/building-bloom-how-ai-assisted-development-changed-my-workflow-259i)
 - [x] Published blog post (Medium) - [Building Bloom: How AI-Assisted Development Changed My Workflow](https://medium.com/@karyntaan/building-bloom-how-ai-assisted-development-changed-my-workflow-4e5e4e4f65b1)
-- [ ] 5-10 min video demo
+- [x] 5-10 min video demo - [Watch on YouTube](https://www.youtube.com/watch?v=gZB-fzI3WCc)
 
 ---
 
